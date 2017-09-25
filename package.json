@@ -1,0 +1,69 @@
+{
+  "name": "group-buy",
+  "version": "1.0.0",
+  "main": "base.js",
+  "author": [
+    {
+      "name": "layne.zhuang",
+      "charge": "js"
+    },
+    {
+      "name": "cindy",
+      "charge": "css"
+    }
+  ],
+  "combineWith": {
+    "jquery": "1.11.3",
+    "xm-util": "1.0.0",
+    "weixin": "1.0.0",
+    "ya": "1.0.0"
+  },
+  "devCombineWith": {
+    "player": ""
+  },
+  "combines": {
+    "libs.js": [
+      "jquery",
+      "xm-util/js/xm_util_toast.js",
+      "xm-util/js/xm_util_throttle.js",
+      "xm-util/js/xm_util_inViewport.js",
+      "xm-util/js/xm_util_microevent.js",
+      "xm-util/js/xm_util_inView.js",
+      "xm-util/js/xm_util_loadMore.js",
+      "weixin",
+      "ya",
+      "js/lib/dialog.js",
+      "js/lib/clipboard.min.js",
+      "js/lib/dragloader.js",
+      "js/lib/stackblur.min.js",
+      "js/lib/es6-promise.min.js",
+      "js/lib/html2canvas.js",
+      "js/lib/helper.js"
+    ],
+    "base.js": [
+      "libs.js",
+      "js/pages/home.page.js",
+      "js/pages/faq.page.js",
+      "js/pages/promotersign.page.js",
+      "js/pages/promotionproducts.page.js",
+      "js/pages/promotionrecords.page.js",
+      "js/pages/promotionrecord.page.js",
+      "js/pages/invitation.page.js"
+    ]
+  },
+  "output": ["base.js", "css/**"],
+  "scripts": {
+    "start": "webpack-dev-server --open",
+    "build": "node ./build/prod.js",
+    "pack": "node ./build/dev.js",
+    "dev": "webpack-dev-server --open"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.0",
+    "grunt-browser-sync": "^2.2.0",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-less": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*"
+  }
+}
