@@ -1,0 +1,227 @@
+.album {
+  height: 158px;
+  background: url(../image/groupbuy_initiate_Albumbg_img@2x.png) no-repeat;
+  background-position: 64.8% 2px;
+  background-size: contain;
+}
+.album .cover {
+  position: relative;
+  top: 50%;
+  display: inline-block;
+  width: 90px;
+  height: 90px;
+  transform: translateY(-50%);
+}
+.prelaunch .bg {
+  background: white url(../image/recommendedalbum_bg@2x.png) 0 0 no-repeat;
+  background-size: 100% 100%;
+  z-index: -1;
+}
+.prelaunch .content {
+  padding-top: 28px;
+}
+.prelaunch .main {
+  margin-top: 26px;
+}
+.prelaunch .main .title {
+  font-size: 20px;
+  color: #ff7c5d;
+  letter-spacing: 0;
+}
+.prelaunch .main .text-area {
+  position: relative;
+  height: 150px;
+  margin: 36px 28px 28px;
+}
+.prelaunch .main textarea {
+  width: 100%;
+  height: 100%;
+  padding: 10px 15px;
+  background: #fff;
+  border: 1px solid #cccccc;
+  resize: none;
+}
+.prelaunch .main textarea::-webkit-input-placeholder {
+  font-size: 16px;
+  color: #666666;
+}
+.prelaunch .main .input-count {
+  position: absolute;
+  right: 10px;
+  bottom: 6px;
+  font-size: 14px;
+  color: #cccccc;
+}
+.prelaunch .footer {
+  margin: 0 24px;
+}
+.prelaunch .footer .btn {
+  width: 100%;
+  padding: 7px 20px;
+  font-size: 14px;
+  color: #ffffff;
+  letter-spacing: 0.52px;
+  background: #f86442;
+}
+.launch {
+  height: 100%;
+  background: #fff;
+}
+.launch .content {
+  background: white url(../image/groupbuy_initiate_bg@2x.png) 0 0 no-repeat;
+  background-size: contain;
+}
+.launch .header {
+  padding: 28px 0 10px;
+}
+.launch .header .title {
+  font-size: 22px;
+  color: #f86442;
+}
+.launch .header .sub-title {
+  font-size: 14px;
+  color: #999999;
+}
+.launch .price {
+  padding: 8px 0 36px;
+}
+.launch .price .discount {
+  font-size: 20px;
+  color: #f86442;
+  letter-spacing: 0.74px;
+}
+.launch .price .unit {
+  font-size: 12px;
+  letter-spacing: normal;
+}
+.launch .price .original {
+  font-size: 12px;
+  text-decoration: line-through;
+  color: #666666;
+  letter-spacing: 0.45px;
+}
+.launch .procedure {
+  position: relative;
+  margin: 0 40px;
+}
+.launch .procedure:before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  right: 40px;
+  left: 40px;
+  height: 1px;
+  transform: scaleY(0.5);
+  background: #e8a190;
+}
+.launch .procedure .item {
+  position: relative;
+  display: inline-block;
+  font-size: 0;
+}
+.launch .procedure .item:first-child {
+  float: left;
+}
+.launch .procedure .item:last-child {
+  float: right;
+}
+.launch .procedure .icon {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  background-size: 100%;
+}
+.launch .procedure .icon.start {
+  background-image: url(../image/groupbuy_initiate_ic_1@2x.png);
+}
+.launch .procedure .icon.processing {
+  margin-right: 6px;
+  background-image: url(../image/groupbuy_initiate_ic_2@2x.png);
+}
+.launch .procedure .icon.processing:last-of-type {
+  margin-right: 0;
+}
+.launch .procedure .icon.avatar {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.launch .procedure .icon.success {
+  background-image: url(../image/groupbuy_initiate_ic_3@2x.png);
+}
+.launch .procedure .label {
+  font-size: 14px;
+  color: #f86442;
+  letter-spacing: 0.52px;
+}
+.launch .notice {
+  padding: 22px 22px 0;
+  font-size: 12px;
+  text-align: left;
+  color: #999999;
+  letter-spacing: 0;
+  line-height: 17px;
+}
+.launch .notice .title {
+  font-size: 14px;
+  color: #666666;
+}
+.launch .footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 45px;
+  padding: 8px;
+  font-size: 14px;
+  letter-spacing: 0.52px;
+  background: #f86442;
+}
+.launch .footer span {
+  color: #fff;
+}
+.launch .footer .price {
+  padding: 0;
+  font-size: 20px;
+  letter-spacing: 0.74px;
+}
+.launch .footer .unit {
+  font-size: 12px;
+}
+.launch .footer .divider {
+  display: inline-block;
+  width: 1px;
+  height: 15px;
+  margin: 0 6px;
+  background-color: #fff;
+  vertical-align: text-bottom;
+}
+.detail .header {
+  position: relative;
+  background: white url(../image/h5_bgimg@2x.png) 0 no-repeat;
+}
+.detail .status {
+  height: 58px;
+  background: #ddd;
+}
+.detail .banner {
+  background-size: contain;
+}
+.detail .banner .bg {
+  position: absolute;
+  top: 18px;
+  width: 340px;
+  height: 265px;
+  background: transparent url(../image/attended_albumbg_img@2x.png) 0 no-repeat;
+  background-size: contain;
+}
+.detail .banner .greetings {
+  margin: 372px 15px 18px;
+}
+.detail .footer {
+  height: 0;
+  padding-bottom: 37.3%;
+  background: transparent url(../image/bottom_img@2x.png) 0 / 100% no-repeat;
+}
