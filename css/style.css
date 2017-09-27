@@ -198,30 +198,304 @@
   background-color: #fff;
   vertical-align: text-bottom;
 }
-.detail .header {
-  position: relative;
-  background: white url(../image/h5_bgimg@2x.png) 0 no-repeat;
-}
-.detail .status {
-  height: 58px;
-  background: #ddd;
+.detail {
+  padding-bottom: 50px;
 }
 .detail .banner {
-  background-size: contain;
+  position: relative;
+  background: white url(../image/h5_bgimg@2x.png) 0 no-repeat;
+  background-size: 100% 100%;
+  overflow: hidden;
+}
+.detail .banner .cover {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  top: 140px;
+  left: -22px;
+}
+.detail .banner .status {
+  height: 58px;
+  padding: 15px 0;
+  background: #ffffff;
+  opacity: 0.7;
+}
+.detail .banner .status img {
+  height: 22px;
+}
+.detail .banner .status .tip {
+  position: relative;
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 14px;
+  line-height: 28px;
+  text-indent: 12px;
+  color: #999999;
+  letter-spacing: 0.17px;
+  vertical-align: middle;
+}
+.detail .banner .status .tip:before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 0;
+  width: 2px;
+  height: 15px;
+  background: #ccc;
 }
 .detail .banner .bg {
-  position: absolute;
-  top: 18px;
-  width: 340px;
-  height: 265px;
-  background: transparent url(../image/attended_albumbg_img@2x.png) 0 no-repeat;
-  background-size: contain;
+  background: transparent url(../image/attended_albumbg_img@2x.png) no-repeat;
+  background-position: 0 86px;
+  background-size: 265px;
+  overflow: hidden;
+}
+.detail .banner .intro {
+  padding: 12px 12px 0 200px;
+}
+.detail .banner .mine {
+  float: right;
+  padding: 4px 8px;
+  font-size: 14px;
+  color: #f86442;
+  border: 1px solid #f86442;
+  border-radius: 4px;
+}
+.detail .banner .title {
+  margin: 95px 8px 0 0;
+  font-size: 18px;
+  line-height: 25px;
+  color: #333333;
+}
+.detail .banner .divider {
+  width: 46px;
+  height: 2px;
+  margin: 8px 0;
+  background: #cccccc;
+}
+.detail .banner .desc {
+  margin: 0 10px 25px 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: #333333;
+}
+.detail .banner .column {
+  float: right;
+  padding: 4px 8px;
+  font-size: 12px;
+  line-height: 14px;
+  color: #fff;
+  background: #f86442;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+.detail .banner .angle-right {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-top: -1px;
+  margin-left: 4px;
+  border-top: 1px solid;
+  border-right: 1px solid;
+  transform: rotate(45deg);
+  vertical-align: middle;
 }
 .detail .banner .greetings {
-  margin: 372px 15px 18px;
+  margin: 70px 15px 18px;
+  padding: 20px 16px 18px;
+  background: transparent url(../image/Rectangle@2x.png) no-repeat;
+  background-size: 100%;
 }
-.detail .footer {
+.detail .banner .greetings h5 {
+  font-size: 0;
+}
+.detail .banner .greetings .avatar {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+}
+.detail .banner .greetings .label {
+  font-size: 16px;
+  line-height: 30px;
+  color: #999;
+  letter-spacing: 0.19px;
+  vertical-align: middle;
+}
+.detail .banner .greetings .nickname {
+  display: inline-block;
+  margin: 0 8px 0 10px;
+  color: #f86442;
+}
+.detail .banner .greetings .recommend {
+  padding-left: 40px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #333333;
+  letter-spacing: 0.17px;
+}
+.detail .information {
+  padding-top: 25px;
+  font-size: 0;
+  background: #fff;
+}
+.detail .information .block {
+  position: relative;
+  display: inline-block;
+  width: 34.4%;
+}
+.detail .information .block.center {
+  width: 31.2%;
+}
+.detail .information .block:after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  right: 0;
+  width: 2px;
+  height: 26px;
+  background: #e8e8e8;
+}
+.detail .information .label {
+  font-size: 12px;
+  line-height: 14px;
+  color: #999999;
+  letter-spacing: 0.15px;
+}
+.detail .information .cont {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #f86442;
+  letter-spacing: 0.18px;
+}
+.detail .information .count-down-item {
+  display: inline-block;
+  width: 26px;
+  height: 28px;
+  margin: 0 -4px;
+  font-size: 16px;
+  line-height: 28px;
+  background: transparent url(../image/count_down_bg@2x.png) 0 / 100% no-repeat;
+  vertical-align: middle;
+}
+.detail .information .unit {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 14px;
+  color: #151515;
+  line-height: 18px;
+}
+.detail .information .line-through {
+  display: inline-block;
+  margin-left: 2px;
+  font-size: 11px;
+  line-height: 13px;
+  color: #666666;
+  letter-spacing: 0.41px;
+  text-decoration: line-through;
+}
+.detail .process {
+  padding: 40px 0 0;
+  background: #fff;
+}
+.detail .process .status {
+  margin-bottom: 10px;
+  font-size: 12px;
+  line-height: 14px;
+  color: #999999;
+}
+.detail .process .status.result {
+  font-size: 14px;
+  line-height: 17px;
+}
+.detail .process .status .count {
+  display: inline-block;
+  margin: 0 4px;
+  font-size: 16px;
+  line-height: 19px;
+  color: #f86442;
+  letter-spacing: 0.19px;
+}
+.detail .process .divider {
+  width: 274px;
+  height: 4px;
+  margin: 0 auto;
+  background: transparent url(../image/attended_splitline@2x.png) 0 / 100% no-repeat;
+}
+.detail .process .item {
+  display: inline-block;
+  width: 60px;
+  margin: 20px 30px 0 0;
+  font-size: 0;
+}
+.detail .process .item:last-child {
+  margin-right: 0;
+}
+.detail .process .icon {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 6px;
+}
+.detail .process .label {
+  font-size: 14px;
+  color: #cccccc;
+  letter-spacing: 0.17px;
+}
+.detail .process .label.nickname {
+  color: #666666;
+}
+.detail .notice {
+  padding: 30px 22px 30px;
+  font-size: 12px;
+  line-height: 17px;
+  text-align: left;
+  letter-spacing: 0;
+  color: #999999;
+  background: #fff;
+}
+.detail .notice .title {
+  font-size: 14px;
+  color: #666666;
+}
+.detail .bottom {
   height: 0;
   padding-bottom: 37.3%;
   background: transparent url(../image/bottom_img@2x.png) 0 / 100% no-repeat;
+}
+.detail .footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 50px;
+  padding-left: 14px;
+  text-align: left;
+  background: #FFFFFF;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.11);
+}
+.detail .footer .label {
+  font-size: 14px;
+  line-height: 50px;
+  color: #F86442;
+  letter-spacing: 0.17px;
+}
+.detail .footer .label.price {
+  font-size: 18px;
+  letter-spacing: 0.22px;
+}
+.detail .footer .line-through {
+  font-size: 11px;
+  line-height: 50px;
+  text-decoration: line-through;
+  color: #666666;
+  letter-spacing: 0.41px;
+}
+.detail .footer .footer-button {
+  float: right;
+  padding: 17px 30px;
+  font-size: 16px;
+  color: #FFFFFF;
+  letter-spacing: 0;
+  line-height: 16px;
+  background: #F86442;
 }
