@@ -22,36 +22,11 @@
     "player": ""
   },
   "combines": {
-    "libs.js": [
-      "jquery",
-      "xm-util/js/xm_util_toast.js",
-      "xm-util/js/xm_util_throttle.js",
-      "xm-util/js/xm_util_inViewport.js",
-      "xm-util/js/xm_util_microevent.js",
-      "xm-util/js/xm_util_inView.js",
-      "xm-util/js/xm_util_loadMore.js",
-      "weixin",
-      "ya",
-      "js/lib/dialog.js",
-      "js/lib/clipboard.min.js",
-      "js/lib/dragloader.js",
-      "js/lib/stackblur.min.js",
-      "js/lib/es6-promise.min.js",
-      "js/lib/html2canvas.js",
-      "js/lib/helper.js"
-    ],
+    "css/main.min.css": ["css/reset.css", "css/style.css"],
     "base.js": [
-      "libs.js",
-      "js/pages/home.page.js",
-      "js/pages/faq.page.js",
-      "js/pages/promotersign.page.js",
-      "js/pages/promotionproducts.page.js",
-      "js/pages/promotionrecords.page.js",
-      "js/pages/promotionrecord.page.js",
-      "js/pages/invitation.page.js"
     ]
   },
-  "output": ["base.js", "css/**"],
+  "output": ["base.js", "css/**", "image/**"],
   "scripts": {
     "start": "webpack-dev-server --open",
     "build": "node ./build/prod.js",
