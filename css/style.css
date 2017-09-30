@@ -199,6 +199,76 @@
   background-color: #fff;
   vertical-align: text-bottom;
 }
+.launch .mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+} 
+.launch .mask .panel{
+  text-align: center;
+  width: 280px;
+  height: 255px;
+  background: #fff;
+  border-radius: 4px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0 auto;
+  -webkit-transform: translateY(-50%) translateX(-50%);
+          transform: translateY(-50%) translateX(-50%);
+}
+.launch .mask .title {
+  text-align: center;
+  margin-top: 41px;
+  font-family: PingFangSC-Regular;
+  font-size: 18px;
+  color: #000;
+  letter-spacing: 0;
+}
+.launch .mask .pay {
+  text-align: center;
+  margin-top: 20px;
+}
+.launch .mask .pay span:first-child{
+  font-family: PingFangSC-Light;
+  font-size: 13px;
+  color: #999999;
+  letter-spacing: 0;
+  line-height: 15px;
+}
+.launch .mask .pay span:last-child{
+  font-family: PingFangSC-Light;
+  font-size: 15px;
+  color: #FC5832;
+}
+.launch .mask button{
+  width: 240px;
+  height: 40px;
+  font-family: PingFangSC-Regular;
+  font-size: 16px;
+  color: #FFFFFF;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 30px;
+  background: #FC5832;
+  border: 0 solid rgba(252,88,50,0.50);
+  border-radius: 50px;
+}
+.launch .mask .warn {
+  text-align: left;
+  margin-top: 23px;
+  font-family: PingFangSC-Light;
+  font-size: 12px;
+  color: #999999;
+  letter-spacing: 0;
+  line-height: 15px;
+  padding-left: 66px;
+}
+
+
 .detail {
   padding-bottom: 50px;
 }
