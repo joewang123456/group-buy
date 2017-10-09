@@ -11,7 +11,7 @@
   width: 90px;
   height: 90px;
   transform: translateY(-50%);
-  right: 8px;
+  right: 0;
 }
 .prelaunch .bg {
   background: white url(../image/recommendedalbum_bg@2x.png) 0 0 no-repeat;
@@ -200,6 +200,7 @@
   vertical-align: text-bottom;
 }
 .launch .mask {
+  display: none;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -256,6 +257,20 @@
   background: #FC5832;
   border: 0 solid rgba(252,88,50,0.50);
   border-radius: 50px;
+}
+.launch .mask .close{
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-top-right-radius: 4px;
+  background: url(../image/close.png) no-repeat center;
+  background-size: 40px 40px;
+}
+.launch .mask .close i{
+
 }
 .launch .mask .warn {
   text-align: left;
@@ -556,6 +571,72 @@
   padding-bottom: 37.3%;
   background: transparent url(../image/bottom_img@2x.png) 0 / 100% no-repeat;
 }
+
+/********************share start***********************/
+.detail .share {
+  background-color: #fcfcfc;
+}
+.detail .share p{
+  font-size: 16px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  color: #999;
+  font-family: "Times New Roman",Georgia,serif;
+}
+.detail .share p:before,
+.detail .share p:after{
+  content: '';
+  display: inline-block;
+  height: 0;
+  border-top: 1px solid #ddd;
+  width:  60px;
+  position: relative;
+}
+.detail .share p:before{
+  top: -5px;
+  right: 10px; 
+}
+.detail .share p:after{
+  top: -5px;
+  left: 10px; 
+}
+.detail .share ul{
+  overflow: hidden;
+  width: 100%;
+}
+.detail .share ul li{
+  float: left;
+  width: 50%;
+  height: 70px;
+  padding: 0 10px 10px;
+}
+.detail .share ul li:nth-child(1){
+  text-align: right;
+}
+.detail .share ul li:nth-child(2){
+  text-align: left;
+}
+.detail .share ul li span{
+  display: inline-block;
+  height: 60px;
+}
+.detail .share ul li:nth-child(1) span{
+  width: 60px;
+}
+.detail .share ul li:nth-child(1) span{
+  background: url(../image/share_weixin_friends_@2x.png) no-repeat center;
+  background-size: 60px 60px;
+}
+.detail .share ul li:nth-child(2) span{
+  width: 51px;
+}
+.detail .share ul li:nth-child(2) span{
+  background: url(../image/share_weixin_@2x.png) no-repeat center;
+  background-size: 51px 60px;
+}
+/********************share end***********************/
+
 .detail .footer {
   position: fixed;
   right: 0;
