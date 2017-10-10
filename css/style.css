@@ -41,6 +41,7 @@
   background: #fff;
   border: 1px solid #cccccc;
   resize: none;
+  font-size: 16px;
 }
 .prelaunch .main textarea::-webkit-input-placeholder {
   font-size: 16px;
@@ -577,29 +578,10 @@
   background-color: #fcfcfc;
 }
 .detail .share p{
-  font-size: 16px;
   height: 40px;
   line-height: 40px;
-  text-align: center;
-  color: #999;
-  font-family: "Times New Roman",Georgia,serif;
-}
-.detail .share p:before,
-.detail .share p:after{
-  content: '';
-  display: inline-block;
-  height: 0;
-  border-top: 1px solid #ddd;
-  width:  60px;
-  position: relative;
-}
-.detail .share p:before{
-  top: -5px;
-  right: 10px; 
-}
-.detail .share p:after{
-  top: -5px;
-  left: 10px; 
+  background: url(../image/xxhdpi/attended_share_title.png) no-repeat center;
+  background-size: 70%;
 }
 .detail .share ul{
   overflow: hidden;

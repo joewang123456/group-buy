@@ -56,6 +56,19 @@ $(function(){
             $('.launch .mask').fadeOut('100');
         })
     })()
+
+
+    // prelaunch page
+    ;(function(){
+        $('.prelaunch textarea').bind('input propertychange',function(){
+            let textContent = $('.prelaunch textarea');
+            let jCount = $('.prelaunch .j-count');
+            let textLen = textContent.val().length;  
+            if(textLen <= 40){
+                jCount.text(textLen);
+            }
+        })
+    })()
 })
 
 
