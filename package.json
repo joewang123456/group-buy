@@ -22,7 +22,7 @@
     "player": ""
   },
   "combines": {
-    "css/main.min.css": ["css/reset.css", "css/style.css"],
+    "css/main.min.css": ["css/reset.css", "css/style.css", "css/other.css"],
     "base.js": [
     ]
   },
