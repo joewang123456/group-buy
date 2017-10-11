@@ -1,5 +1,4 @@
 ;(function() {
-
   var channelTypeMap = {
     android: {
       xipoint: 8,
@@ -7,7 +6,7 @@
     },
     ios: {
       xipoint: 9,
-      weixin: 6
+      weixin: 6,
     },
   }
 
@@ -15,19 +14,22 @@
   var constant = xm && xm.const
   var helper = xm && xm.helper
 
-  if(!env || !constant || !helper) {
+  if (!env || !constant || !helper) {
     throw new Error('Required `js/lib/helper.js` is not correct loaded')
   }
 
   function Payment(opts) {
     var system = env.isInAndroid ? 'android' : env.isInIOS ? 'ios' : ''
-    var paymentType = env.isInNative ? 'xipoint' : env.isInWeixin ? 'weixin' : ''
-  
-    if(system && paymentType) {
+    var paymentType = env.isInNative
+      ? 'xipoint'
+      : env.isInWeixin ? 'weixin' : ''
+
+    if (system && paymentType) {
       this.channelTypeId = channelTypeMap[system][paymentType]
-    }
-    else {
-      throw new Error('Error `system: ' + system + '` or `paymentType: ' + paymentType + '`')
+    } else {
+      throw new Error(
+        'Error `system: ' + system + '` or `paymentType: ' + paymentType + '`'
+      )
     }
   }
 
@@ -41,11 +43,13 @@
      *    @opts.failed
      */
     pay: function(opts) {
-      if(opts.productItemId == null || opts.grouponOrderId == null) {
-        throw new Error('`productItemId` and `grouponOrderId` are both required')
+      if (opts.productItemId == null || opts.grouponOrderId == null) {
+        throw new Error(
+          '`productItemId` and `grouponOrderId` are both required'
+        )
       }
 
-      var _this = this;
+      var _this = this
       this.opts = $.extend({}, opts)
 
       $.ajax({
@@ -64,35 +68,39 @@
       })
     },
     recharge: function(amount) {
-      if(env.isInNative) {
+      if (env.isInNative) {
         var clear = helper.visibilityChangeHandler(function(state) {
-          if(state === 'visible') {
-            $.isFunction(clear) && clear();
-            location.reload();
+          if (state === 'visible') {
+            $.isFunction(clear) && clear()
+            location.reload()
           }
-        }, true);
+        }, true)
 
-        location.href = 'iting://open?msg_type=45&_ka=1&productId=' + amount + '&amount=' + amount
-      }
-      else {
-        xm.util.toast('当前环境暂不支持充值，请在App内完成充值');
+        location.href =
+          'iting://open?msg_type=45&_ka=1&productId=' +
+          amount +
+          '&amount=' +
+          amount
+      } else {
+        xm.util.toast('当前环境暂不支持充值，请在App内完成充值')
       }
     },
     _pay: function(paymentInfo) {
-      switch(paymentType) {
+      switch (paymentType) {
         case 'weixin':
           this._wxPay(paymentInfo)
           break
         case 'xipoint':
           this._xiPay(paymentInfo)
-          break;
+          break
         default:
           throw new Error('Error `paymentType: ' + paymentType + '`')
       }
     },
     _wxPay: function(paymentInfo) {
-      var _this = this, orderInfo;
-      orderInfo = paymentInfo.params;
+      var _this = this,
+        orderInfo
+      orderInfo = paymentInfo.params
       wx.chooseWXPay({
         timestamp: orderInfo.timeStamp,
         nonceStr: orderInfo.nonceStr,
@@ -100,15 +108,14 @@
         signType: orderInfo.signType,
         paySign: orderInfo.paySign,
         success: function(res) {
-          if (res.errMsg == "chooseWXPay:ok") {
+          if (res.errMsg == 'chooseWXPay:ok') {
             $.isFunction(_this.opts.success) && _this.opts.success(paymentInfo)
-          }
-          else {
+          } else {
             $.isFunction(_this.opts.failed) && _this.opts.failed(paymentInfo)
           }
-          return false;
-        }
-      });
+          return false
+        },
+      })
     },
     _xiPay: function(paymentInfo) {
       $.isFunction(this.opts.success) && this.opts.success(paymentInfo)
@@ -117,4 +124,4 @@
 
   xm || (xm = {})
   xm.payment = new Payment()
-})();
+})()
