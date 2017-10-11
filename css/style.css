@@ -337,7 +337,7 @@
   position: relative;
   display: inline-block;
   margin-left: 8px;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 28px;
   text-indent: 12px;
   color: #999999;
@@ -476,6 +476,9 @@
   font-size: 16px;
   color: #f86442;
   letter-spacing: 0.18px;
+}
+.detail .information .cont.grey{
+  color: #999;
 }
 .detail .information .count-down-item {
   display: inline-block;

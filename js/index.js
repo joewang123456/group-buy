@@ -19,22 +19,28 @@ $(function(){
     }
 
     // detail page
-    ;(function(){
-        function countTime(time){
-            let timeObj = tool.timeDown(time);
-            // 尽量减少DOM操作
-            if(timeObj.hour != $('.cont .count-down-item:nth-child(1)').text()){
-                $('.cont .count-down-item:nth-child(1)').text(timeObj.hour);
-            }                            
-            if(timeObj.minute != $('.cont .count-down-item:nth-child(2)').text()){
-                $('.cont .count-down-item:nth-child(2)').text(timeObj.minute);
-            }                            
-            if(timeObj.second != $('.cont .count-down-item:nth-child(3)').text()){
-                $('.cont .count-down-item:nth-child(3)').text(timeObj.second);
-            }                            
-        }
-        // $.ajax('',function(data){
-            let time = 86500000;
+    if(window.location.href.indexOf('join') > -1){
+        ;(function(){
+            let statusId = $('.block').attr('data-groupon-status-id');
+            // 倒计时
+            function countTime(time){
+                let timeObj = tool.timeDown(time);
+                // 尽量减少DOM操作
+                if(timeObj.hour != $('.cont .count-down-item:nth-child(1)').text()){
+                    $('.cont .count-down-item:nth-child(1)').text(timeObj.hour);
+                }                            
+                if(timeObj.minute != $('.cont .count-down-item:nth-child(2)').text()){
+                    $('.cont .count-down-item:nth-child(2)').text(timeObj.minute);
+                }                            
+                if(timeObj.second != $('.cont .count-down-item:nth-child(3)').text()){
+                    $('.cont .count-down-item:nth-child(3)').text(timeObj.second);
+                }                            
+            }
+            let time = $('.block').attr('data-remain-milliseconds');
+            if(statusId == 2 || statusId == 3){
+                $('.block:first-child .cont').addClass('grey');
+                time = 0;
+            }
             countTime(time);
             let timer = setInterval(function(){
                 if(time>0){
@@ -44,18 +50,28 @@ $(function(){
                     clearInterval(timer);
                 }
             },1000)
-        // })
-    })()
+        })()
+    }
 
     // launch page
-    ;(function(){
-        $('.launch footer').click(function(){
-            $('.launch .mask').fadeIn('400');
-        })
-        $('.launch .close').click(function(){
-            $('.launch .mask').fadeOut('100');
-        })
-    })()
+    if(window.location.href.indexOf('guidance/item') > -1){
+        ;(function(){
+            $('.launch footer').click(function(){
+                $('.launch .mask').fadeIn('400');
+            })
+            $('.launch .close').click(function(){
+                $('.launch .mask').fadeOut('100');
+            })
+        })()
+        ;(function(){
+            $('.launch footer').click(function(){
+                $('.launch .mask').fadeIn('400');
+            })
+            $('.launch .close').click(function(){
+                $('.launch .mask').fadeOut('100');
+            })
+        })()
+    }
 
 
     // prelaunch page
