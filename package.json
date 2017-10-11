@@ -15,15 +15,23 @@
   "combineWith": {
     "jquery": "1.11.3",
     "xm-util": "1.0.0",
-    "weixin": "1.0.0",
-    "ya": "1.0.0"
+    "ya": "1.2.0"
   },
   "devCombineWith": {
     "player": ""
   },
   "combines": {
     "css/main.min.css": ["css/reset.css", "css/style.css", "css/other.css"],
+    "libs.js": [
+      "jquery",
+			"ya",
+			"xm-util/js/xm_util_toast.js",
+			"js/lib/weixin.js",
+			"js/lib/helper.js",
+			"js/lib/payment.js"
+    ],
     "base.js": [
+      "libs.js",
       "js/index.js"
     ]
   },
