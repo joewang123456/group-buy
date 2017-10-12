@@ -15,7 +15,8 @@
   "combineWith": {
     "jquery": "1.11.3",
     "xm-util": "1.0.0",
-    "ya": "1.2.0"
+    "ya": "1.2.0",
+    "load-more": "1.0.0"
   },
   "devCombineWith": {
     "player": ""
@@ -30,6 +31,7 @@
       "jquery",
       "ya",
       "xm-util/js/xm_util_toast.js",
+      "load-more",
       "js/lib/weixin.js",
       "js/lib/helper.js",
       "js/lib/payment.js"
