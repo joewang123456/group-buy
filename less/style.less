@@ -201,6 +201,110 @@
       vertical-align: text-bottom;
     }
   }
+  .mask{
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    .panel{
+      text-align: center;
+      width: 280px;
+      height: 255px;
+      background: #fff;	 
+      border-radius: 4px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: 0 auto; 
+      -webkit-transform: translateY(-50%) translateX(-50%);
+      transform: translateY(-50%) translateX(-50%);
+    }
+    .title{
+      text-align: center;
+      margin-top: 41px;
+      font-family: PingFangSC-Regular;
+      font-size: 18px;
+      color: #000;
+      letter-spacing: 0;	 
+    }
+    .pay{
+      text-align: center;
+      margin-top: 20px;
+      span:first-child{
+        font-family: PingFangSC-Light;
+        font-size: 13px;
+        color: #999999;
+        letter-spacing: 0;
+        line-height: 15px;
+      }
+      span:last-child{
+        font-family: PingFangSC-Light;
+        font-size: 15px;
+        color: #FC5832;	 
+      }
+    }
+    button{
+      width: 240px;
+      height: 40px;
+      font-family: PingFangSC-Regular;
+      font-size: 16px;
+      color: #FFFFFF;
+      text-align: center;	 
+      margin: 0 auto;
+      margin-top: 30px;	 
+      background: #FC5832;	 
+      border: 0 solid rgba(252,88,50,0.50);	 
+      border-radius: 50px;	 
+    }
+    .close{
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      border-top-right-radius: 4px;
+      background: url(../image/close.png) no-repeat center;
+      background-size: 40px 40px;	 
+    }
+    .warn{
+      text-align: left;
+      margin-top: 23px;
+      font-family: PingFangSC-Light;
+      font-size: 12px;
+      color: #999999;
+      letter-spacing: 0;
+      line-height: 15px;
+      padding-left: 66px;
+    }
+    @font-face {
+      font-family: "iconfont";
+      src: url('iconfont.eot?t=1506762379549'); /* IE9*/
+      src: url('iconfont.eot?t=1506762379549#iefix') format('embedded-opentype'), /* IE6-IE8 */
+      url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAVMAAsAAAAAB7QAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFZW7kfsY21hcAAAAYAAAABcAAABhplABr5nbHlmAAAB3AAAAYIAAAGgXbPFlWhlYWQAAANgAAAALwAAADYPCkMRaGhlYQAAA5AAAAAcAAAAJAfeA4RobXR4AAADrAAAAAwAAAAMC+kAAGxvY2EAAAO4AAAACAAAAAgAdgDQbWF4cAAAA8AAAAAfAAAAIAESAF1uYW1lAAAD4AAAAUUAAAJtPlT+fXBvc3QAAAUoAAAAIQAAADJ4dOx4eJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2Bk/sE4gYGVgYOpk+kMAwNDP4RmfM1gxMjBwMDEwMrMgBUEpLmmMDgwVDxjYm7438AQw9zA0AAUZgTJAQAjggxueJzFkMENgDAMAy9p6QMxCA8G4sUcnbhrFBPKgwlqybHiWEoUYAGSeIgZ7MJ4cMq18BNr+DkyRWo4tXnv6j9VRLMS6iqFabB5q//You6j01eogzqx+Uv8BlHvC5d4nBWPP2/TQByGf+9dfU5KcrHP/xJf7OQuNG4VcIVxglSEu7CAGIqAgQWp7CC2LgxdkBhA4hOAVCExwEfoxgcBBF8jBvPqWV/pecgh+vuLX/IxBbRPN+gunRBBrGAly2CKumQrRMaJklDyYlEYd2FLfgeJFWFcbeplIlwxgkSOm6baFCUrsK4bdhtVnAETnT5Se1PFP2B3XORv2vvsAtFsMR0119t7147Dah70zgZKTZR61xOO02NsZyTxIon7Tn9XtJ+dURpdzg7YDINJkT54Opxrdfq2fpntJX3g/ByBnssvx37qd7xO40BNXG/YG6fDxdUQZ3+ujINBtvxN3Xa61h/8O5+RTzmtqCZyjC2xuYWm0026BgkIFyJOTIMCS26Xa7/eVHHkh8LN8T/YCv5w+8zWmnt47B+uD3088biu2/fKb795oWUXNvTar56SSk2VaqD3dYdJy6OcnebG5NtP+VGZckK2/ZhZwGbsedZaJTHvPrL9KdWrSOsDrf8BXyFCPAAAeJxjYGRgYADiVTYGO+L5bb4ycLMwgMDVr/XdCPr/fRYGZnkgl4OBCSQKAD6eCzUAeJxjYGRgYG7438AQw8IAAkCSkQEVMAMARwkCbAQAAAAD6QAABAAAAAAAAAAAdgDQeJxjYGRgYGBmCGRgZQABJiDmAkIGhv9gPgMAEPcBcAB4nGWPTU7DMBCFX/oHpBKqqGCH5AViASj9EatuWFRq911036ZOmyqJI8et1ANwHo7ACTgC3IA78EgnmzaWx9+8eWNPANzgBx6O3y33kT1cMjtyDRe4F65TfxBukF+Em2jjVbhF/U3YxzOmwm10YXmD17hi9oR3YQ8dfAjXcI1P4Tr1L+EG+Vu4iTv8CrfQ8erCPuZeV7iNRy/2x1YvnF6p5UHFockikzm/gple75KFrdLqnGtbxCZTg6BfSVOdaVvdU+zXQ+ciFVmTqgmrOkmMyq3Z6tAFG+fyUa8XiR6EJuVYY/62xgKOcQWFJQ6MMUIYZIjK6Og7VWb0r7FDwl57Vj3N53RbFNT/c4UBAvTPXFO6stJ5Ok+BPV8bUnV0K27LnpQ0kV7NSRKyQl7WtlRC6gE2ZVeOEXpc0Yk/KGdI/wAJWm7IAAAAeJxjYGKAAC4G7ICZkYmRmZGFgbGCpTyxKI+BAQAOogJRAAAA') format('woff'),
+      url('iconfont.ttf?t=1506762379549') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/	 
+      url('iconfont.svg?t=1506762379549#iconfont') format('svg'); /* iOS 4.1- */	 
+    } 
+    .iconfont {
+      font-family:"iconfont" !important;
+      font-size:16px;
+      font-style:normal;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      color: rgba(255,178,49,0.4);
+      width: 12px;
+      height: 12px;
+      position: absolute; 
+      left: 45px;
+      bottom: 37px; 
+    }
+    .icon-warn:before { content: "\e602"; }
+  
+  }
+     
 }
 
 .detail {
@@ -229,7 +333,7 @@
         position: relative;
         display: inline-block;
         margin-left: 8px;
-        font-size: 14px;
+        font-size: 13px;
         line-height: 28px;
         text-indent: 12px;
         color: #999999;
@@ -379,6 +483,9 @@
       color: #f86442;
       letter-spacing: 0.18px;
     }
+    .cont.grey{
+      color: #999;	 
+    }
     .count-down-item {
       display: inline-block;
       width: 26px;
@@ -512,6 +619,45 @@
       line-height: 16px;
       background: #F86442;
     }
-  }
+  } 
+  .share{ 
+    background-color: #fcfcfc;
+    p{
+      height: 40px;
+      line-height: 40px;
+      background: url(../image/xxhdpi/attended_share_title.png) no-repeat center;
+      background-size: 70%;	 
+    }
+    ul{
+      overflow: hidden;
+      width: 100%;
+      li{
+        float: left;
+        width: 50%;
+        height: 70px;
+        padding: 0 10px 10px;
+        span{
+          display: inline-block;
+          height: 60px; 
+        }
+      }
+      li:nth-child(1){
+        text-align: right;
+        span{
+          width: 60px;
+          background: url(../image/share_weixin_friends_@2x.png) no-repeat center;
+          background-size: 60px 60px;          
+        }
+      }
+      li:nth-child(2){
+        text-align: left;
+        span{
+          width: 51px;
+          background: url(../image/share_weixin_@2x.png) no-repeat center; 
+          background-size: 51px 60px;           
+        }
+      }
+    }
+  }	 
 }
 
