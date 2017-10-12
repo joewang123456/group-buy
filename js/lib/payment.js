@@ -145,11 +145,11 @@
             }
           },
           complete: function(xhr, status) {
-            if(this.orderSuccess) return
+            if(_this.orderSuccess) return
 
             if(index++ > 3) {
               clearInterval(timer)
-              this.orderSuccess === false && $.isFunction(this.opts.failed) && this.opts.failed()
+              _this.orderSuccess === false && $.isFunction(_this.opts.failed) && _this.opts.failed()
             }
           },
         })
