@@ -1,6 +1,13 @@
 ;(function() {
   xm || (xm = {})
 
+  /*
+   * 比较版本号 first > second => 1 first = second => 0 first < second => -1
+   * @param [String]  first 第一个版本号
+   * @param [String]  second 第二个版本号
+   * @param [String]  seprator 版本号分隔符
+   * @return [Number] 版本比较结果
+   */
   function compVersion(first, second, seprator) {
     var seprator = seprator || '.',
       f = first.split(seprator),
@@ -40,6 +47,11 @@
     return result
   }
 
+  /*
+   * 获取微信config信息
+   * @param [String] authUrl  config的认证地址
+   * @param [Array] apilist   config申请的api列表
+   */
   function getWxConfig(authUrl, apiList) {
     var url =
       '/x-thirdparty-web/weixinJssdk/config?signatureUrl=' +
@@ -117,6 +129,29 @@
     }
   }
 
+  /**
+   * 使用数据对象中的字段值替换模板字符串中匹配的字段名 `Hello ${target}` + {target: 'world'} ==> `Hello world`
+   * @param  {String} tmpl 包含使用`${`和`}`包裹的占位符的字符串，如`Hello ${target}`
+   * @param  {Object} data 数据对象，对象中的字段将替换 tmpl 字符串中的匹配的占位符 如`{target: 'world'}`
+   * @return {String}      替换得到的字符串
+   */
+  function tmpl(tmpl, data, clear) {
+    var attr, rAttr, rAny
+    for (attr in data) {
+      if (data.hasOwnProperty(attr)) {
+        rAttr = new RegExp('\\${' + attr + '}')
+        tmpl = tmpl.replace(rAttr, data[attr])
+      }
+    }
+
+    if (clear) {
+      rAny = /\${[^}]*}/g
+      tmpl = tmpl.replace(rAny, '')
+    }
+
+    return tmpl
+  }
+
   var ua = navigator.userAgent
 
   var env = {
@@ -141,6 +176,8 @@
     mSiteOrigin: 'm' + (env.isInTest ? '.test' : '') + '.ximalaya.com',
     paths: {
       placeorder: '/groupon/placeorder',
+      orderstatus: '/groupon/orderstatus/${productItemId}/',
+      recommendation: '/groupon/${grouponOrderId}/recommendation',
     },
   }
 
@@ -161,5 +198,6 @@
   xm.const = constant
   xm.helper = {
     visibilityChangeHandler: visibilityChangeHandler,
+    tmpl: tmpl,
   }
 })()

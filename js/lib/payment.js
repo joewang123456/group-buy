@@ -26,6 +26,7 @@
 
     if (system && paymentType) {
       this.channelTypeId = channelTypeMap[system][paymentType]
+      this.paymentType = paymentType
     } else {
       throw new Error(
         'Error `system: ' + system + '` or `paymentType: ' + paymentType + '`'
@@ -54,6 +55,7 @@
 
       $.ajax({
         url: constant.paths.placeorder,
+        type: 'post',
         data: {
           channelTypeId: _this.channelTypeId,
           productItemId: _this.opts.productItemId,
@@ -86,7 +88,7 @@
       }
     },
     _pay: function(paymentInfo) {
-      switch (paymentType) {
+      switch (this.paymentType) {
         case 'weixin':
           this._wxPay(paymentInfo)
           break
@@ -94,7 +96,7 @@
           this._xiPay(paymentInfo)
           break
         default:
-          throw new Error('Error `paymentType: ' + paymentType + '`')
+          throw new Error('Error `paymentType: ' + this.paymentType + '`')
       }
     },
     _wxPay: function(paymentInfo) {
@@ -109,7 +111,7 @@
         paySign: orderInfo.paySign,
         success: function(res) {
           if (res.errMsg == 'chooseWXPay:ok') {
-            $.isFunction(_this.opts.success) && _this.opts.success(paymentInfo)
+            _this.orderStatus()
           } else {
             $.isFunction(_this.opts.failed) && _this.opts.failed(paymentInfo)
           }
@@ -118,7 +120,40 @@
       })
     },
     _xiPay: function(paymentInfo) {
-      $.isFunction(this.opts.success) && this.opts.success(paymentInfo)
+      this.orderStatus()
+    },
+    orderStatus: function() {
+      var url = helper.tmpl(constant.paths.orderstatus, {
+        productItemId: this.opts.productItemId,
+      })
+      var _this = this
+      _this.orderSuccess = false
+      var index = 1
+      var timer = setInterval(function() {
+        $.ajax({
+          url: url + +new Date(),
+          data: {
+            grouponOrderId: _this.opts.grouponOrderId,
+          },
+          success: function(res) {
+            var ret = res.ret
+            var data = res.data
+            if (ret === 0 && data.status === 200) {
+              clearInterval(timer)
+              _this.orderSuccess = true
+              $.isFunction(_this.opts.success) && _this.opts.success(data.grouponOrderId)
+            }
+          },
+          complete: function(xhr, status) {
+            if(this.orderSuccess) return
+
+            if(index++ > 3) {
+              clearInterval(timer)
+              this.orderSuccess === false && $.isFunction(this.opts.failed) && this.opts.failed()
+            }
+          },
+        })
+      }, 1e3)
     },
   }
 

@@ -56,19 +56,27 @@ $(function(){
     // launch page
     if(window.location.href.indexOf('guidance/item') > -1){
         ;(function(){
-            $('.launch footer').click(function(){
-                $('.launch .mask').fadeIn('400');
+            var $footer = $('.launch footer')
+            var $mask = $('.mask')
+            $footer.click(function(){
+                $mask.fadeIn('400');
             })
-            $('.launch .close').click(function(){
-                $('.launch .mask').fadeOut('100');
-            })
-        })()
-        ;(function(){
-            $('.launch footer').click(function(){
-                $('.launch .mask').fadeIn('400');
-            })
-            $('.launch .close').click(function(){
-                $('.launch .mask').fadeOut('100');
+
+            var paymentParam = $footer.data()
+            $mask.on('click', '.close', function() {
+                $mask.fadeOut('100');
+            }).on('click', 'button', function() {
+                var opts = $.extend({}, paymentParam)
+                opts.success = function(grouponOrderId) {
+                    location.href = xm.helper.tmpl(xm.const.paths.recommendation, {
+                        grouponOrderId: grouponOrderId,
+                    })
+                }
+                opts.failed = function() {
+                    console.log('failed')
+                }
+
+                xm.payment.pay(opts)
             })
         })()
     }
