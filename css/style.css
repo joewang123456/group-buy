@@ -11,7 +11,6 @@
   width: 90px;
   height: 90px;
   transform: translateY(-50%);
-  right: 0;
 }
 .prelaunch .bg {
   background: white url(../image/recommendedalbum_bg@2x.png) 0 0 no-repeat;
@@ -41,7 +40,6 @@
   background: #fff;
   border: 1px solid #cccccc;
   resize: none;
-  font-size: 16px;
 }
 .prelaunch .main textarea::-webkit-input-placeholder {
   font-size: 16px;
@@ -159,7 +157,7 @@
   letter-spacing: 0.52px;
 }
 .launch .notice {
-  padding: 22px 22px 75px;
+  padding: 22px 22px 0;
   font-size: 12px;
   text-align: left;
   color: #999999;
@@ -208,8 +206,8 @@
   left: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.5);
-} 
-.launch .mask .panel{
+}
+.launch .mask .panel {
   text-align: center;
   width: 280px;
   height: 255px;
@@ -220,7 +218,7 @@
   left: 50%;
   margin: 0 auto;
   -webkit-transform: translateY(-50%) translateX(-50%);
-          transform: translateY(-50%) translateX(-50%);
+  transform: translateY(-50%) translateX(-50%);
 }
 .launch .mask .title {
   text-align: center;
@@ -234,19 +232,19 @@
   text-align: center;
   margin-top: 20px;
 }
-.launch .mask .pay span:first-child{
+.launch .mask .pay span:first-child {
   font-family: PingFangSC-Light;
   font-size: 13px;
   color: #999999;
   letter-spacing: 0;
   line-height: 15px;
 }
-.launch .mask .pay span:last-child{
+.launch .mask .pay span:last-child {
   font-family: PingFangSC-Light;
   font-size: 15px;
   color: #FC5832;
 }
-.launch .mask button{
+.launch .mask button {
   width: 240px;
   height: 40px;
   font-family: PingFangSC-Regular;
@@ -256,10 +254,10 @@
   margin: 0 auto;
   margin-top: 30px;
   background: #FC5832;
-  border: 0 solid rgba(252,88,50,0.50);
+  border: 0 solid rgba(252, 88, 50, 0.5);
   border-radius: 50px;
 }
-.launch .mask .close{
+.launch .mask .close {
   display: inline-block;
   width: 40px;
   height: 40px;
@@ -269,9 +267,6 @@
   border-top-right-radius: 4px;
   background: url(../image/close.png) no-repeat center;
   background-size: 40px 40px;
-}
-.launch .mask .close i{
-
 }
 .launch .mask .warn {
   text-align: left;
@@ -285,29 +280,27 @@
 }
 @font-face {
   font-family: "iconfont";
-  src: url('iconfont.eot?t=1506762379549'); /* IE9*/
-  src: url('iconfont.eot?t=1506762379549#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAVMAAsAAAAAB7QAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFZW7kfsY21hcAAAAYAAAABcAAABhplABr5nbHlmAAAB3AAAAYIAAAGgXbPFlWhlYWQAAANgAAAALwAAADYPCkMRaGhlYQAAA5AAAAAcAAAAJAfeA4RobXR4AAADrAAAAAwAAAAMC+kAAGxvY2EAAAO4AAAACAAAAAgAdgDQbWF4cAAAA8AAAAAfAAAAIAESAF1uYW1lAAAD4AAAAUUAAAJtPlT+fXBvc3QAAAUoAAAAIQAAADJ4dOx4eJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2Bk/sE4gYGVgYOpk+kMAwNDP4RmfM1gxMjBwMDEwMrMgBUEpLmmMDgwVDxjYm7438AQw9zA0AAUZgTJAQAjggxueJzFkMENgDAMAy9p6QMxCA8G4sUcnbhrFBPKgwlqybHiWEoUYAGSeIgZ7MJ4cMq18BNr+DkyRWo4tXnv6j9VRLMS6iqFabB5q//You6j01eogzqx+Uv8BlHvC5d4nBWPP2/TQByGf+9dfU5KcrHP/xJf7OQuNG4VcIVxglSEu7CAGIqAgQWp7CC2LgxdkBhA4hOAVCExwEfoxgcBBF8jBvPqWV/pecgh+vuLX/IxBbRPN+gunRBBrGAly2CKumQrRMaJklDyYlEYd2FLfgeJFWFcbeplIlwxgkSOm6baFCUrsK4bdhtVnAETnT5Se1PFP2B3XORv2vvsAtFsMR0119t7147Dah70zgZKTZR61xOO02NsZyTxIon7Tn9XtJ+dURpdzg7YDINJkT54Opxrdfq2fpntJX3g/ByBnssvx37qd7xO40BNXG/YG6fDxdUQZ3+ujINBtvxN3Xa61h/8O5+RTzmtqCZyjC2xuYWm0026BgkIFyJOTIMCS26Xa7/eVHHkh8LN8T/YCv5w+8zWmnt47B+uD3088biu2/fKb795oWUXNvTar56SSk2VaqD3dYdJy6OcnebG5NtP+VGZckK2/ZhZwGbsedZaJTHvPrL9KdWrSOsDrf8BXyFCPAAAeJxjYGRgYADiVTYGO+L5bb4ycLMwgMDVr/XdCPr/fRYGZnkgl4OBCSQKAD6eCzUAeJxjYGRgYG7438AQw8IAAkCSkQEVMAMARwkCbAQAAAAD6QAABAAAAAAAAAAAdgDQeJxjYGRgYGBmCGRgZQABJiDmAkIGhv9gPgMAEPcBcAB4nGWPTU7DMBCFX/oHpBKqqGCH5AViASj9EatuWFRq911036ZOmyqJI8et1ANwHo7ACTgC3IA78EgnmzaWx9+8eWNPANzgBx6O3y33kT1cMjtyDRe4F65TfxBukF+Em2jjVbhF/U3YxzOmwm10YXmD17hi9oR3YQ8dfAjXcI1P4Tr1L+EG+Vu4iTv8CrfQ8erCPuZeV7iNRy/2x1YvnF6p5UHFockikzm/gple75KFrdLqnGtbxCZTg6BfSVOdaVvdU+zXQ+ciFVmTqgmrOkmMyq3Z6tAFG+fyUa8XiR6EJuVYY/62xgKOcQWFJQ6MMUIYZIjK6Og7VWb0r7FDwl57Vj3N53RbFNT/c4UBAvTPXFO6stJ5Ok+BPV8bUnV0K27LnpQ0kV7NSRKyQl7WtlRC6gE2ZVeOEXpc0Yk/KGdI/wAJWm7IAAAAeJxjYGKAAC4G7ICZkYmRmZGFgbGCpTyxKI+BAQAOogJRAAAA') format('woff'),
-  url('iconfont.ttf?t=1506762379549') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1506762379549#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1506762379549');
+  /* IE9*/
+  src: url('iconfont.eot?t=1506762379549#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAVMAAsAAAAAB7QAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFZW7kfsY21hcAAAAYAAAABcAAABhplABr5nbHlmAAAB3AAAAYIAAAGgXbPFlWhlYWQAAANgAAAALwAAADYPCkMRaGhlYQAAA5AAAAAcAAAAJAfeA4RobXR4AAADrAAAAAwAAAAMC+kAAGxvY2EAAAO4AAAACAAAAAgAdgDQbWF4cAAAA8AAAAAfAAAAIAESAF1uYW1lAAAD4AAAAUUAAAJtPlT+fXBvc3QAAAUoAAAAIQAAADJ4dOx4eJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2Bk/sE4gYGVgYOpk+kMAwNDP4RmfM1gxMjBwMDEwMrMgBUEpLmmMDgwVDxjYm7438AQw9zA0AAUZgTJAQAjggxueJzFkMENgDAMAy9p6QMxCA8G4sUcnbhrFBPKgwlqybHiWEoUYAGSeIgZ7MJ4cMq18BNr+DkyRWo4tXnv6j9VRLMS6iqFabB5q//You6j01eogzqx+Uv8BlHvC5d4nBWPP2/TQByGf+9dfU5KcrHP/xJf7OQuNG4VcIVxglSEu7CAGIqAgQWp7CC2LgxdkBhA4hOAVCExwEfoxgcBBF8jBvPqWV/pecgh+vuLX/IxBbRPN+gunRBBrGAly2CKumQrRMaJklDyYlEYd2FLfgeJFWFcbeplIlwxgkSOm6baFCUrsK4bdhtVnAETnT5Se1PFP2B3XORv2vvsAtFsMR0119t7147Dah70zgZKTZR61xOO02NsZyTxIon7Tn9XtJ+dURpdzg7YDINJkT54Opxrdfq2fpntJX3g/ByBnssvx37qd7xO40BNXG/YG6fDxdUQZ3+ujINBtvxN3Xa61h/8O5+RTzmtqCZyjC2xuYWm0026BgkIFyJOTIMCS26Xa7/eVHHkh8LN8T/YCv5w+8zWmnt47B+uD3088biu2/fKb795oWUXNvTar56SSk2VaqD3dYdJy6OcnebG5NtP+VGZckK2/ZhZwGbsedZaJTHvPrL9KdWrSOsDrf8BXyFCPAAAeJxjYGRgYADiVTYGO+L5bb4ycLMwgMDVr/XdCPr/fRYGZnkgl4OBCSQKAD6eCzUAeJxjYGRgYG7438AQw8IAAkCSkQEVMAMARwkCbAQAAAAD6QAABAAAAAAAAAAAdgDQeJxjYGRgYGBmCGRgZQABJiDmAkIGhv9gPgMAEPcBcAB4nGWPTU7DMBCFX/oHpBKqqGCH5AViASj9EatuWFRq911036ZOmyqJI8et1ANwHo7ACTgC3IA78EgnmzaWx9+8eWNPANzgBx6O3y33kT1cMjtyDRe4F65TfxBukF+Em2jjVbhF/U3YxzOmwm10YXmD17hi9oR3YQ8dfAjXcI1P4Tr1L+EG+Vu4iTv8CrfQ8erCPuZeV7iNRy/2x1YvnF6p5UHFockikzm/gple75KFrdLqnGtbxCZTg6BfSVOdaVvdU+zXQ+ciFVmTqgmrOkmMyq3Z6tAFG+fyUa8XiR6EJuVYY/62xgKOcQWFJQ6MMUIYZIjK6Og7VWb0r7FDwl57Vj3N53RbFNT/c4UBAvTPXFO6stJ5Ok+BPV8bUnV0K27LnpQ0kV7NSRKyQl7WtlRC6gE2ZVeOEXpc0Yk/KGdI/wAJWm7IAAAAeJxjYGKAAC4G7ICZkYmRmZGFgbGCpTyxKI+BAQAOogJRAAAA') format('woff'), url('iconfont.ttf?t=1506762379549') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/ url('iconfont.svg?t=1506762379549#iconfont') format('svg');
+  /* iOS 4.1- */
 }
-.iconfont {
-  font-family:"iconfont" !important;
-  font-size:16px;
-  font-style:normal;
+.launch .mask .iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: rgba(255,178,49,0.4);
+  color: rgba(255, 178, 49, 0.4);
   width: 12px;
   height: 12px;
   position: absolute;
   left: 45px;
   bottom: 37px;
 }
-.icon-warn:before { content: "\e602"; }
-
-
-
+.launch .mask .icon-warn:before {
+  content: "\e602";
+}
 .detail {
   padding-bottom: 50px;
 }
@@ -361,10 +354,12 @@
 }
 .detail .banner .intro {
   padding: 12px 12px 0 200px;
+  overflow: hidden;
+  height: 270px;
 }
 .detail .banner .mine {
   float: right;
-  padding: 0px 8px;
+  padding: 4px 8px;
   font-size: 14px;
   color: #f86442;
   border: 1px solid #f86442;
@@ -383,10 +378,17 @@
   background: #cccccc;
 }
 .detail .banner .desc {
-  margin: 0 10px 25px 0;
+  margin: 0 10px 20px 0;
   font-size: 14px;
   line-height: 20px;
   color: #333333;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  max-height: 3em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  min-height: 20px;
 }
 .detail .banner .column {
   float: right;
@@ -410,10 +412,10 @@
   vertical-align: middle;
 }
 .detail .banner .greetings {
-  margin: 70px 15px 18px;
+  margin: 0px 15px 18px;
   padding: 20px 16px 18px;
   background: transparent url(../image/Rectangle@2x.png) no-repeat;
-  background-size: 100%;
+  background-size: 100% 100%;
 }
 .detail .banner .greetings h5 {
   font-size: 0;
@@ -477,7 +479,7 @@
   color: #f86442;
   letter-spacing: 0.18px;
 }
-.detail .information .cont.grey{
+.detail .information .cont.grey {
   color: #999;
 }
 .detail .information .count-down-item {
@@ -575,53 +577,6 @@
   padding-bottom: 37.3%;
   background: transparent url(../image/bottom_img@2x.png) 0 / 100% no-repeat;
 }
-
-/********************share start***********************/
-.detail .share {
-  background-color: #fcfcfc;
-}
-.detail .share p{
-  height: 40px;
-  line-height: 40px;
-  background: url(../image/xxhdpi/attended_share_title.png) no-repeat center;
-  background-size: 70%;
-}
-.detail .share ul{
-  overflow: hidden;
-  width: 100%;
-}
-.detail .share ul li{
-  float: left;
-  width: 50%;
-  height: 70px;
-  padding: 0 10px 10px;
-}
-.detail .share ul li:nth-child(1){
-  text-align: right;
-}
-.detail .share ul li:nth-child(2){
-  text-align: left;
-}
-.detail .share ul li span{
-  display: inline-block;
-  height: 60px;
-}
-.detail .share ul li:nth-child(1) span{
-  width: 60px;
-}
-.detail .share ul li:nth-child(1) span{
-  background: url(../image/share_weixin_friends_@2x.png) no-repeat center;
-  background-size: 60px 60px;
-}
-.detail .share ul li:nth-child(2) span{
-  width: 51px;
-}
-.detail .share ul li:nth-child(2) span{
-  background: url(../image/share_weixin_@2x.png) no-repeat center;
-  background-size: 51px 60px;
-}
-/********************share end***********************/
-
 .detail .footer {
   position: fixed;
   right: 0;
@@ -658,4 +613,43 @@
   letter-spacing: 0;
   line-height: 16px;
   background: #F86442;
+}
+.detail .share {
+  background-color: #fcfcfc;
+}
+.detail .share p {
+  height: 40px;
+  line-height: 40px;
+  background: url(../image/xxhdpi/attended_share_title.png) no-repeat center;
+  background-size: 70%;
+}
+.detail .share ul {
+  overflow: hidden;
+  width: 100%;
+}
+.detail .share ul li {
+  float: left;
+  width: 50%;
+  height: 70px;
+  padding: 0 10px 10px;
+}
+.detail .share ul li span {
+  display: inline-block;
+  height: 60px;
+}
+.detail .share ul li:nth-child(1) {
+  text-align: right;
+}
+.detail .share ul li:nth-child(1) span {
+  width: 60px;
+  background: url(../image/share_weixin_friends_@2x.png) no-repeat center;
+  background-size: 60px 60px;
+}
+.detail .share ul li:nth-child(2) {
+  text-align: left;
+}
+.detail .share ul li:nth-child(2) span {
+  width: 51px;
+  background: url(../image/share_weixin_@2x.png) no-repeat center;
+  background-size: 51px 60px;
 }

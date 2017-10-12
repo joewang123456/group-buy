@@ -48,8 +48,39 @@ $(function(){
                     countTime(time);                    
                 }else{
                     clearInterval(timer);
+                    window.location.reload();
                 }
             },1000)
+
+            // 分享
+            let shareData = {
+                title: $('.share').attr('data-share-title'),
+                url: $('.share').attr('data-share-url'),
+                imgUrl: $('.share').attr('data-share-cover-path'),
+                desc: $('.share').attr('data-share-context')
+            }
+            $('.share ul li:first-child').click(function(){
+                ya.share({
+                    channel: 'weixinGroup', // channel可选值为[“qq”, “qzone”, “tSina”, “weixin”, “weixinGroup”, “message”]
+                    title: shareData.title, // 分享标题
+                    link: shareData.url, // 分享链接
+                    imgUrl: shareData.imgUrl, // 分享图标
+                    desc: shareData.desc
+                },function(res){
+
+                });
+            })
+            $('.share ul li:last-child').click(function(){
+                ya.share({
+                    channel: 'weixin', 
+                    title: shareData.title, 
+                    link: shareData.url,
+                    imgUrl: shareData.imgUrl,
+                    desc: shareData.desc
+                },function(res){
+
+                });
+            })
         })()
     }
 
