@@ -21,21 +21,29 @@
     "player": ""
   },
   "combines": {
-    "css/main.min.css": ["css/reset.css", "css/style.css", "css/other.css"],
+    "css/main.min.css": [
+      "css/reset.css",
+      "css/style.css",
+      "css/other.css"
+    ],
     "libs.js": [
       "jquery",
-			"ya",
-			"xm-util/js/xm_util_toast.js",
-			"js/lib/weixin.js",
-			"js/lib/helper.js",
-			"js/lib/payment.js"
+      "ya",
+      "xm-util/js/xm_util_toast.js",
+      "js/lib/weixin.js",
+      "js/lib/helper.js",
+      "js/lib/payment.js"
     ],
     "base.js": [
       "libs.js",
       "js/index.js"
     ]
   },
-  "output": ["base.js", "css/**", "image/**"],
+  "output": [
+    "base.js",
+    "css/**",
+    "image/**"
+  ],
   "scripts": {
     "start": "webpack-dev-server --open",
     "build": "node ./build/prod.js",

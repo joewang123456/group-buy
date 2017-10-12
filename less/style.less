@@ -254,6 +254,8 @@
     }
     .intro {
       padding: 12px 12px 0 200px;
+      overflow: hidden;
+      height:270px;
     }
     .mine {
       float: right;
@@ -276,10 +278,17 @@
       background: #cccccc;
     }
     .desc {
-      margin: 0 10px 25px 0;
+      margin: 0 10px 20px 0;
       font-size: 14px;
       line-height: 20px;
       color: #333333;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      max-height: 3em;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      min-height: 20px;
     }
     .column {
       float: right;
@@ -303,10 +312,10 @@
       vertical-align: middle;
     }
     .greetings {
-      margin: 70px 15px 18px;
+      margin: 0px 15px 18px;
       padding: 20px 16px 18px;
       background: ~'transparent url(../image/Rectangle@2x.png) no-repeat';
-      background-size: 100%;
+      background-size: 100% 100%;
       h5 {
         font-size: 0;
       }
