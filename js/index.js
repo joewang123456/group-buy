@@ -145,17 +145,44 @@ $(function(){
 
     // prelaunch page
     if(window.location.href.indexOf('recommendation') > -1){
+
+        var constant = xm && xm.const;
+        var helper = xm && xm.helper;
+
         ;(function(){
-            $('.prelaunch textarea').bind('input propertychange',function(){
-                let textContent = $('.prelaunch textarea');
-                let jCount = $('.prelaunch .j-count');
-                let textLen = textContent.val().length;  
+            var grouponOrderId = location.href.replace(/[^0-9]/g,'');
+            var $textarea = $('.prelaunch textarea');
+            var jCount = $('.prelaunch .j-count');            
+            $textarea.bind('input propertychange',function(){
+                var textLen = $textarea.val().length;      
                 if(textLen <= 40){
                     jCount.text(textLen);
                 }
             })
+            var url = helper.tmpl(constant.paths.message, {
+                grouponOrderId: grouponOrderId
+            })
             $('.btn').on('click',function(){
-                
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    data: {
+                        recommendationWord: $textarea.val()
+                    },
+                    success: function(res){
+                        var ret = res.ret;
+                        if(ret === 0){
+                            location.href = helper.tmpl(constant.paths.detail, {
+                                grouponOrderId: grouponOrderId,
+                                timestamp: new Date().getTime()
+                            })
+                        }
+                    },
+                    error: function(){
+                        xm.util.toast('接口访问出错，请稍后再试');
+                    }
+                        
+                })
             })
         })()
 
