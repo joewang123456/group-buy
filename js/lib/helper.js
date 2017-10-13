@@ -178,6 +178,8 @@
       placeorder: '/groupon/placeorder',
       orderstatus: '/groupon/orderstatus/${productItemId}/',
       recommendation: '/groupon/${grouponOrderId}/recommendation',
+      ordercontext: '/groupon/ordercontext/productItem/${productItemId}/${timestamp}',
+      message: '/groupon/${grouponOrderId}/message'
     },
   }
 

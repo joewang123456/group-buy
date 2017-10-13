@@ -3,14 +3,16 @@
   background: url(../image/groupbuy_initiate_Albumbg_img@2x.png) no-repeat;
   background-position: 64.8% 2px;
   background-size: contain;
+  position: relative;
 }
 .album .cover {
-  position: relative;
+  position: absolute;
   top: 50%;
   display: inline-block;
   width: 90px;
   height: 90px;
-  transform: translateY(-50%);
+  transform: translate(50%, -50%);
+  right: 50%;
 }
 .prelaunch .bg {
   background: white url(../image/recommendedalbum_bg@2x.png) 0 0 no-repeat;

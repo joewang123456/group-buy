@@ -86,44 +86,80 @@ $(function(){
 
     // launch page
     if(window.location.href.indexOf('guidance/item') > -1){
+
+        var constant = xm && xm.const;
+        var helper = xm && xm.helper;
+
         ;(function(){
-            var $footer = $('.launch footer')
-            var $mask = $('.mask')
+            var $footer = $('.launch footer');
+            var $mask = $('.mask');
+            var $button = $('.mask button');
+            var paymentParam = $footer.data();
+    
+            var url = helper.tmpl(constant.paths.ordercontext, {
+                productItemId: paymentParam.productItemId,
+                timestamp: new Date().getTime()
+            })
+
             $footer.click(function(){
+                $.ajax({
+                    url: url,
+                    data: {},
+                    success: function(res){
+                        var needRecharge = res.needRecharge;
+                        var rechargeAmount = res.rechargeAmount;
+                        $mask.on('click', '.close', function() {
+                            $mask.fadeOut('100');
+                        })
+                        if(needRecharge){// 充值
+                            $button.text('余额不足，请先充值');
+                            $mask.on('click','button',function(){
+                                xm.payment.recharge(rechargeAmount);
+                            })
+                        }else{// 正常支付
+                            $mask.on('click', 'button', function() {
+                                var opts = $.extend({}, paymentParam)
+                                opts.success = function(grouponOrderId) {
+                                    location.href = xm.helper.tmpl(xm.const.paths.recommendation, {
+                                        grouponOrderId: grouponOrderId,
+                                    })
+                                }
+                                opts.failed = function() {
+                                    console.log('failed')
+                                }
+                
+                                xm.payment.pay(opts)
+                            })
+                
+                        }
+
+                    }
+                })
                 $mask.fadeIn('400');
             })
 
-            var paymentParam = $footer.data()
-            $mask.on('click', '.close', function() {
-                $mask.fadeOut('100');
-            }).on('click', 'button', function() {
-                var opts = $.extend({}, paymentParam)
-                opts.success = function(grouponOrderId) {
-                    location.href = xm.helper.tmpl(xm.const.paths.recommendation, {
-                        grouponOrderId: grouponOrderId,
-                    })
-                }
-                opts.failed = function() {
-                    console.log('failed')
-                }
-
-                xm.payment.pay(opts)
-            })
+            
         })()
     }
 
 
     // prelaunch page
-    ;(function(){
-        $('.prelaunch textarea').bind('input propertychange',function(){
-            let textContent = $('.prelaunch textarea');
-            let jCount = $('.prelaunch .j-count');
-            let textLen = textContent.val().length;  
-            if(textLen <= 40){
-                jCount.text(textLen);
-            }
-        })
-    })()
+    if(window.location.href.indexOf('recommendation') > -1){
+        ;(function(){
+            $('.prelaunch textarea').bind('input propertychange',function(){
+                let textContent = $('.prelaunch textarea');
+                let jCount = $('.prelaunch .j-count');
+                let textLen = textContent.val().length;  
+                if(textLen <= 40){
+                    jCount.text(textLen);
+                }
+            })
+            $('.btn').on('click',function(){
+                
+            })
+        })()
+
+    }
 })
 
 
