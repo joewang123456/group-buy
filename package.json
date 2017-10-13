@@ -24,8 +24,7 @@
   "combines": {
     "css/main.min.css": [
       "css/reset.css",
-      "css/style.css",
-      "css/other.css"
+      "css/style.css"
     ],
     "libs.js": [
       "jquery",
