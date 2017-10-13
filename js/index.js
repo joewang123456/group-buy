@@ -216,10 +216,11 @@ $(function(){
             if(grouponRoleId === '1'){
                 var $masker = $('.masker');
                 var $revoke = $('.btn-revoke');
-                var cancalUrl = helper.tmpl(constant.paths.cancel, {
-                    grouponOrderId: $revoke.data().grouponOrderId
-                })
+                var cancalUrl;
                 $('.btn-revoke').click(function(){
+                    cancalUrl = helper.tmpl(constant.paths.cancel, {
+                        grouponOrderId: $(this).data().grouponOrderId
+                    })    
                     $masker.removeClass('hidden');
                 })
                 $masker.on('click','.cancel',function(){
