@@ -222,7 +222,7 @@ $(function(){
             if(groupList.length > 0){
                 var lm = new loadMore(groupList);
                 lm.on('xmlm-load-triggered', function(event, elem) {
-                    getList(list, pageNum++,lm);
+                    getList(url, pageNum++,lm);
                 })
             }
 
@@ -260,11 +260,12 @@ $(function(){
                                                     <img src="${ item.coverUrl }">
                                                 </div>
                                                 <div class="info">
-                                                    <h2 class="title elli-multi-2">${ item.albumTitle }</h2>
+                                                    <h2 class="title elli-multi-2">${ item.albumTitle } add</h2>
                                                     ${ statusHtml }
                                                 </div>
                                             </a>
-                                        </li>`
+                                        </li>`;
+                            $('.group-list').append(listHtml);
                         })
                     },
                     error: function(){
