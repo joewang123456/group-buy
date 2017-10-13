@@ -26,14 +26,14 @@ $(function(){
             function countTime(time){
                 let timeObj = tool.timeDown(time);
                 // 尽量减少DOM操作
-                if(timeObj.hour != $('.cont .count-down-item:nth-child(1)').text()){
-                    $('.cont .count-down-item:nth-child(1)').text(timeObj.hour);
+                if(timeObj.hour != $('.cont .j-hour').text()){
+                    $('.cont .j-hour').text(timeObj.hour);
                 }                            
-                if(timeObj.minute != $('.cont .count-down-item:nth-child(2)').text()){
-                    $('.cont .count-down-item:nth-child(2)').text(timeObj.minute);
+                if(timeObj.minute != $('.cont .j-minute').text()){
+                    $('.cont .j-minute').text(timeObj.minute);
                 }                            
-                if(timeObj.second != $('.cont .count-down-item:nth-child(3)').text()){
-                    $('.cont .count-down-item:nth-child(3)').text(timeObj.second);
+                if(timeObj.second != $('.cont .j-second').text()){
+                    $('.cont .j-second').text(timeObj.second);
                 }                            
             }
             let time = $('.block').attr('data-remain-milliseconds');
@@ -59,7 +59,7 @@ $(function(){
                 imgUrl: $('.share').attr('data-share-cover-path'),
                 desc: $('.share').attr('data-share-context')
             }
-            $('.share ul li:first-child').click(function(){
+            $('.share ul .j-wxgroup').click(function(){
                 ya.share({
                     channel: 'weixinGroup', // channel可选值为[“qq”, “qzone”, “tSina”, “weixin”, “weixinGroup”, “message”]
                     title: shareData.title, // 分享标题
@@ -70,7 +70,7 @@ $(function(){
 
                 });
             })
-            $('.share ul li:last-child').click(function(){
+            $('.share ul .j-wxfriend').click(function(){
                 ya.share({
                     channel: 'weixin', 
                     title: shareData.title, 
@@ -193,22 +193,34 @@ $(function(){
 
         var constant = xm && xm.const;
         var helper = xm && xm.helper;
+        var loadMore = xm && xm.util.loadMore;
+        var grouponRoleId = location.href.match(/\/role\/[0-9]\//)[0].replace(/[^0-9]/g,'');        
 
         ;(function(){
+            // 切换tab
+            $('.tab').on('click','.item',function(){
+                var target = $(this);
+                if(target.text() === '我发起的拼团'){
+                    location.href = helper.tmpl(constant.paths.mygroup, {
+                        grouponRoleId: 1,
+                        timestamp: new Date().getTime()
+                    })
+                }else{
+                    location.href = helper.tmpl(constant.paths.mygroup, {
+                        grouponRoleId: 2,
+                        timestamp: new Date().getTime()
+                    })
+                }
+            })
             // 滚动加载
-            var scrollHeight = $(window).scrollTop();
-            var winHeight = $(window).height();
-            var pageHeight = $(document.body).height();
-            var grouponRoleId = location.href.replace(/[^0-9]/g,'');
             var pageNum = 2;
-
-            var url = helper.tmpl(constant.paths.mygroup, {
+            var url = helper.tmpl(constant.paths.mygrouprecord, {
                 grouponRoleId: grouponRoleId,
                 timestamp: new Date().getTime()
             })
             var groupList = $('.group-list');
             if(groupList.length > 0){
-                var lm = new loadMore();
+                var lm = new loadMore(groupList);
                 lm.on('xmlm-load-triggered', function(event, elem) {
                     getList(list, pageNum++,lm);
                 })
