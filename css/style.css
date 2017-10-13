@@ -783,6 +783,9 @@
 }
 /*e支付页*/
 /*s我的拼团页*/
+.hidden {
+  display: none;
+}
 .my-group .tab {
   background: #fff;
   overflow: hidden;

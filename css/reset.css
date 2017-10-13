@@ -303,7 +303,7 @@ del {
 }
 
 ::-webkit-scrollbar {
-  width: 1px;
+  width: 0px;
 }
 
 .btn {

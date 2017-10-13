@@ -212,6 +212,39 @@ $(function(){
                     })
                 }
             })
+            // 撤销拼团
+            if(grouponRoleId === '1'){
+                var $masker = $('.masker');
+                var $revoke = $('.btn-revoke');
+                var cancalUrl = helper.tmpl(constant.paths.cancel, {
+                    grouponOrderId: $revoke.data().grouponOrderId
+                })
+                $('.btn-revoke').click(function(){
+                    $masker.removeClass('hidden');
+                })
+                $masker.on('click','.cancel',function(){
+                    $masker.addClass('hidden');
+                }).on('click','.confirm',function(){
+                    $.ajax({
+                        url: cancalUrl,
+                        data: {},
+                        success: function(res){
+                            var ret = res.ret;
+                            if(ret === 1){
+                                location.reload();
+                            }else{
+                                xm.util.toast('撤销失败，请稍后再试');
+                            }
+                            $masker.addClass('hidden');
+                        },
+                        error: function(){
+                            xm.util.toast('撤销失败，请稍后再试');
+                            $masker.addClass('hidden');
+                        }
+                    })
+                })
+            }
+
             // 滚动加载
             var pageNum = 2;
             var url = helper.tmpl(constant.paths.mygrouprecord, {
