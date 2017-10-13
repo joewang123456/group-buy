@@ -180,7 +180,8 @@
       recommendation: '/groupon/${grouponOrderId}/recommendation',
       ordercontext: '/groupon/ordercontext/productItem/${productItemId}/${timestamp}',
       message: '/groupon/${grouponOrderId}/message',
-      detail: '/groupon/${grouponOrderId}/detail/${timestamp}'
+      detail: '/groupon/${grouponOrderId}/detail/${timestamp}',
+      mygroup: '/groupon/mygroupon/role/${grouponRoleId}/records/${timestamp}'
     },
   }
 

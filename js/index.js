@@ -185,7 +185,83 @@ $(function(){
                 })
             })
         })()
+    }
 
+
+    // my-group page
+    if(location.href.indexOf('mygroupon/role') > -1){
+
+        var constant = xm && xm.const;
+        var helper = xm && xm.helper;
+
+        ;(function(){
+            // 滚动加载
+            var scrollHeight = $(window).scrollTop();
+            var winHeight = $(window).height();
+            var pageHeight = $(document.body).height();
+            var grouponRoleId = location.href.replace(/[^0-9]/g,'');
+            var pageNum = 2;
+
+            var url = helper.tmpl(constant.paths.mygroup, {
+                grouponRoleId: grouponRoleId,
+                timestamp: new Date().getTime()
+            })
+            var groupList = $('.group-list');
+            if(groupList.length > 0){
+                var lm = new loadMore();
+                lm.on('xmlm-load-triggered', function(event, elem) {
+                    getList(list, pageNum++,lm);
+                })
+            }
+
+            function getList(url,pageNum,loadMore){
+                $.ajax({
+                    url: url,
+                    data: {
+                        pageNum: pageNum
+                    },
+                    success: function(res){
+                        if($('.group-list').attr('data-more') === 'false'){
+                            loadMore.clear();
+                            return false;
+                        }
+                        var hasMore = res.hasMore;
+                        $('.group-list').attr('data-more',hasMore);
+                        var listData = res.data;
+                        var listHtml = '';
+                        listData.forEach(function(item){
+                            var grouponOrderStatus = '';
+                            var statusHtml = '';
+                            if(item.grouponOrderStatusId == 1){
+                                grouponOrderStatus = '拼团中';
+                                statusHtml = `<p class="status">还差&nbsp;<span class="theme">${ item.grouponRemainQuantity }</span>&nbsp;位小伙伴<a class="btn-revoke"><i class="ic ic-revoke"></i>撤销拼团</a></p>`;
+                            }else if(item.grouponOrderStatusId == 2){
+                                grouponOrderStatus = '拼团成功';
+                                statusHtml = `<p class="status theme">${ grouponOrderStatus }</p>`;
+                            }else{
+                                grouponOrderStatus = '拼团失败';
+                                statusHtml = `<p class="status theme">${ grouponOrderStatus }</p>`;
+                            }
+                            listHtml += `<li class="item">
+                                            <a>
+                                                <div class="pic">
+                                                    <img src="${ item.coverUrl }">
+                                                </div>
+                                                <div class="info">
+                                                    <h2 class="title elli-multi-2">${ item.albumTitle }</h2>
+                                                    ${ statusHtml }
+                                                </div>
+                                            </a>
+                                        </li>`
+                        })
+                    },
+                    error: function(){
+                        xm.util.toast('加载更多失败，请稍后再试');
+                    }
+                })
+            }
+            
+        })()
     }
 })
 
