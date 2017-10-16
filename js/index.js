@@ -1,4 +1,5 @@
 $(function(){
+    var vConsole = new VConsole();
     var tool = {
         timeFormate: function (val) {
             if(val > 9) return val;
