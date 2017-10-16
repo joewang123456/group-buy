@@ -196,7 +196,7 @@ $(function(){
         ;(function(){
             // 点击跳转
             $('.item').click(function(){
-                location.href = $(this).data().showGrouponUrl
+                location.href = $(this).data().showGrouponUrl;
             })
             // 切换tab
             $('.tab').on('click','.item',function(){
@@ -290,7 +290,7 @@ $(function(){
                                 grouponOrderStatus = '拼团失败';
                                 statusHtml = '<p class="status theme">'+ grouponOrderStatus +'</p>';
                             }
-                            listHtml += '<li class="item"><a><div class="pic">' +
+                            listHtml += '<li class="item" data-show-groupon-url="'+ item.showGrouponUrl +'"><a><div class="pic">' +
                                         '<img src="'+ item.coverUrl +'"></div><div class="info">' +
                                         '<h2 class="title elli-multi-2">'+ item.albumTitle +'</h2>' + statusHtml +
                                         '</div></a></li>'
