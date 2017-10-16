@@ -100,6 +100,10 @@ $(function(){
                 timestamp: new Date().getTime()
             })
 
+            $mask.on('click', '.close', function() {
+                $mask.fadeOut(100);
+            })
+
             $footer.click(function(){
                 $.ajax({
                     url: url,
@@ -107,9 +111,6 @@ $(function(){
                     success: function(res){
                         var needRecharge = res.needRecharge;
                         var rechargeAmount = res.rechargeAmount;
-                        $mask.on('click', '.close', function() {
-                            $mask.fadeOut(100);
-                        })
                         if(needRecharge){// 充值
                             $button.text('余额不足，请先充值');
                             $mask.on('click','button',function(){
@@ -126,15 +127,12 @@ $(function(){
                                 opts.failed = function() {
                                     console.log('failed')
                                 }
-                
                                 xm.payment.pay(opts)
                             })
-                
                         }
-
                     }
                 })
-                $mask.fadeIn(400);
+                $mask.fadeIn(200);
             })
 
             
