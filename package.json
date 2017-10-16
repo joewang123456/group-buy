@@ -37,7 +37,6 @@
     ],
     "base.js": [
       "libs.js",
-      "js/lib/vconsole.min.js",
       "js/index.js"
     ]
   },
