@@ -1,4 +1,3 @@
-alert(111);
 $(function(){
     var tool = {
         timeFormate: function (val) {
@@ -109,7 +108,7 @@ $(function(){
                         var needRecharge = res.needRecharge;
                         var rechargeAmount = res.rechargeAmount;
                         $mask.on('click', '.close', function() {
-                            $mask.fadeOut('100');
+                            $mask.fadeOut(100);
                         })
                         if(needRecharge){// 充值
                             $button.text('余额不足，请先充值');
@@ -135,7 +134,7 @@ $(function(){
 
                     }
                 })
-                $mask.fadeIn('400');
+                $mask.fadeIn(400);
             })
 
             
