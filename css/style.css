@@ -336,10 +336,10 @@
 }
 .detail .banner .cover {
   position: absolute;
-  width: 150px;
-  height: 150px;
-  top: 140px;
-  left: -22px;
+  width: 135px;
+  height: 135px;
+  top: 126px;
+  left: -23px;
 }
 .detail .banner .status {
   height: 58px;
@@ -373,13 +373,13 @@
 .detail .banner .bg {
   background: transparent url(../image/attended_albumbg_img@2x.png) no-repeat;
   background-position: 0 86px;
-  background-size: 265px;
+  background-size: 220px;
   overflow: hidden;
 }
 .detail .banner .intro {
-  padding: 12px 12px 0 200px;
+  padding: 12px 12px 0 165px;
   overflow: hidden;
-  height: 270px;
+  height: 235px;
 }
 .detail .banner .mine {
   float: right;
@@ -390,7 +390,7 @@
   border-radius: 4px;
 }
 .detail .banner .title {
-  margin: 95px 8px 0 0;
+  margin: 80px 8px 0 0;
   font-size: 18px;
   line-height: 25px;
   color: #333333;
@@ -402,7 +402,7 @@
   background: #cccccc;
 }
 .detail .banner .desc {
-  margin: 0 10px 20px 0;
+  margin: 0 10px 10px 0;
   font-size: 14px;
   line-height: 20px;
   color: #333333;
@@ -580,6 +580,10 @@
   font-size: 14px;
   color: #cccccc;
   letter-spacing: 0.17px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  vertical-align: middle;
 }
 .detail .process .label.nickname {
   color: #666666;
