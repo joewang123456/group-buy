@@ -3,7 +3,7 @@ $(function(){
     var tool = {
         timeFormate: function (val) {
             if(val > 9) return val;
-            return `0${val}`;
+            return '0'+val;
         },
         timeDown: function (milliSecond) {
             var s,m,h;
@@ -283,25 +283,18 @@ $(function(){
                             var statusHtml = '';
                             if(item.grouponOrderStatusId == 1){
                                 grouponOrderStatus = '拼团中';
-                                statusHtml = `<p class="status">还差&nbsp;<span class="theme">${ item.grouponRemainQuantity }</span>&nbsp;位小伙伴<a class="btn-revoke"><i class="ic ic-revoke"></i>撤销拼团</a></p>`;
+                                statusHtml = '<p class="status">还差&nbsp;<span class="theme">'+ item.grouponRemainQuantity +'</span>&nbsp;位小伙伴<a class="btn-revoke"><i class="ic ic-revoke"></i>撤销拼团</a></p>';
                             }else if(item.grouponOrderStatusId == 2){
                                 grouponOrderStatus = '拼团成功';
-                                statusHtml = `<p class="status theme">${ grouponOrderStatus }</p>`;
+                                statusHtml = '<p class="status theme">'+ grouponOrderStatus +'</p>';
                             }else{
                                 grouponOrderStatus = '拼团失败';
-                                statusHtml = `<p class="status theme">${ grouponOrderStatus }</p>`;
+                                statusHtml = '<p class="status theme">'+ grouponOrderStatus +'</p>';
                             }
-                            listHtml += `<li class="item">
-                                            <a>
-                                                <div class="pic">
-                                                    <img src="${ item.coverUrl }">
-                                                </div>
-                                                <div class="info">
-                                                    <h2 class="title elli-multi-2">${ item.albumTitle } add</h2>
-                                                    ${ statusHtml }
-                                                </div>
-                                            </a>
-                                        </li>`;
+                            listHtml += '<li class="item"><a><div class="pic">' +
+                                        '<img src="'+ item.coverUrl +'"></div><div class="info">' +
+                                        '<h2 class="title elli-multi-2">'+ item.albumTitle +'</h2>' + statusHtml +
+                                        '</div></a></li>'
                             $('.group-list').append(listHtml);
                         })
                     },
