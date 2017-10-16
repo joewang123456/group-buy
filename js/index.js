@@ -18,7 +18,7 @@ $(function(){
     }
 
     // detail page
-    if(window.location.href.indexOf('detail') > -1){
+    if(window.location.href.indexOf('detail') > -1 || window.location.href.indexOf('join') > -1){
         ;(function(){
             var statusId = $('.block').attr('data-groupon-status-id');
             // 倒计时
