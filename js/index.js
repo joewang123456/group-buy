@@ -313,6 +313,18 @@ $(function(){
             
         })()
     }
+
+    // confirm pay page
+    if(location.href.indexOf('confirm/pay') > -1){
+        // 切换账号
+        $('.ic-change').click(function(){
+            
+        })
+        // 微信支付
+        $('.btn-pay').click(function(){
+
+        })
+    }
 })
 
 
