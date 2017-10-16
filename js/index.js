@@ -47,7 +47,7 @@ $(function(){
                     countTime(time);                    
                 }else{
                     clearInterval(timer);
-                    window.location.reload();
+                    // window.location.reload();
                 }
             },1000)
 
@@ -314,6 +314,7 @@ $(function(){
         // 微信支付
         $('.btn-pay').click(function(){
             var paymentParam = $(this).data();
+            console.log(paymentParam)
             var option = $.extend({}, paymentParam);
             option.success = function(grouponOrderId) {
                 location.href = xm.helper.tmpl(xm.const.paths.detail, {
