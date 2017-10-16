@@ -195,6 +195,10 @@ $(function(){
         var grouponRoleId = location.href.match(/\/role\/[0-9]\//)[0].replace(/[^0-9]/g,'');        
 
         ;(function(){
+            // 点击跳转
+            $('.item').click(function(){
+                location.href = $(this).data().showGrouponUrl
+            })
             // 切换tab
             $('.tab').on('click','.item',function(){
                 var target = $(this);
@@ -215,7 +219,8 @@ $(function(){
                 var $masker = $('.masker');
                 var $revoke = $('.btn-revoke');
                 var cancalUrl;
-                $('.btn-revoke').click(function(){
+                $('.btn-revoke').click(function(event){
+                    event.stopPropagation();
                     cancalUrl = helper.tmpl(constant.paths.cancel, {
                         grouponOrderId: $(this).data().grouponOrderId
                     })    
