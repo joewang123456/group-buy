@@ -308,12 +308,23 @@ $(function(){
 
     // confirm pay page
     if(location.href.indexOf('confirm/pay') > -1){
-        // 切换账号
-        $('.ic-change').click(function(){
-            
-        })
+        var constant = xm && xm.const;
+        var helper = xm && xm.helper;
+
         // 微信支付
         $('.btn-pay').click(function(){
+            var paymentParam = $(this).data();
+            var option = $.extend({}, paymentParam);
+            option.success = function(grouponOrderId) {
+                location.href = xm.helper.tmpl(xm.const.paths.detail, {
+                    grouponOrderId: paymentParam.grouponOrderId,
+                    timestamp: new Date().getTime()
+                })
+            }
+            option.failed = function() {
+                console.log('failed');
+            }
+            xm.payment.pay(option);
 
         })
     }
