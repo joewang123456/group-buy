@@ -37,8 +37,8 @@
     ],
     "base.js": [
       "libs.js",
-      "js/index.js",
-      "js/lib/vconsole.min.js"
+      "js/lib/vconsole.min.js",
+      "js/index.js"
     ]
   },
   "output": [
