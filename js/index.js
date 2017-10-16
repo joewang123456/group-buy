@@ -1,4 +1,5 @@
-$(function($){
+alert(111);
+$(function(){
     var tool = {
         timeFormate: function (val) {
             if(val > 9) return val;
