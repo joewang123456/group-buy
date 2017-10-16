@@ -102,6 +102,7 @@ $(function(){
             })
 
             $footer.click(function(){
+                alert(111);
                 $.ajax({
                     url: url,
                     data: {},
