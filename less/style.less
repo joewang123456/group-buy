@@ -4,15 +4,23 @@
   background-position: 64.8% 2px;
   background-size: contain;
   position: relative;
+  width:217px;
+  margin:auto;
+  left: 21px;
   .cover {
     position: absolute;
-    top: 50%;
-    display: inline-block;
-    width: 90px;
-    height: 90px;
-    transform: translate(50%,-50%);
-    -webkit-transform: translate(50%,-50%);
-    right: 50%;
+    // top: 50%;
+    // display: inline-block;
+    width: 100px;
+    height: 100px;
+    left:-50px;
+    right:0;
+    top:0;
+    bottom:0;
+    margin:auto;
+    // transform: translate(50%,-50%);
+    // -webkit-transform: translate(50%,-50%);
+    // right: 50%;
   }
 }
 
@@ -74,6 +82,21 @@
 .launch {
   height: 100%;
   background: #fff;
+  .album{
+    width: 217px;
+    margin: auto;
+    left: 20px;
+    img{
+      position: absolute;
+      width:100px;
+      border-radius: 50%;
+      left:-50px;
+      right:0;
+      top:0;
+      bottom:0;
+      margin:auto;
+    }
+  }
   .content {
     background: ~'white url(../image/groupbuy_initiate_bg@2x.png) 0 0 no-repeat';
     background-size: contain;
