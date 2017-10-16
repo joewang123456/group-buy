@@ -1,5 +1,4 @@
 $(function($){
-    alert(111);
     var tool = {
         timeFormate: function (val) {
             if(val > 9) return val;
@@ -102,7 +101,6 @@ $(function($){
             })
 
             $footer.click(function(){
-                alert(111);
                 $.ajax({
                     url: url,
                     data: {},
