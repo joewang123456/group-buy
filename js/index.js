@@ -1,12 +1,12 @@
-$(function(){
+$(function($){
     alert(111);
-    let tool = {
+    var tool = {
         timeFormate: function (val) {
             if(val > 9) return val;
             return `0${val}`;
         },
         timeDown: function (milliSecond) {
-            let s,m,h;
+            var s,m,h;
             h = parseInt(milliSecond / 1000 / 60 / 60 );
             m = parseInt(milliSecond / 1000 / 60 % 60 );
             s = parseInt(milliSecond / 1000 % 60 );
@@ -21,10 +21,10 @@ $(function(){
     // detail page
     if(window.location.href.indexOf('join') > -1){
         ;(function(){
-            let statusId = $('.block').attr('data-groupon-status-id');
+            var statusId = $('.block').attr('data-groupon-status-id');
             // 倒计时
             function countTime(time){
-                let timeObj = tool.timeDown(time);
+                var timeObj = tool.timeDown(time);
                 // 尽量减少DOM操作
                 if(timeObj.hour != $('.cont .j-hour').text()){
                     $('.cont .j-hour').text(timeObj.hour);
@@ -36,13 +36,13 @@ $(function(){
                     $('.cont .j-second').text(timeObj.second);
                 }                            
             }
-            let time = $('.block').attr('data-remain-milliseconds');
+            var time = $('.block').attr('data-remain-milliseconds');
             if(statusId == 2 || statusId == 3){
                 $('.block:first-child .cont').addClass('grey');
                 time = 0;
             }
             countTime(time);
-            let timer = setInterval(function(){
+            var timer = setInterval(function(){
                 if(time>0){
                     time -= 1000;
                     countTime(time);                    
@@ -53,7 +53,7 @@ $(function(){
             },1000)
 
             // 分享
-            let shareData = {
+            var shareData = {
                 title: $('.share').attr('data-share-title'),
                 url: $('.share').attr('data-share-url'),
                 imgUrl: $('.share').attr('data-share-cover-path'),
