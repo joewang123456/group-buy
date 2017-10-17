@@ -22,7 +22,7 @@
     var system = env.isInAndroid ? 'android' : env.isInIOS ? 'ios' : ''
     var paymentType = env.isInNative
       ? 'xipoint'
-      : env.isInWeixin ? 'weixin' : ''
+      : env.isInWeiXin ? 'weixin' : ''
 
     if (system && paymentType) {
       this.channelTypeId = channelTypeMap[system][paymentType]
