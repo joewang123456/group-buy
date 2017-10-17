@@ -141,9 +141,12 @@ $(function(){
                                 var opts = $.extend({}, paymentParam)
                                 opts.success = function(grouponOrderId) {
                                     Pending.hide();
-                                    location.href = xm.helper.tmpl(xm.const.paths.recommendation, {
-                                        grouponOrderId: grouponOrderId,
-                                    })
+                                    xm.util.toast('支付成功');
+                                    setTimeout(function(){
+                                        location.href = xm.helper.tmpl(xm.const.paths.recommendation, {
+                                            grouponOrderId: grouponOrderId,
+                                        })
+                                    },1000)
                                 }
                                 opts.failed = function() {
                                     Pending.hide();
@@ -342,10 +345,13 @@ $(function(){
             var option = $.extend({}, paymentParam);
             option.success = function(grouponOrderId) {
                 Pending.hide();
-                location.href = xm.helper.tmpl(xm.const.paths.detail, {
-                    grouponOrderId: paymentParam.grouponOrderId,
-                    timestamp: new Date().getTime()
-                })
+                xm.util.toast('支付成功');
+                setTimeout(function(){
+                    location.href = xm.helper.tmpl(xm.const.paths.detail, {
+                        grouponOrderId: paymentParam.grouponOrderId,
+                        timestamp: new Date().getTime()
+                    })
+                },1000)
             }
             option.failed = function() {
                 Pending.hide();
