@@ -310,11 +310,9 @@ $(function(){
     if(location.href.indexOf('confirm/pay') > -1){
         var constant = xm && xm.const;
         var helper = xm && xm.helper;
-        alert(11);
         // 微信支付
         $('.btn-pay').click(function(){
             var paymentParam = $(this).data();
-            alert(paymentParam);
             var option = $.extend({}, paymentParam);
             option.success = function(grouponOrderId) {
                 location.href = xm.helper.tmpl(xm.const.paths.detail, {
