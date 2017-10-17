@@ -65,6 +65,7 @@
           _this._pay(res);
         },
         error: function() {
+          alert(' placeorder  error')
           $.isFunction(_this.opts.failed) && _this.opts.failed(arguments)
         },
       })
