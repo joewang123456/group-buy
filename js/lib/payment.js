@@ -65,7 +65,6 @@
           _this._pay(res);
         },
         error: function() {
-          alert(' placeorder  error')
           $.isFunction(_this.opts.failed) && _this.opts.failed(arguments)
         },
       })
@@ -112,10 +111,8 @@
         paySign: orderInfo.paySign,
         success: function(res) {
           if (res.errMsg == 'chooseWXPay:ok') {
-            alert('这时支付成功了')
             _this.orderStatus()
           } else {
-            alert('这时支付失败了')
             $.isFunction(_this.opts.failed) && _this.opts.failed(paymentInfo)
           }
           return false
@@ -139,7 +136,6 @@
             grouponOrderId: _this.opts.grouponOrderId,
           },
           success: function(res) {
-            alert('这时轮询成功了'+index)
             var ret = res.ret
             var data = res.data
             if (ret === 0 && data.status === 200) {
@@ -153,7 +149,6 @@
 
             if(index++ > 3) {
               clearInterval(timer)
-              alert('这时轮询完成了'+index)
               _this.orderSuccess === false && $.isFunction(_this.opts.failed) && _this.opts.failed()
             }
           },
