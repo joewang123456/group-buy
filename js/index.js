@@ -307,7 +307,7 @@ $(function(){
     }
 
     // confirm pay page
-    if(location.href.indexOf('confirm/pay') > -1){
+    if(location.href.indexOf('trade/pay/') > -1){
         var constant = xm && xm.const;
         var helper = xm && xm.helper;
         // 微信支付
