@@ -984,6 +984,7 @@
   right: 0;
   background: rgba(0, 0, 0, 0.2);
   display: none;
+  z-index: 999;
 }
 .square_volume_mid {
   position: absolute;
