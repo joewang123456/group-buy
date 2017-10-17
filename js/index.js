@@ -1,4 +1,24 @@
 $(function(){
+    //ajax pending 
+    ;(function(){
+        function Pending(){
+            this._init();
+        }
+        Pending.prototype = {
+            constructor: Pending,
+            _init: function(){
+                var html = '<div class="container"><div class="square_volume_mid"><div></div><div></div><div></div><div></div><div></div></div></div>';
+                $('body').append(html);
+            },
+            show: function(){
+                $('.container').show();
+            },
+            hide: function(){
+                $('.container').hide();
+            }
+        }
+        window.Pending = new Pending();
+    })();
     var tool = {
         timeFormate: function (val) {
             if(val > 9) return val;
@@ -118,14 +138,17 @@ $(function(){
                             })
                         }else{// 正常支付
                             $mask.on('click', 'button', function() {
+                                Pending.show();
                                 var opts = $.extend({}, paymentParam)
                                 opts.success = function(grouponOrderId) {
+                                    Pending.hide();
                                     location.href = xm.helper.tmpl(xm.const.paths.recommendation, {
                                         grouponOrderId: grouponOrderId,
                                     })
                                 }
                                 opts.failed = function() {
-                                    console.log('failed')
+                                    Pending.hide();
+                                    xm.util.toast('支付失败，请稍后再试');
                                 }
                                 xm.payment.pay(opts)
                             })
@@ -315,16 +338,19 @@ $(function(){
         var helper = xm && xm.helper;
         // 微信支付
         $('.btn-pay').click(function(){
+            Pending.show();
             var paymentParam = $(this).data();
             var option = $.extend({}, paymentParam);
             option.success = function(grouponOrderId) {
+                Pending.hide();
                 location.href = xm.helper.tmpl(xm.const.paths.detail, {
                     grouponOrderId: paymentParam.grouponOrderId,
                     timestamp: new Date().getTime()
                 })
             }
             option.failed = function() {
-                console.log('failed');
+                Pending.hide();
+                xm.util.toast('支付失败，请稍后再试');
             }
             xm.payment.pay(option);
 

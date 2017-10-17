@@ -31,7 +31,6 @@
       "ya",
       "xm-util/js/xm_util_toast.js",
       "load-more",
-      "js/lib/pending.js",
       "js/lib/weixin.js",
       "js/lib/helper.js",
       "js/lib/payment.js"
