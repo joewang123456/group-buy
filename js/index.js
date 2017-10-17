@@ -344,6 +344,7 @@ $(function(){
             var paymentParam = $(this).data();
             var option = $.extend({}, paymentParam);
             option.success = function(grouponOrderId) {
+                alert('click success')
                 Pending.hide();
                 xm.util.toast('支付成功');
                 setTimeout(function(){
@@ -354,6 +355,7 @@ $(function(){
                 },1000)
             }
             option.failed = function() {
+                alert('click failed')
                 Pending.hide();
                 xm.util.toast('支付失败，请稍后再试');
             }
