@@ -57,17 +57,16 @@ $(function(){
             }
             var time = $('.block').attr('data-remain-milliseconds');
             if(statusId == 2 || statusId == 3){
-                $('.block:first-child .cont').addClass('grey');
+                $('.j-time').addClass('grey');
                 time = 0;
             }
             countTime(time);
             var timer = setInterval(function(){
-                if(time>0){
+                if(time > 0){
                     time -= 1000;
                     countTime(time);                    
                 }else{
                     clearInterval(timer);
-                    // window.location.reload();
                 }
             },1000)
 
