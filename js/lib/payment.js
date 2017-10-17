@@ -62,8 +62,7 @@
           grouponOrderId: _this.opts.grouponOrderId,
         },
         success: function(res) {
-          var paymentInfo = res.params;
-          _this._pay(paymentInfo);
+          _this._pay(res);
         },
         error: function() {
           $.isFunction(_this.opts.failed) && _this.opts.failed(arguments)
