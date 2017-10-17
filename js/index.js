@@ -47,7 +47,7 @@ $(function(){
                     countTime(time);                    
                 }else{
                     clearInterval(timer);
-                    window.location.reload();
+                    // window.location.reload();
                 }
             },1000)
 
@@ -196,7 +196,7 @@ $(function(){
         ;(function(){
             // 点击跳转
             $('.item').click(function(){
-                location.href = $(this).data().showGrouponUrl
+                location.href = $(this).data().showGrouponUrl;
             })
             // 切换tab
             $('.tab').on('click','.item',function(){
@@ -290,7 +290,7 @@ $(function(){
                                 grouponOrderStatus = '拼团失败';
                                 statusHtml = '<p class="status theme">'+ grouponOrderStatus +'</p>';
                             }
-                            listHtml += '<li class="item"><a><div class="pic">' +
+                            listHtml += '<li class="item" data-show-groupon-url="'+ item.showGrouponUrl +'"><a><div class="pic">' +
                                         '<img src="'+ item.coverUrl +'"></div><div class="info">' +
                                         '<h2 class="title elli-multi-2">'+ item.albumTitle +'</h2>' + statusHtml +
                                         '</div></a></li>'
@@ -307,13 +307,23 @@ $(function(){
     }
 
     // confirm pay page
-    if(location.href.indexOf('confirm/pay') > -1){
-        // 切换账号
-        $('.ic-change').click(function(){
-            
-        })
+    if(location.href.indexOf('trade/pay/') > -1){
+        var constant = xm && xm.const;
+        var helper = xm && xm.helper;
         // 微信支付
         $('.btn-pay').click(function(){
+            var paymentParam = $(this).data();
+            var option = $.extend({}, paymentParam);
+            option.success = function(grouponOrderId) {
+                location.href = xm.helper.tmpl(xm.const.paths.detail, {
+                    grouponOrderId: paymentParam.grouponOrderId,
+                    timestamp: new Date().getTime()
+                })
+            }
+            option.failed = function() {
+                console.log('failed');
+            }
+            xm.payment.pay(option);
 
         })
     }
