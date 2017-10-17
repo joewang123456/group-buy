@@ -130,6 +130,9 @@ $(function(){
                                 xm.payment.pay(opts)
                             })
                         }
+                    },
+                    error: function(){
+                        xm.util.toast('支付失败，请稍后再试');
                     }
                 })
                 $mask.fadeIn(200);
