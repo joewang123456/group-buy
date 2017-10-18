@@ -5,7 +5,7 @@ $(function(){
 
     var regexp = {
         launch: /^\/groupon\/guidance\/item\/\d+/,        
-        detail: /\/(detail|join)/,
+        detail: /^\/groupon\/\d+\/(detail|join)\/\d+/,
         prelaunch: /^\/groupon\/\d+\/recommendation/,
         myGroup: /\/mygroupon\/role/,
         confirm: /\/trade\/pay/,
@@ -108,37 +108,34 @@ $(function(){
         })
 
         // 分享
-        // var shareData = {
-        //     title: $('.share').attr('data-share-title'),
-        //     url: $('.share').attr('data-share-url'),
-        //     imgUrl: $('.share').attr('data-share-cover-path'),
-        //     desc: $('.share').attr('data-share-context')
-        // }
         var shareData = $('.share').data();
-        var wxgroup = {
-            channel: 'weixinGroup', // channel可选值为[“qq”, “qzone”, “tSina”, “weixin”, “weixinGroup”, “message”]
-            title: shareData.shareTitle, // 分享标题
-            link: shareData.shareUrl, // 分享链接
-            imgUrl: shareData.shareCoverPath, // 分享图标
-            desc: shareData.shareContext
-        };
-        var wxfriend = {
-            channel: 'weixin', 
-            title: shareData.shareTitle, 
-            link: shareData.shareUrl, 
-            imgUrl: shareData.shareCoverPath, 
-            desc: shareData.shareContext
+        if(shareData){
+            // {
+            //     channel: 'weixinGroup', // channel可选值为[“qq”, “qzone”, “tSina”, “weixin”, “weixinGroup”, “message”]
+            //     title: shareData.shareTitle, // 分享标题
+            //     link: shareData.shareUrl, // 分享链接
+            //     imgUrl: shareData.shareCoverPath, // 分享图标
+            //     desc: shareData.shareContext
+            // }
+            var publicData = {
+                title: shareData.shareTitle, // 分享标题
+                link: shareData.shareUrl, // 分享链接
+                imgUrl: shareData.shareCoverPath, // 分享图标
+                desc: shareData.shareContext
+            }
+            var wxgroup = $.extend({channel: 'weixinGroup'},publicData);
+            var wxfriend = $.extend({channel: 'weixin'},publicData);
+            $('.j-wxgroup').click(function(){
+                ya.share(wxgroup,function(res){
+    
+                });
+            })
+            $('.j-wxfriend').click(function(){
+                ya.share(wxfriend,function(res){
+    
+                });
+            })    
         }
-        $('.j-wxgroup').click(function(){
-            ya.share(wxgroup,function(res){
-
-            });
-        })
-        $('.j-wxfriend').click(function(){
-            ya.share(wxfriend,function(res){
-
-            });
-        })
         
     })
 
@@ -389,12 +386,10 @@ $(function(){
     })
 
     //pay fail page
-    helper.route(regexp.payFail,function(){
-        console.log('this is payfail');
-        $('.j-back').click(function(){
-            location.href = '';
-        })
-    })
+    // helper.route(regexp.payFail,function(){
+    //     console.log('this is payfail');
+        
+    // })
 
 })
 
