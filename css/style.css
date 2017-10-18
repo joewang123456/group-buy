@@ -349,6 +349,8 @@
 }
 .detail .banner .status img {
   height: 22px;
+  position: relative;
+  top: -1px;
 }
 .detail .banner .status .tip {
   position: relative;
@@ -364,7 +366,7 @@
 .detail .banner .status .tip:before {
   content: '';
   position: absolute;
-  top: 8px;
+  top: 6px;
   left: 0;
   width: 2px;
   height: 15px;
