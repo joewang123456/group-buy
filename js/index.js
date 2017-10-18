@@ -6,7 +6,7 @@ $(function(){
     var regexp = {
         launch: /^\/groupon\/guidance\/item\/\d+/,        
         detail: /\/(detail|join)/,
-        prelaunch: /\/recommendation/,
+        prelaunch: /^\/groupon\/\d+\/recommendation/,
         myGroup: /\/mygroupon\/role/,
         confirm: /\/trade\/pay/,
         payFail: /\/failure/
@@ -60,9 +60,9 @@ $(function(){
 
     // detail page
     helper.route(regexp.detail,function(){
-        console.log('this is detail')
-        var statusId = $('.block').attr('data-groupon-status-id');
-        var time = $('.block').attr('data-remain-milliseconds');        
+        console.log('this is detail');
+        var statusId = $('.j-statusTime').attr('data-groupon-status-id');
+        var time = $('.j-statusTime').attr('data-remain-milliseconds');        
         var $hour = $('.j-hour');
         var $minute = $('.j-minute');
         var $second = $('.j-second');
@@ -97,32 +97,45 @@ $(function(){
             }
         },1000)
 
+        // 跳转
+        var $jJoin = $('.j-join');
+        $jJoin.click(function(){
+            if($jJoin.attr('data-has-joined') === 'true'){
+                xm.util.toast('你已参与过其他拼团');
+            }else{
+                location.href = $jJoin.attr('data-groupon-pay-url');
+            }
+        })
+
         // 分享
-        var shareData = {
-            title: $('.share').attr('data-share-title'),
-            url: $('.share').attr('data-share-url'),
-            imgUrl: $('.share').attr('data-share-cover-path'),
-            desc: $('.share').attr('data-share-context')
+        // var shareData = {
+        //     title: $('.share').attr('data-share-title'),
+        //     url: $('.share').attr('data-share-url'),
+        //     imgUrl: $('.share').attr('data-share-cover-path'),
+        //     desc: $('.share').attr('data-share-context')
+        // }
+        var shareData = $('.share').data();
+        var wxgroup = {
+            channel: 'weixinGroup', // channel可选值为[“qq”, “qzone”, “tSina”, “weixin”, “weixinGroup”, “message”]
+            title: shareData.shareTitle, // 分享标题
+            link: shareData.shareUrl, // 分享链接
+            imgUrl: shareData.shareCoverPath, // 分享图标
+            desc: shareData.shareContext
+        };
+        var wxfriend = {
+            channel: 'weixin', 
+            title: shareData.shareTitle, 
+            link: shareData.shareUrl, 
+            imgUrl: shareData.shareCoverPath, 
+            desc: shareData.shareContext
         }
         $('.j-wxgroup').click(function(){
-            ya.share({
-                channel: 'weixinGroup', // channel可选值为[“qq”, “qzone”, “tSina”, “weixin”, “weixinGroup”, “message”]
-                title: shareData.title, // 分享标题
-                link: shareData.url, // 分享链接
-                imgUrl: shareData.imgUrl, // 分享图标
-                desc: shareData.desc
-            },function(res){
+            ya.share(wxgroup,function(res){
 
             });
         })
         $('.j-wxfriend').click(function(){
-            ya.share({
-                channel: 'weixin', 
-                title: shareData.title, 
-                link: shareData.url,
-                imgUrl: shareData.imgUrl,
-                desc: shareData.desc
-            },function(res){
+            ya.share(wxfriend,function(res){
 
             });
         })
@@ -132,19 +145,24 @@ $(function(){
     // prelaunch page
     helper.route(regexp.prelaunch,function(){
         console.log('this is prelaunch');
-        var grouponOrderId = location.href.replace(/[^0-9]/g,'');
-        var $textarea = $('.prelaunch textarea');
-        var jCount = $('.prelaunch .j-count');            
-        $textarea.bind('input propertychange',function(){
+        var $recruit = $('.j-recruit');
+        var $textarea = $('.j-textarea');
+        var jCount = $('.j-count');            
+        var grouponOrderId = $recruit.data().grouponOrderId;
+        $textarea.bind('input propertychange paste',function(){
             var textLen = $textarea.val().length;      
             if(textLen <= 40){
+                if(textLen == 0){
+                    jCount.text(15);
+                    return;
+                } 
                 jCount.text(textLen);
             }
         })
         var url = helper.tmpl(constant.paths.message, {
             grouponOrderId: grouponOrderId
         })
-        $('.btn').on('click',function(){
+        $recruit.on('click',function(){
             $.ajax({
                 url: url,
                 type: 'post',
@@ -171,34 +189,43 @@ $(function(){
     // my-group page
     helper.route(regexp.myGroup,function(){
         console.log('this is mygroup');
-        var constant = xm && xm.const;
-        var helper = xm && xm.helper;
         var loadMore = xm && xm.util.loadMore;
+        var $myLaunch = $('.j-launch-list');
+        var $myJoin = $('.j-join-list');
         var grouponRoleId = location.href.match(/\/role\/[0-9]\//)[0].replace(/[^0-9]/g,'');        
 
-        ;(function(){
-            // 点击跳转
-            $('.item').click(function(){
-                location.href = $(this).data().showGrouponUrl;
-            })
-            // 切换tab
-            $('.tab').on('click','.item',function(){
-                var target = $(this);
-                if(target.text() === '我发起的拼团'){
-                    location.href = helper.tmpl(constant.paths.mygroup, {
-                        grouponRoleId: 1,
-                        timestamp: new Date().getTime()
-                    })
-                }else{
-                    location.href = helper.tmpl(constant.paths.mygroup, {
-                        grouponRoleId: 2,
-                        timestamp: new Date().getTime()
-                    })
-                }
-            })
-            // 撤销拼团
+        // 点击跳转
+        $('.item').click(function(){
+            location.href = $(this).data().showGrouponUrl;
+        })
+        // 切换tab
+        $('.tab').on('click','.item',function(){
+            var target = $(this);
+            // if(target.text() === '我发起的拼团'){
+            // if(target.hasClass('j-my-launch')){
+            //     location.href = helper.tmpl(constant.paths.mygroup, {
+            //         grouponRoleId: 1,
+            //         timestamp: new Date().getTime()
+            //     })
+            // }else{
+            //     location.href = helper.tmpl(constant.paths.mygroup, {
+            //         grouponRoleId: 2,
+            //         timestamp: new Date().getTime()
+            //     })
+            // }
+            if(target.hasClass('j-my-launch')){
+                $myJoin.hide();
+                $myLaunch.show();
+            }else{
+                $myLaunch.hide();
+                $myJoin.show();
+            }
+        })
+            // 撤销拼团 只有我发起的拼团才可以撤销
             if(grouponRoleId === '1'){
-                var $masker = $('.masker');
+                // TO DO
+                var $masker = $('.j-masker');
+                // var $masker = $('.masker');
                 var $revoke = $('.btn-revoke');
                 var cancalUrl;
                 $('.btn-revoke').click(function(event){
@@ -235,6 +262,48 @@ $(function(){
             }
 
             // 滚动加载
+            var pageNum = {
+                launch: 2,
+                join: 2
+            }
+            var loadMoreUrl = helper.tmpl(constant.paths.mygrouprecord, {
+                grouponRoleId: grouponRoleId,
+                timestamp: new Date().getTime()
+            })
+            function createLoadMore(option){
+                var lm = new loadMore(option.dom);
+                lm.on('xmlm-load-triggered', function(event, elem) {
+                    getList($.extend(option,{loadMore: lm}));
+                })
+            }
+            if($myLaunch.length > 0){
+                createLoadMore({
+                    dom: $myLaunch,
+                    url: loadMoreUrl,
+                    type: 'launch',
+                    pageNum: pageNum.launch
+                })
+            }
+            // if($myLaunch.length > 0){
+            //     var lm_launch = new loadMore($myLaunch);
+            //     lm_launch.on('xmlm-load-triggered', function(event, elem) {
+            //         // getList(url, pageNum.launch++,lm_launch);
+            //         getList({
+            //             url: url,
+            //             pageNum: pageNum.launch++,
+            //             type: 'launch',
+            //             loadMore: lm_launch
+            //         });
+            //     })
+            // }
+            function getList(option){
+                if(option.type === 'launch' && $myLaunch.attr('data-more') === 'false'){
+                    option.loadMore.clear();
+                    return false;
+                }
+            }
+
+            // 滚动加载
             var pageNum = 2;
             var url = helper.tmpl(constant.paths.mygrouprecord, {
                 grouponRoleId: grouponRoleId,
@@ -247,18 +316,18 @@ $(function(){
                     getList(url, pageNum++,lm);
                 })
             }
-
             function getList(url,pageNum,loadMore){
+                // 判断放在前面
+                if($('.group-list').attr('data-more') === 'false'){
+                    loadMore.clear();
+                    return false;
+                }
                 $.ajax({
                     url: url,
                     data: {
                         pageNum: pageNum
                     },
                     success: function(res){
-                        if($('.group-list').attr('data-more') === 'false'){
-                            loadMore.clear();
-                            return false;
-                        }
                         var hasMore = res.hasMore;
                         $('.group-list').attr('data-more',hasMore);
                         var listData = res.data;
@@ -289,7 +358,6 @@ $(function(){
                 })
             }
             
-        })()
     })
 
     // confirm pay page
@@ -323,6 +391,9 @@ $(function(){
     //pay fail page
     helper.route(regexp.payFail,function(){
         console.log('this is payfail');
+        $('.j-back').click(function(){
+            location.href = '';
+        })
     })
 
 })
