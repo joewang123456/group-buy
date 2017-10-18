@@ -8,7 +8,7 @@ $(function(){
         detail: /^\/groupon\/\d+\/(detail|join)\/\d+/,
         prelaunch: /^\/groupon\/\d+\/recommendation/,
         myGroup: /\/mygroupon\/role/,
-        confirm: /\/trade\/pay/,
+        confirm: /^\/trade\/pay\/groupon/,
         payFail: /\/failure/
     }
 
@@ -35,7 +35,7 @@ $(function(){
             var payData = $button.data();
             var needRecharge = payData.needRecharge;
             var rechargeAmount = payData.rechargeAmount;
-            if(needRecharge === 'true'){// 充值
+            if(needRecharge){// 充值
                 xm.payment.recharge(rechargeAmount);
             }else{// 正常支付
                 var opts = $.extend({}, paymentParam)
@@ -91,7 +91,7 @@ $(function(){
                 countTime(time);                    
             }else{
                 clearInterval(timer);
-                if(statusId == 1){
+                if(statusId == 1){// 拼团中 倒计时进行为0的时候刷新 更新状态
                     location.reload();
                 }
             }
@@ -101,7 +101,7 @@ $(function(){
         var $jJoin = $('.j-join');
         $jJoin.click(function(){
             if($jJoin.attr('data-has-joined') === 'true'){
-                xm.util.toast('你已参与过其他拼团');
+                xm.util.toast('你已参该专辑的其他拼团');
             }else{
                 location.href = $jJoin.attr('data-groupon-pay-url');
             }
@@ -278,7 +278,15 @@ $(function(){
                     dom: $myLaunch,
                     url: loadMoreUrl,
                     type: 'launch',
-                    pageNum: pageNum.launch
+                    pageNum: pageNum.launch++
+                })
+            }
+            if($myJoin.length > 0){
+                createLoadMore({
+                    dom: $myJoin,
+                    url: loadMoreUrl,
+                    type: 'join',
+                    pageNum: pageNum.join++
                 })
             }
             // if($myLaunch.length > 0){
@@ -294,66 +302,80 @@ $(function(){
             //     })
             // }
             function getList(option){
-                if(option.type === 'launch' && $myLaunch.attr('data-more') === 'false'){
+                var current = option.dom;
+                if(option.type === 'launch' && current.attr('data-more') === 'false'){
                     option.loadMore.clear();
                     return false;
                 }
-            }
-
-            // 滚动加载
-            var pageNum = 2;
-            var url = helper.tmpl(constant.paths.mygrouprecord, {
-                grouponRoleId: grouponRoleId,
-                timestamp: new Date().getTime()
-            })
-            var groupList = $('.group-list');
-            if(groupList.length > 0){
-                var lm = new loadMore(groupList);
-                lm.on('xmlm-load-triggered', function(event, elem) {
-                    getList(url, pageNum++,lm);
-                })
-            }
-            function getList(url,pageNum,loadMore){
-                // 判断放在前面
-                if($('.group-list').attr('data-more') === 'false'){
-                    loadMore.clear();
+                if(option.type === 'join' && current.attr('data-more') === 'false'){
+                    option.loadMore.clear();
                     return false;
                 }
                 $.ajax({
-                    url: url,
+                    url: option.url,
                     data: {
-                        pageNum: pageNum
+                        pageNum: option.pageNum
                     },
                     success: function(res){
-                        var hasMore = res.hasMore;
-                        $('.group-list').attr('data-more',hasMore);
-                        var listData = res.data;
-                        var listHtml = '';
-                        listData.forEach(function(item){
-                            var grouponOrderStatus = '';
-                            var statusHtml = '';
-                            if(item.grouponOrderStatusId == 1){
-                                grouponOrderStatus = '拼团中';
-                                statusHtml = '<p class="status">还差&nbsp;<span class="theme">'+ item.grouponRemainQuantity +'</span>&nbsp;位小伙伴<a class="btn-revoke"><i class="ic ic-revoke"></i>撤销拼团</a></p>';
-                            }else if(item.grouponOrderStatusId == 2){
-                                grouponOrderStatus = '拼团成功';
-                                statusHtml = '<p class="status theme">'+ grouponOrderStatus +'</p>';
-                            }else{
-                                grouponOrderStatus = '拼团失败';
-                                statusHtml = '<p class="status theme">'+ grouponOrderStatus +'</p>';
-                            }
-                            listHtml += '<li class="item" data-show-groupon-url="'+ item.showGrouponUrl +'"><a><div class="pic">' +
-                                        '<img src="'+ item.coverUrl +'"></div><div class="info">' +
-                                        '<h2 class="title elli-multi-2">'+ item.albumTitle +'</h2>' + statusHtml +
-                                        '</div></a></li>'
-                            $('.group-list').append(listHtml);
-                        })
-                    },
-                    error: function(){
-                        xm.util.toast('加载更多失败，请稍后再试');
+                        current.append(res);
                     }
                 })
             }
+
+            // 滚动加载
+            // var pageNum = 2;
+            // var url = helper.tmpl(constant.paths.mygrouprecord, {
+            //     grouponRoleId: grouponRoleId,
+            //     timestamp: new Date().getTime()
+            // })
+            // var groupList = $('.group-list');
+            // if(groupList.length > 0){
+            //     var lm = new loadMore(groupList);
+            //     lm.on('xmlm-load-triggered', function(event, elem) {
+            //         getList(url, pageNum++,lm);
+            //     })
+            // }
+            // function getList(url,pageNum,loadMore){
+            //     // 判断放在前面
+            //     if($('.group-list').attr('data-more') === 'false'){
+            //         loadMore.clear();
+            //         return false;
+            //     }
+            //     $.ajax({
+            //         url: url,
+            //         data: {
+            //             pageNum: pageNum
+            //         },
+            //         success: function(res){
+            //             var hasMore = res.hasMore;
+            //             $('.group-list').attr('data-more',hasMore);
+            //             var listData = res.data;
+            //             var listHtml = '';
+            //             listData.forEach(function(item){
+            //                 var grouponOrderStatus = '';
+            //                 var statusHtml = '';
+            //                 if(item.grouponOrderStatusId == 1){
+            //                     grouponOrderStatus = '拼团中';
+            //                     statusHtml = '<p class="status">还差&nbsp;<span class="theme">'+ item.grouponRemainQuantity +'</span>&nbsp;位小伙伴<a class="btn-revoke"><i class="ic ic-revoke"></i>撤销拼团</a></p>';
+            //                 }else if(item.grouponOrderStatusId == 2){
+            //                     grouponOrderStatus = '拼团成功';
+            //                     statusHtml = '<p class="status theme">'+ grouponOrderStatus +'</p>';
+            //                 }else{
+            //                     grouponOrderStatus = '拼团失败';
+            //                     statusHtml = '<p class="status theme">'+ grouponOrderStatus +'</p>';
+            //                 }
+            //                 listHtml += '<li class="item" data-show-groupon-url="'+ item.showGrouponUrl +'"><a><div class="pic">' +
+            //                             '<img src="'+ item.coverUrl +'"></div><div class="info">' +
+            //                             '<h2 class="title elli-multi-2">'+ item.albumTitle +'</h2>' + statusHtml +
+            //                             '</div></a></li>'
+            //                 $('.group-list').append(listHtml);
+            //             })
+            //         },
+            //         error: function(){
+            //             xm.util.toast('加载更多失败，请稍后再试');
+            //         }
+            //     })
+            // }
             
     })
 

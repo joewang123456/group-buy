@@ -62,6 +62,10 @@
           grouponOrderId: _this.opts.grouponOrderId,
         },
         success: function(res) {
+          if(res.ret == 600){
+            xm.util.toast(res.msg);
+            return; 
+          }
           _this._pay(res);
         },
         error: function() {
