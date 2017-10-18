@@ -484,6 +484,9 @@
   background: #fff;
   overflow: hidden;
 }
+.detail .information.end .block {
+  opacity: 0.7;
+}
 .detail .information .block {
   position: relative;
   display: inline-block;
