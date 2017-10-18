@@ -152,6 +152,47 @@
     return tmpl
   }
 
+  /** 
+  * 将小于10的整数拼接成两位  9 --> '09' 12 --> '12'
+  * @param {Number} val  传入的数字
+  * @return 拼接后的值
+  */
+  function timeFormate(val){
+    if(val > 9) return val;
+    return '0'+val;
+  }
+
+  /**
+   * 将传入的毫秒数计算成时分秒
+   * @param {Number} 毫秒数
+   * @return {Object} 包含时分秒属性的对象值
+   */
+  function timeDown(milliSecond) {
+    var s,m,h;
+    h = parseInt(milliSecond / 1000 / 60 / 60 );
+    m = parseInt(milliSecond / 1000 / 60 % 60 );
+    s = parseInt(milliSecond / 1000 % 60 );
+    return {
+        hour: timeFormate(h),
+        minute: timeFormate(m),
+        second: timeFormate(s)
+    }
+  }
+  
+  /**
+   * 类似路由函数，根据页面的路径执行不同的回调函数
+   * @param  {Regexp}   regexp   匹配页面pathname的正则
+   * @param  {Function} callback 匹配当前pathname的页面js代码
+   */
+  function route (regexp, callback) {
+    var path = window.location.pathname;
+    if(regexp.test(path)) {
+      callback();
+    }
+  }
+
+
+
   var ua = navigator.userAgent
 
   var env = {
@@ -205,5 +246,7 @@
   xm.helper = {
     visibilityChangeHandler: visibilityChangeHandler,
     tmpl: tmpl,
+    route: route,
+    timeDown: timeDown
   }
 })()

@@ -1,221 +1,176 @@
 $(function(){
-    //ajax pending 
-    ;(function(){
-        function Pending(){
-            this._init();
-        }
-        Pending.prototype = {
-            constructor: Pending,
-            _init: function(){
-                var html = '<div class="container"><div class="square_volume_mid"><div></div><div></div><div></div><div></div><div></div></div></div>';
-                $('body').append(html);
-            },
-            show: function(){
-                $('.container').show();
-            },
-            hide: function(){
-                $('.container').hide();
-            }
-        }
-        window.Pending = new Pending();
-    })();
-    var tool = {
-        timeFormate: function (val) {
-            if(val > 9) return val;
-            return '0'+val;
-        },
-        timeDown: function (milliSecond) {
-            var s,m,h;
-            h = parseInt(milliSecond / 1000 / 60 / 60 );
-            m = parseInt(milliSecond / 1000 / 60 % 60 );
-            s = parseInt(milliSecond / 1000 % 60 );
-            return {
-                hour: this.timeFormate(h),
-                minute: this.timeFormate(m),
-                second: this.timeFormate(s)
-            }
-        }    
-    }
+    
+    var constant = xm && xm.const;
+    var helper = xm && xm.helper;
 
-    // detail page
-    if(window.location.href.indexOf('detail') > -1 || window.location.href.indexOf('join') > -1){
-        ;(function(){
-            var statusId = $('.block').attr('data-groupon-status-id');
-            // 倒计时
-            function countTime(time){
-                var timeObj = tool.timeDown(time);
-                // 尽量减少DOM操作
-                if(timeObj.hour != $('.cont .j-hour').text()){
-                    $('.cont .j-hour').text(timeObj.hour);
-                }                            
-                if(timeObj.minute != $('.cont .j-minute').text()){
-                    $('.cont .j-minute').text(timeObj.minute);
-                }                            
-                if(timeObj.second != $('.cont .j-second').text()){
-                    $('.cont .j-second').text(timeObj.second);
-                }                            
-            }
-            var time = $('.block').attr('data-remain-milliseconds');
-            if(statusId == 2 || statusId == 3){
-                $('.j-time').addClass('grey');
-                time = 0;
-            }
-            countTime(time);
-            var timer = setInterval(function(){
-                if(time > 0){
-                    time -= 1000;
-                    countTime(time);                    
-                }else{
-                    clearInterval(timer);
-                }
-            },1000)
-
-            // 分享
-            var shareData = {
-                title: $('.share').attr('data-share-title'),
-                url: $('.share').attr('data-share-url'),
-                imgUrl: $('.share').attr('data-share-cover-path'),
-                desc: $('.share').attr('data-share-context')
-            }
-            $('.share ul .j-wxgroup').click(function(){
-                ya.share({
-                    channel: 'weixinGroup', // channel可选值为[“qq”, “qzone”, “tSina”, “weixin”, “weixinGroup”, “message”]
-                    title: shareData.title, // 分享标题
-                    link: shareData.url, // 分享链接
-                    imgUrl: shareData.imgUrl, // 分享图标
-                    desc: shareData.desc
-                },function(res){
-
-                });
-            })
-            $('.share ul .j-wxfriend').click(function(){
-                ya.share({
-                    channel: 'weixin', 
-                    title: shareData.title, 
-                    link: shareData.url,
-                    imgUrl: shareData.imgUrl,
-                    desc: shareData.desc
-                },function(res){
-
-                });
-            })
-        })()
+    var regexp = {
+        launch: /^\/groupon\/guidance\/item\/\d+/,        
+        detail: /\/(detail|join)/,
+        prelaunch: /\/recommendation/,
+        myGroup: /\/mygroupon\/role/,
+        confirm: /\/trade\/pay/,
+        payFail: /\/failure/
     }
 
     // launch page
-    if(window.location.href.indexOf('guidance/item') > -1){
+    helper.route(regexp.launch,function(){
+        console.log('this is launch');
+        var $footer = $('.j-footer');
+        var $mask = $('.j-mask');
+        var $button = $('.j-pay');
+        var paymentParam = $footer.data();
 
-        var constant = xm && xm.const;
-        var helper = xm && xm.helper;
+        var url = helper.tmpl(constant.paths.ordercontext, {
+            productItemId: paymentParam.productItemId,
+            timestamp: new Date().getTime()
+        })
 
-        ;(function(){
-            var $footer = $('.launch footer');
-            var $mask = $('.mask');
-            var $button = $('.mask button');
-            var paymentParam = $footer.data();
-    
-            var url = helper.tmpl(constant.paths.ordercontext, {
-                productItemId: paymentParam.productItemId,
-                timestamp: new Date().getTime()
-            })
+        $footer.click(function(){
+            $mask.fadeIn(200);
+        })
+        $mask.on('click', '.close', function() {
+            $mask.fadeOut(100);
+        }).on('click', '.j-pay', function(){
+            Pending.show();            
+            var payData = $button.data();
+            var needRecharge = payData.needRecharge;
+            var rechargeAmount = payData.rechargeAmount;
+            if(needRecharge === 'true'){// 充值
+                xm.payment.recharge(rechargeAmount);
+            }else{// 正常支付
+                var opts = $.extend({}, paymentParam)
+                opts.success = function(grouponOrderId) {
+                    Pending.hide();
+                    xm.util.toast('支付成功');
+                    setTimeout(function(){
+                        location.href = xm.helper.tmpl(xm.const.paths.recommendation, {
+                            grouponOrderId: grouponOrderId,
+                        })
+                    },1000)
+                }
+                opts.failed = function() {
+                    Pending.hide();
+                    xm.util.toast('支付失败，请稍后再试');
+                }
+                xm.payment.pay(opts)
+            }
 
-            $mask.on('click', '.close', function() {
-                $mask.fadeOut(100);
-            })
+        })
+    })
 
-            $footer.click(function(){
-                $.ajax({
-                    url: url,
-                    data: {},
-                    success: function(res){
-                        var needRecharge = res.needRecharge;
-                        var rechargeAmount = res.rechargeAmount;
-                        if(needRecharge){// 充值
-                            $button.text('余额不足，请先充值');
-                            $mask.on('click','button',function(){
-                                xm.payment.recharge(rechargeAmount);
-                            })
-                        }else{// 正常支付
-                            $mask.on('click', 'button', function() {
-                                Pending.show();
-                                var opts = $.extend({}, paymentParam)
-                                opts.success = function(grouponOrderId) {
-                                    Pending.hide();
-                                    xm.util.toast('支付成功');
-                                    setTimeout(function(){
-                                        location.href = xm.helper.tmpl(xm.const.paths.recommendation, {
-                                            grouponOrderId: grouponOrderId,
-                                        })
-                                    },1000)
-                                }
-                                opts.failed = function() {
-                                    Pending.hide();
-                                    xm.util.toast('支付失败，请稍后再试');
-                                }
-                                xm.payment.pay(opts)
-                            })
-                        }
-                    },
-                    error: function(){
-                        xm.util.toast('支付失败，请稍后再试');
-                    }
-                })
-                $mask.fadeIn(200);
-            })
+    // detail page
+    helper.route(regexp.detail,function(){
+        console.log('this is detail')
+        var statusId = $('.block').attr('data-groupon-status-id');
+        var time = $('.block').attr('data-remain-milliseconds');        
+        var $hour = $('.j-hour');
+        var $minute = $('.j-minute');
+        var $second = $('.j-second');
+        // 倒计时
+        function countTime(time){
+            var timeObj = helper.timeDown(time);
+            // 尽量减少DOM操作
+            if(timeObj.hour != $hour.text()){
+                $hour.text(timeObj.hour);
+            }                            
+            if(timeObj.minute != $minute.text()){
+                $minute.text(timeObj.minute);
+            }                            
+            if(timeObj.second != $second.text()){
+                $second.text(timeObj.second);
+            }                            
+        }
+        if(statusId == 2 || statusId == 3){
+            $('.j-time').addClass('grey');
+            time = 0;
+        }
+        countTime(time);
+        var timer = setInterval(function(){
+            if(time > 0){
+                time -= 1000;
+                countTime(time);                    
+            }else{
+                clearInterval(timer);
+                if(statusId == 1){
+                    location.reload();
+                }
+            }
+        },1000)
 
-            
-        })()
-    }
+        // 分享
+        var shareData = {
+            title: $('.share').attr('data-share-title'),
+            url: $('.share').attr('data-share-url'),
+            imgUrl: $('.share').attr('data-share-cover-path'),
+            desc: $('.share').attr('data-share-context')
+        }
+        $('.j-wxgroup').click(function(){
+            ya.share({
+                channel: 'weixinGroup', // channel可选值为[“qq”, “qzone”, “tSina”, “weixin”, “weixinGroup”, “message”]
+                title: shareData.title, // 分享标题
+                link: shareData.url, // 分享链接
+                imgUrl: shareData.imgUrl, // 分享图标
+                desc: shareData.desc
+            },function(res){
 
+            });
+        })
+        $('.j-wxfriend').click(function(){
+            ya.share({
+                channel: 'weixin', 
+                title: shareData.title, 
+                link: shareData.url,
+                imgUrl: shareData.imgUrl,
+                desc: shareData.desc
+            },function(res){
+
+            });
+        })
+        
+    })
 
     // prelaunch page
-    if(window.location.href.indexOf('recommendation') > -1){
-
-        var constant = xm && xm.const;
-        var helper = xm && xm.helper;
-
-        ;(function(){
-            var grouponOrderId = location.href.replace(/[^0-9]/g,'');
-            var $textarea = $('.prelaunch textarea');
-            var jCount = $('.prelaunch .j-count');            
-            $textarea.bind('input propertychange',function(){
-                var textLen = $textarea.val().length;      
-                if(textLen <= 40){
-                    jCount.text(textLen);
-                }
-            })
-            var url = helper.tmpl(constant.paths.message, {
-                grouponOrderId: grouponOrderId
-            })
-            $('.btn').on('click',function(){
-                $.ajax({
-                    url: url,
-                    type: 'post',
-                    data: {
-                        recommendationWord: $textarea.val()
-                    },
-                    success: function(res){
-                        var ret = res.ret;
-                        if(ret === 0){
-                            location.href = helper.tmpl(constant.paths.detail, {
-                                grouponOrderId: grouponOrderId,
-                                timestamp: new Date().getTime()
-                            })
-                        }
-                    },
-                    error: function(){
-                        xm.util.toast('接口访问出错，请稍后再试');
+    helper.route(regexp.prelaunch,function(){
+        console.log('this is prelaunch');
+        var grouponOrderId = location.href.replace(/[^0-9]/g,'');
+        var $textarea = $('.prelaunch textarea');
+        var jCount = $('.prelaunch .j-count');            
+        $textarea.bind('input propertychange',function(){
+            var textLen = $textarea.val().length;      
+            if(textLen <= 40){
+                jCount.text(textLen);
+            }
+        })
+        var url = helper.tmpl(constant.paths.message, {
+            grouponOrderId: grouponOrderId
+        })
+        $('.btn').on('click',function(){
+            $.ajax({
+                url: url,
+                type: 'post',
+                data: {
+                    recommendationWord: $textarea.val()
+                },
+                success: function(res){
+                    var ret = res.ret;
+                    if(ret === 0){
+                        location.href = helper.tmpl(constant.paths.detail, {
+                            grouponOrderId: grouponOrderId,
+                            timestamp: new Date().getTime()
+                        })
                     }
-                        
-                })
+                },
+                error: function(){
+                    xm.util.toast('接口访问出错，请稍后再试');
+                }
+                    
             })
-        })()
-    }
-
+        })
+    })
 
     // my-group page
-    if(location.href.indexOf('mygroupon/role') > -1){
-
+    helper.route(regexp.myGroup,function(){
+        console.log('this is mygroup');
         var constant = xm && xm.const;
         var helper = xm && xm.helper;
         var loadMore = xm && xm.util.loadMore;
@@ -262,7 +217,10 @@ $(function(){
                         success: function(res){
                             var ret = res.ret;
                             if(ret === 1){
-                                location.reload();
+                                xm.util.toast('你的拼团已撤销');
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 1000);
                             }else{
                                 xm.util.toast('撤销失败，请稍后再试');
                             }
@@ -332,12 +290,11 @@ $(function(){
             }
             
         })()
-    }
+    })
 
     // confirm pay page
-    if(location.href.indexOf('trade/pay/') > -1){
-        var constant = xm && xm.const;
-        var helper = xm && xm.helper;
+    helper.route(regexp.confirm,function(){
+        console.log('this is confirm');
         // 微信支付
         $('.btn-pay').click(function(){
             Pending.show();
@@ -360,7 +317,14 @@ $(function(){
             xm.payment.pay(option);
 
         })
-    }
+
+    })
+
+    //pay fail page
+    helper.route(regexp.payFail,function(){
+        console.log('this is payfail');
+    })
+
 })
 
 
