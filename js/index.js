@@ -216,7 +216,6 @@ $(function(){
         var $revoke = $('.btn-revoke');
         var cancalUrl;
         $revoke.click(function(event){
-            alert(111)
             event.stopPropagation();
             cancalUrl = helper.tmpl(constant.paths.cancel, {
                 grouponOrderId: $(this).data().grouponOrderId
