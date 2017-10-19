@@ -64,6 +64,9 @@
         success: function(res) {
           if(res.ret == 600){
             xm.util.toast(res.msg);
+            setTimeout(function(){
+              location.reload();
+            },1000)
             return; 
           }
           _this._pay(res);
