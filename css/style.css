@@ -346,6 +346,7 @@
   padding: 15px 0;
   background: #ffffff;
   opacity: 0.7;
+  font-size: 0;
 }
 .detail .banner .status img {
   height: 22px;
@@ -366,10 +367,11 @@
 .detail .banner .status .tip:before {
   content: '';
   position: absolute;
-  top: 6px;
+  top: 5px;
+  bottom: 6px;
+  margin: auto;
   left: 0;
   width: 2px;
-  height: 15px;
   background: #ccc;
 }
 .detail .banner .bg {
