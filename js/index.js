@@ -189,6 +189,7 @@ $(function(){
         var loadMore = xm && xm.util.loadMore;
         var $myLaunch = $('.j-launch-list');
         var $myJoin = $('.j-join-list');
+        var $empty = $('.search-empty');
         var grouponRoleId = $('.j-my-launch').data().grouponRoleId; // 默认是我发起的拼团        
 
         // 点击跳转
@@ -201,10 +202,20 @@ $(function(){
             var target = $(this);
             target.addClass('on').siblings().removeClass('on');
             if(target.hasClass('j-my-launch')){
+                if($myLaunch.find('li').length == 0){
+                    $empty.removeClass('hidden').find('.search-result').text('无发起的拼团');
+                }else{
+                    $empty.addClass('hidden');
+                }
                 grouponRoleId = $('.j-my-launch').data().grouponRoleId
                 $myJoin.hide();
                 $myLaunch.show();
             }else{
+                if($myJoin.find('li').length == 0){
+                    $empty.removeClass('hidden').find('.search-result').text('还未参与任何拼团');
+                }else{
+                    $empty.addClass('hidden');
+                }
                 grouponRoleId = $('.j-my-join').data().grouponRoleId;
                 $myLaunch.hide();
                 $myJoin.show();
@@ -229,7 +240,7 @@ $(function(){
                 data: {},
                 success: function(res){
                     var ret = res.ret;
-                    if(ret === 1){
+                    if(ret === 0){
                         xm.util.toast('你的拼团已撤销');
                         setTimeout(function() {
                             location.reload();
