@@ -99,7 +99,7 @@
       }
       window.addEventListener('blur', listener, false)
       window.addEventListener('focus', listener, false)
-    } else if (supportNativeWebview && isIOS) {
+    } else if (supportNativeWebview && xm.env.isInIOS) {
       //for iOS webview doesn't trigger `visibilitychange` event
       var last = document[visibilityState]
       listener = function(visibility) {
@@ -121,7 +121,7 @@
       if ((supportNativeWebview && isNativeSetFocus) || notSupport) {
         window.removeEventListener('blur', listener, false)
         window.removeEventListener('focus', listener, false)
-      } else if (supportNativeWebview && isIOS) {
+      } else if (supportNativeWebview && xm.env.isInIOS) {
         clearInterval(timer)
       } else {
         window.removeEventListener(visibilityChange, listener, false)
