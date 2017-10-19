@@ -213,9 +213,8 @@ $(function(){
 
         // 撤销拼团 只有我发起的拼团才可以撤销
         var $masker = $('.j-masker');
-        var $revoke = $('.btn-revoke');
         var cancalUrl;
-        $revoke.click(function(event){
+        $myLaunch.on('click','.btn-revoke',function(event){
             event.stopPropagation();
             cancalUrl = helper.tmpl(constant.paths.cancel, {
                 grouponOrderId: $(this).data().grouponOrderId
@@ -279,7 +278,7 @@ $(function(){
             })
         }
         var template = {
-            joining: '<p class="status">还差&nbsp;<span class="theme">${grouponRemainQuantity}</span>&nbsp;位小伙伴<a class="btn-revoke"><i class="ic ic-revoke"></i>撤销拼团</a></p>',
+            joining: '<p class="status">还差&nbsp;<span class="theme">${grouponRemainQuantity}</span>&nbsp;位小伙伴<a class="btn-revoke" data-groupon-order-id="${grouponOrderId}"><i class="ic ic-revoke"></i>撤销拼团</a></p>',
             success: '<p class="status theme">${grouponOrderStatus}</p>',
             fail: '<p class="status">${grouponOrderStatus}</p>',
             list: '<li class="item" data-show-groupon-url="${showGrouponUrl}"><a><div class="pic">' +
@@ -312,7 +311,8 @@ $(function(){
                         if(item.grouponOrderStatusId == 1){
                             grouponOrderStatus = '拼团中';
                             statusHtml = helper.tmpl(template.joining,{
-                                grouponRemainQuantity: item.grouponRemainQuantity
+                                grouponRemainQuantity: item.grouponRemainQuantity,
+                                grouponOrderId: item.grouponOrderId
                             });
                         }else if(item.grouponOrderStatusId == 2){
                             grouponOrderStatus = '拼团成功';
