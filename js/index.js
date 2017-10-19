@@ -7,9 +7,9 @@ $(function(){
         launch: /^\/groupon\/guidance\/item\/\d+/,        
         detail: /^\/groupon\/\d+\/(detail|join)\/\d+/,
         prelaunch: /^\/groupon\/\d+\/recommendation/,
-        myGroup: /\/mygroupon\/role/,
+        myGroup: /^\/groupon\/mygroupon\/role\/\d+/,
         confirm: /^\/trade\/pay\/groupon/,
-        payFail: /\/failure/
+        payFail: /^\/groupon\/\d+\/join\/failure/
     }
 
     // launch page
@@ -189,193 +189,158 @@ $(function(){
         var loadMore = xm && xm.util.loadMore;
         var $myLaunch = $('.j-launch-list');
         var $myJoin = $('.j-join-list');
-        var grouponRoleId = location.href.match(/\/role\/[0-9]\//)[0].replace(/[^0-9]/g,'');        
+        var grouponRoleId = $('.j-my-launch').data().grouponRoleId; // 默认是我发起的拼团        
 
         // 点击跳转
-        $('.item').click(function(){
+        $('.group-list').on('click','.item',function(){
             location.href = $(this).data().showGrouponUrl;
         })
+
         // 切换tab
         $('.tab').on('click','.item',function(){
             var target = $(this);
-            // if(target.text() === '我发起的拼团'){
-            // if(target.hasClass('j-my-launch')){
-            //     location.href = helper.tmpl(constant.paths.mygroup, {
-            //         grouponRoleId: 1,
-            //         timestamp: new Date().getTime()
-            //     })
-            // }else{
-            //     location.href = helper.tmpl(constant.paths.mygroup, {
-            //         grouponRoleId: 2,
-            //         timestamp: new Date().getTime()
-            //     })
-            // }
+            target.addClass('on').siblings().removeClass('on');
             if(target.hasClass('j-my-launch')){
+                grouponRoleId = $('.j-my-launch').data().grouponRoleId
                 $myJoin.hide();
                 $myLaunch.show();
             }else{
+                grouponRoleId = $('.j-my-join').data().grouponRoleId;
                 $myLaunch.hide();
                 $myJoin.show();
             }
         })
-            // 撤销拼团 只有我发起的拼团才可以撤销
-            if(grouponRoleId === '1'){
-                // TO DO
-                var $masker = $('.j-masker');
-                // var $masker = $('.masker');
-                var $revoke = $('.btn-revoke');
-                var cancalUrl;
-                $('.btn-revoke').click(function(event){
-                    event.stopPropagation();
-                    cancalUrl = helper.tmpl(constant.paths.cancel, {
-                        grouponOrderId: $(this).data().grouponOrderId
-                    })    
-                    $masker.removeClass('hidden');
-                })
-                $masker.on('click','.cancel',function(){
-                    $masker.addClass('hidden');
-                }).on('click','.confirm',function(){
-                    $.ajax({
-                        url: cancalUrl,
-                        data: {},
-                        success: function(res){
-                            var ret = res.ret;
-                            if(ret === 1){
-                                xm.util.toast('你的拼团已撤销');
-                                setTimeout(function() {
-                                    location.reload();
-                                }, 1000);
-                            }else{
-                                xm.util.toast('撤销失败，请稍后再试');
-                            }
-                            $masker.addClass('hidden');
-                        },
-                        error: function(){
-                            xm.util.toast('撤销失败，请稍后再试');
-                            $masker.addClass('hidden');
-                        }
-                    })
-                })
-            }
 
-            // 滚动加载
-            var pageNum = {
-                launch: 2,
-                join: 2
-            }
-            var loadMoreUrl = helper.tmpl(constant.paths.mygrouprecord, {
-                grouponRoleId: grouponRoleId,
-                timestamp: new Date().getTime()
-            })
-            function createLoadMore(option){
-                var lm = new loadMore(option.dom);
-                lm.on('xmlm-load-triggered', function(event, elem) {
-                    getList($.extend(option,{loadMore: lm}));
-                })
-            }
-            if($myLaunch.length > 0){
-                createLoadMore({
-                    dom: $myLaunch,
-                    url: loadMoreUrl,
-                    type: 'launch',
-                    pageNum: pageNum.launch++
-                })
-            }
-            if($myJoin.length > 0){
-                createLoadMore({
-                    dom: $myJoin,
-                    url: loadMoreUrl,
-                    type: 'join',
-                    pageNum: pageNum.join++
-                })
-            }
-            // if($myLaunch.length > 0){
-            //     var lm_launch = new loadMore($myLaunch);
-            //     lm_launch.on('xmlm-load-triggered', function(event, elem) {
-            //         // getList(url, pageNum.launch++,lm_launch);
-            //         getList({
-            //             url: url,
-            //             pageNum: pageNum.launch++,
-            //             type: 'launch',
-            //             loadMore: lm_launch
-            //         });
-            //     })
-            // }
-            function getList(option){
-                var current = option.dom;
-                if(option.type === 'launch' && current.attr('data-more') === 'false'){
-                    option.loadMore.clear();
-                    return false;
-                }
-                if(option.type === 'join' && current.attr('data-more') === 'false'){
-                    option.loadMore.clear();
-                    return false;
-                }
-                $.ajax({
-                    url: option.url,
-                    data: {
-                        pageNum: option.pageNum
-                    },
-                    success: function(res){
-                        current.append(res);
+        // 撤销拼团 只有我发起的拼团才可以撤销
+        var $masker = $('.j-masker');
+        var $revoke = $('.btn-revoke');
+        var cancalUrl;
+        $revoke.click(function(event){
+            alert(111)
+            event.stopPropagation();
+            cancalUrl = helper.tmpl(constant.paths.cancel, {
+                grouponOrderId: $(this).data().grouponOrderId
+            })    
+            $masker.removeClass('hidden');
+        })
+        $masker.on('click','.cancel',function(){
+            $masker.addClass('hidden');
+        }).on('click','.confirm',function(){
+            $.ajax({
+                url: cancalUrl,
+                data: {},
+                success: function(res){
+                    var ret = res.ret;
+                    if(ret === 1){
+                        xm.util.toast('你的拼团已撤销');
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);
+                    }else{
+                        xm.util.toast('撤销失败，请稍后再试');
                     }
-                })
-            }
+                    $masker.addClass('hidden');
+                },
+                error: function(){
+                    xm.util.toast('撤销失败，请稍后再试');
+                    $masker.addClass('hidden');
+                }
+            })
+        })
 
-            // 滚动加载
-            // var pageNum = 2;
-            // var url = helper.tmpl(constant.paths.mygrouprecord, {
-            //     grouponRoleId: grouponRoleId,
-            //     timestamp: new Date().getTime()
-            // })
-            // var groupList = $('.group-list');
-            // if(groupList.length > 0){
-            //     var lm = new loadMore(groupList);
-            //     lm.on('xmlm-load-triggered', function(event, elem) {
-            //         getList(url, pageNum++,lm);
-            //     })
-            // }
-            // function getList(url,pageNum,loadMore){
-            //     // 判断放在前面
-            //     if($('.group-list').attr('data-more') === 'false'){
-            //         loadMore.clear();
-            //         return false;
-            //     }
-            //     $.ajax({
-            //         url: url,
-            //         data: {
-            //             pageNum: pageNum
-            //         },
-            //         success: function(res){
-            //             var hasMore = res.hasMore;
-            //             $('.group-list').attr('data-more',hasMore);
-            //             var listData = res.data;
-            //             var listHtml = '';
-            //             listData.forEach(function(item){
-            //                 var grouponOrderStatus = '';
-            //                 var statusHtml = '';
-            //                 if(item.grouponOrderStatusId == 1){
-            //                     grouponOrderStatus = '拼团中';
-            //                     statusHtml = '<p class="status">还差&nbsp;<span class="theme">'+ item.grouponRemainQuantity +'</span>&nbsp;位小伙伴<a class="btn-revoke"><i class="ic ic-revoke"></i>撤销拼团</a></p>';
-            //                 }else if(item.grouponOrderStatusId == 2){
-            //                     grouponOrderStatus = '拼团成功';
-            //                     statusHtml = '<p class="status theme">'+ grouponOrderStatus +'</p>';
-            //                 }else{
-            //                     grouponOrderStatus = '拼团失败';
-            //                     statusHtml = '<p class="status theme">'+ grouponOrderStatus +'</p>';
-            //                 }
-            //                 listHtml += '<li class="item" data-show-groupon-url="'+ item.showGrouponUrl +'"><a><div class="pic">' +
-            //                             '<img src="'+ item.coverUrl +'"></div><div class="info">' +
-            //                             '<h2 class="title elli-multi-2">'+ item.albumTitle +'</h2>' + statusHtml +
-            //                             '</div></a></li>'
-            //                 $('.group-list').append(listHtml);
-            //             })
-            //         },
-            //         error: function(){
-            //             xm.util.toast('加载更多失败，请稍后再试');
-            //         }
-            //     })
-            // }
+        // 滚动加载
+        var pageNum = {
+            launch: 2,
+            join: 2
+        }
+        var loadMoreUrl = helper.tmpl(constant.paths.mygrouprecord, {
+            grouponRoleId: grouponRoleId,
+            timestamp: new Date().getTime()
+        })
+        function createLoadMore(option){
+            var lm = new loadMore(option.dom);
+            lm.on('xmlm-load-triggered', function(event, elem) {
+                getList($.extend(option,{loadMore: lm}));
+            })
+        }
+        if($myLaunch.length > 0){
+            createLoadMore({
+                dom: $myLaunch,
+                url: loadMoreUrl,
+                type: 'launch',
+                pageNum: pageNum.launch++
+            })
+        }
+        if($myJoin.length > 0){
+            createLoadMore({
+                dom: $myJoin,
+                url: loadMoreUrl,
+                type: 'join',
+                pageNum: pageNum.join++
+            })
+        }
+        var template = {
+            joining: '<p class="status">还差&nbsp;<span class="theme">${grouponRemainQuantity}</span>&nbsp;位小伙伴<a class="btn-revoke"><i class="ic ic-revoke"></i>撤销拼团</a></p>',
+            success: '<p class="status theme">${grouponOrderStatus}</p>',
+            fail: '<p class="status">${grouponOrderStatus}</p>',
+            list: '<li class="item" data-show-groupon-url="${showGrouponUrl}"><a><div class="pic">' +
+                  '<img src="${coverUrl}"></div><div class="info">' +
+                  '<h2 class="title elli-multi-2">${albumTitle}</h2>${statusHtml}</div></a></li>' 
+        }
+
+        function getList(option){
+            var current = option.dom;
+            if(option.type === 'launch' && current.attr('data-has-more') === 'false'){
+                option.loadMore.clear();
+                return false;
+            }
+            if(option.type === 'join' && current.attr('data-has-more') === 'false'){
+                option.loadMore.clear();
+                return false;
+            }
+            $.ajax({
+                url: option.url,
+                data: {
+                    pageNum: option.pageNum
+                },
+                success: function(res){
+                    current.attr('data-has-more',res.hasMore);
+                    var listData = res.data;
+                    var listHtml = '';
+                    listData.forEach(function(item){
+                        var grouponOrderStatus = '';
+                        var statusHtml = '';
+                        if(item.grouponOrderStatusId == 1){
+                            grouponOrderStatus = '拼团中';
+                            statusHtml = helper.tmpl(template.joining,{
+                                grouponRemainQuantity: item.grouponRemainQuantity
+                            });
+                        }else if(item.grouponOrderStatusId == 2){
+                            grouponOrderStatus = '拼团成功';
+                            statusHtml = helper.tmpl(template.success,{
+                                grouponOrderStatus: grouponOrderStatus
+                            });
+                        }else{
+                            grouponOrderStatus = '拼团失败';
+                            statusHtml = helper.tmpl(template.fail,{
+                                grouponOrderStatus: grouponOrderStatus
+                            });
+                        }
+                        listHtml += helper.tmpl(template.list,{
+                            showGrouponUrl: item.showGrouponUrl,
+                            coverUrl: item.coverUrl,
+                            albumTitle: item.albumTitle,
+                            statusHtml: statusHtml
+                        });
+
+                    })
+                    current.append(listHtml);
+                },
+                error: function(){
+                    xm.util.toast('加载更多失败，请稍后再试');
+                }
+            })
+        }
             
     })
 
