@@ -1125,3 +1125,16 @@
   border-radius: 4px;
   line-height: 40px;
 }
+.search-empty {
+  text-align: center;
+  margin: 120px 0 50px;
+}
+.search-empty .search-result {
+  font-size: 15px;
+  color: #999;
+  margin-top: 15px;
+  padding: 0 30px;
+}
+.search-empty .search-result .c-theme {
+  color: #ff6d4b;
+}
