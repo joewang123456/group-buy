@@ -224,7 +224,8 @@
       detail: '/groupon/${grouponOrderId}/detail/${timestamp}',
       mygroup: '/groupon/mygroupon/role/${grouponRoleId}/${timestamp}',
       mygrouprecord: '/groupon/mygroupon/role/${grouponRoleId}/records/${timestamp}',
-      cancel: '/groupon/${grouponOrderId}/cancel'
+      cancel: '/groupon/${grouponOrderId}/cancel',
+      joinfail: '/groupon/${grouponOrderId}/join/failure'
     },
   }
 

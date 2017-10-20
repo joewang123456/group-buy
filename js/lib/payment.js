@@ -70,7 +70,11 @@
             return; 
           }
           if(res.ret == 1){
+            Pending.hide();            
             xm.util.toast('支付失败，拼团已结束');
+            setTimeout(function(){
+              location.reload();
+            },1000)
             return;
           }
           _this._pay(res);
@@ -156,6 +160,10 @@
               clearInterval(timer)
               _this.orderSuccess = true
               $.isFunction(_this.opts.success) && _this.opts.success(data.grouponOrderId)
+            }else{
+              location.href = helper.tmpl(constant.paths.joinfail, {
+                grouponOrderId: _this.opts.grouponOrderId
+              })
             }
           },
           complete: function(xhr, status) {
