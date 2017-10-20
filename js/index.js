@@ -18,6 +18,7 @@ $(function(){
         console.log('this is launch');
         var $footer = $('.j-footer');
         var $mask = $('.j-mask');
+        var $hasJoin = $('.j-has-join');
         var $button = $('.j-pay');
         var paymentParam = $footer.data();
 
@@ -27,7 +28,14 @@ $(function(){
         })
 
         $footer.click(function(){
-            $mask.fadeIn(200);
+            if(paymentParam.hasJoined){
+                $hasJoin.fadeIn(200);
+            }else{
+                $mask.fadeIn(200);
+            }
+        })
+        $hasJoin.on('click','.j-know',function(){
+            $hasJoin.fadeOut(100);
         })
         $mask.on('click', '.close', function() {
             $mask.fadeOut(100);
@@ -111,13 +119,6 @@ $(function(){
         // 分享
         var shareData = $('.share').data();
         if(shareData){
-            // {
-            //     channel: 'weixinGroup', // channel可选值为[“qq”, “qzone”, “tSina”, “weixin”, “weixinGroup”, “message”]
-            //     title: shareData.shareTitle, // 分享标题
-            //     link: shareData.shareUrl, // 分享链接
-            //     imgUrl: shareData.shareCoverPath, // 分享图标
-            //     desc: shareData.shareContext
-            // }
             var publicData = {
                 title: shareData.shareTitle, // 分享标题
                 link: shareData.shareUrl, // 分享链接

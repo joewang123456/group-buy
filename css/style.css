@@ -230,6 +230,7 @@
   left: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.5);
+  /*已经参与*/
 }
 .launch .mask .panel {
   text-align: center;
@@ -324,6 +325,21 @@
 }
 .launch .mask .icon-warn:before {
   content: "\e602";
+}
+.launch .mask .small {
+  width: 280px;
+  height: 130px;
+}
+.launch .mask .already {
+  padding: 20px 0 10px;
+  font-size: 14px;
+}
+.launch .mask .know {
+  width: 90px;
+  height: 30px;
+  font-size: 16px;
+  margin-top: 15px;
+  border-radius: 2px;
 }
 .detail {
   padding-bottom: 50px;
