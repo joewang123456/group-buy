@@ -165,7 +165,7 @@ $(function(){
         var $textarea = $('.j-textarea');
         var jCount = $('.j-count');            
         var grouponOrderId = $recruit.data().grouponOrderId;
-        $textarea.bind('input propertychange paste',function(){
+        $textarea.bind('input propertychange paste cut',function(){
             var textLen = $textarea.val().length;      
             if(textLen <= 40){
                 if(textLen == 0){
