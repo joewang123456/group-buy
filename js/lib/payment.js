@@ -69,6 +69,10 @@
             },1000)
             return; 
           }
+          if(res.ret == 1){
+            xm.util.toast('支付失败，拼团已结束');
+            return;
+          }
           _this._pay(res);
         },
         error: function() {

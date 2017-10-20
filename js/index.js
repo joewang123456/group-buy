@@ -307,22 +307,50 @@ $(function(){
                 pageNum: pageNum.join++
             })
         }
-        var template = {
-            joining: '<p class="status">还差&nbsp;<span class="theme">${grouponRemainQuantity}</span>&nbsp;位小伙伴<a class="btn-revoke" data-groupon-order-id="${grouponOrderId}"><i class="ic ic-revoke"></i>撤销拼团</a></p>',
-            success: '<p class="status theme">${grouponOrderStatus}</p>',
-            fail: '<p class="status">${grouponOrderStatus}</p>',
-            list: '<li class="item" data-show-groupon-url="${showGrouponUrl}"><a><div class="pic">' +
-                  '<img src="${coverUrl}"></div><div class="info">' +
-                  '<h2 class="title elli-multi-2">${albumTitle}</h2>${statusHtml}</div></a></li>' 
+        function jointHtml(arr){
+            var template = {
+                joining: '<p class="status">还差&nbsp;<span class="theme">${grouponRemainQuantity}</span>&nbsp;位小伙伴<a class="btn-revoke" data-groupon-order-id="${grouponOrderId}"><i class="ic ic-revoke"></i>撤销拼团</a></p>',
+                success: '<p class="status theme">${grouponOrderStatus}</p>',
+                fail: '<p class="status">${grouponOrderStatus}</p>',
+                list: '<li class="item" data-show-groupon-url="${showGrouponUrl}"><a><div class="pic">' +
+                      '<img src="${coverUrl}"></div><div class="info">' +
+                      '<h2 class="title elli-multi-2">${albumTitle}</h2>${statusHtml}</div></a></li>' 
+            }
+            var listHtml = '';
+            arr.forEach(function(item){
+                var grouponOrderStatus = '';
+                var statusHtml = '';
+                if(item.grouponOrderStatusId == 1){
+                    grouponOrderStatus = '拼团中';
+                    statusHtml = helper.tmpl(template.joining,{
+                        grouponRemainQuantity: item.grouponRemainQuantity,
+                        grouponOrderId: item.grouponOrderId
+                    });
+                }else if(item.grouponOrderStatusId == 2){
+                    grouponOrderStatus = '拼团成功';
+                    statusHtml = helper.tmpl(template.success,{
+                        grouponOrderStatus: grouponOrderStatus
+                    });
+                }else{
+                    grouponOrderStatus = '拼团失败';
+                    statusHtml = helper.tmpl(template.fail,{
+                        grouponOrderStatus: grouponOrderStatus
+                    });
+                }
+                listHtml += helper.tmpl(template.list,{
+                    showGrouponUrl: item.showGrouponUrl,
+                    coverUrl: item.coverUrl,
+                    albumTitle: item.albumTitle,
+                    statusHtml: statusHtml
+                });
+
+            })
+            return listHtml;
         }
 
         function getList(option){
             var current = option.dom;
-            if(option.type === 'launch' && current.attr('data-has-more') === 'false'){
-                option.loadMore.clear();
-                return false;
-            }
-            if(option.type === 'join' && current.attr('data-has-more') === 'false'){
+            if(current.attr('data-has-more') === 'false'){
                 option.loadMore.clear();
                 return false;
             }
@@ -334,36 +362,7 @@ $(function(){
                 success: function(res){
                     current.attr('data-has-more',res.hasMore);
                     var listData = res.data;
-                    var listHtml = '';
-                    listData.forEach(function(item){
-                        var grouponOrderStatus = '';
-                        var statusHtml = '';
-                        if(item.grouponOrderStatusId == 1){
-                            grouponOrderStatus = '拼团中';
-                            statusHtml = helper.tmpl(template.joining,{
-                                grouponRemainQuantity: item.grouponRemainQuantity,
-                                grouponOrderId: item.grouponOrderId
-                            });
-                        }else if(item.grouponOrderStatusId == 2){
-                            grouponOrderStatus = '拼团成功';
-                            statusHtml = helper.tmpl(template.success,{
-                                grouponOrderStatus: grouponOrderStatus
-                            });
-                        }else{
-                            grouponOrderStatus = '拼团失败';
-                            statusHtml = helper.tmpl(template.fail,{
-                                grouponOrderStatus: grouponOrderStatus
-                            });
-                        }
-                        listHtml += helper.tmpl(template.list,{
-                            showGrouponUrl: item.showGrouponUrl,
-                            coverUrl: item.coverUrl,
-                            albumTitle: item.albumTitle,
-                            statusHtml: statusHtml
-                        });
-
-                    })
-                    current.append(listHtml);
+                    current.append(jointHtml(listData));
                 },
                 error: function(){
                     xm.util.toast('加载更多失败，请稍后再试');
