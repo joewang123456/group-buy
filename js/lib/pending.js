@@ -5,17 +5,15 @@
     }
     Pending.prototype = {
         constructor: Pending,
-        _dom: function(){
-            return $('<div class="ajax_pending_container" style="display:none;"><div class="square_volume_mid"><div></div><div></div><div></div><div></div><div></div></div></div>')
-        },
         _init: function(){
+            this._dom = $('<div class="ajax_pending_container" style="display:none;"><div class="square_volume_mid"><div></div><div></div><div></div><div></div><div></div></div></div>')
             $('body').append(this._dom);
         },
         show: function(){
-            $('.ajax_pending_container').show();
+            this._dom.show();
         },
         hide: function(){
-            $('.ajax_pending_container').hide();
+            this._dom.hide();
         }
     }
     window.Pending = new Pending();
