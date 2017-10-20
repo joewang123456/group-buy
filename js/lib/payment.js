@@ -124,6 +124,9 @@
           }
           return false
         },
+        cancel: function(){
+          $.isFunction(_this.opts.failed) && _this.opts.failed(paymentInfo)
+        }
       })
     },
     _xiPay: function(paymentInfo) {
