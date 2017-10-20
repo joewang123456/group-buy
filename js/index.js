@@ -110,7 +110,7 @@ $(function(){
         var $jJoin = $('.j-join');
         $jJoin.click(function(){
             if($jJoin.attr('data-has-joined') === 'true'){
-                xm.util.toast('你已参该专辑的其他拼团');
+                xm.util.toast('你已参于该专辑的其他拼团');
             }else{
                 location.href = $jJoin.attr('data-groupon-pay-url');
             }
