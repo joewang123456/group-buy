@@ -2,6 +2,7 @@ $(function(){
     
     var constant = xm && xm.const;
     var helper = xm && xm.helper;
+    var env = xm && xm.env;
 
     var regexp = {
         launch: /^\/groupon\/guidance\/item\/\d+/,        
@@ -135,6 +136,23 @@ $(function(){
     
                 });
             })    
+        }
+        // 二次分享
+        var wx_shareData = $('.wx-share').data();        
+        if (env.isInWeiXin && wx_shareData) {
+            var shareParam = {
+                title: wx_shareData.shareTitle,
+                link: wx_shareData.shareUrl, 
+                imgUrl: wx_shareData.shareCoverPath, 
+                desc: wx_shareData.shareContext
+            }
+            wx.ready(function() {
+                wx.onMenuShareAppMessage(shareParam)
+                wx.onMenuShareTimeline(shareParam)
+                wx.onMenuShareQQ(shareParam)
+                wx.onMenuShareQZone(shareParam)
+                wx.onMenuShareWeibo(shareParam)
+            })
         }
         
     })
