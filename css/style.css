@@ -1054,6 +1054,111 @@
 .pop-revoke .btn-panel a:last-child:after {
   content: none;
 }
+/*loadingmore*/
+.loading .loadinner {
+  position: relative;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  color: #999;
+  background: #fff;
+}
+.loading .loadinner:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: #e8e8e8;
+  transform: scale(1, 0.5);
+  -webkit-transform: scale(1, 0.5);
+}
+.loading .square_spin_fade {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  top: 0;
+  left: 0;
+}
+.square_spin_fade div {
+  width: 2px;
+  height: 6px;
+  border-radius: 2px;
+  background-color: #999;
+  position: absolute;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation: square_spin_fade 1.2s linear infinite;
+  animation: square_spin_fade 1.2s linear infinite;
+}
+.square_spin_fade div:nth-child(1) {
+  top: 8px;
+  left: 19px;
+}
+.square_spin_fade div:nth-child(2) {
+  top: 10.6360px;
+  right: 12.6360px;
+  -webkit-animation-delay: 0.15s;
+  animation-delay: 0.15s;
+  -webkit-transform: rotate(45DEG);
+  transform: rotate(45DEG);
+}
+.square_spin_fade div:nth-child(3) {
+  top: 16px;
+  right: 10px;
+  -webkit-animation-delay: 0.3s;
+  animation-delay: 0.3s;
+  -webkit-transform: rotate(90DEG);
+  transform: rotate(90DEG);
+}
+.square_spin_fade div:nth-child(4) {
+  bottom: 10.6360px;
+  right: 12.6360px;
+  -webkit-animation-delay: 0.45s;
+  animation-delay: 0.45s;
+  -webkit-transform: rotate(135DEG);
+  transform: rotate(135DEG);
+}
+.square_spin_fade div:nth-child(5) {
+  bottom: 8px;
+  left: 19px;
+  -webkit-animation-delay: 0.6s;
+  animation-delay: 0.6s;
+}
+.square_spin_fade div:nth-child(6) {
+  bottom: 10.6360px;
+  left: 12.6360px;
+  -webkit-animation-delay: 0.75s;
+  animation-delay: 0.75s;
+  -webkit-transform: rotate(-135DEG);
+  transform: rotate(-135DEG);
+}
+.square_spin_fade div:nth-child(7) {
+  top: 16px;
+  left: 10px;
+  -webkit-animation-delay: 0.9s;
+  animation-delay: 0.9s;
+  -webkit-transform: rotate(-90DEG);
+  transform: rotate(-90DEG);
+}
+.square_spin_fade div:nth-child(8) {
+  top: 10.6360px;
+  left: 12.6360px;
+  -webkit-animation-delay: 1.05s;
+  animation-delay: 1.05s;
+  -webkit-transform: rotate(-45DEG);
+  transform: rotate(-45DEG);
+}
+@keyframes square_spin_fade {
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 /*e我的拼团页*/
 /*begin ajax pending*/
 .container {
