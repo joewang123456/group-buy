@@ -728,7 +728,18 @@
   line-height: 16px;
   background: #F86442;
 }
+.detail .share-panel {
+  height: 110px;
+}
 .detail .share {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-width: 320px;
+  max-width: 640px;
+  margin: auto;
+  box-shadow: 0px -1px 4px #e8e8e8;
   background-color: #fcfcfc;
 }
 .detail .share p {
