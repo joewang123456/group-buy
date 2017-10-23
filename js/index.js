@@ -209,6 +209,9 @@ $(function(){
         var $myLaunch = $('.j-launch-list');
         var $myJoin = $('.j-join-list');
         var $empty = $('.search-empty');
+        var $loading = $('.j-load');
+        var $rotate = $('.j-rotate');
+        var $loadtext = $('.j-loadtext');
         var grouponRoleId = $('.j-my-launch').data().grouponRoleId; // 默认是我发起的拼团        
 
         // 点击跳转
@@ -226,6 +229,11 @@ $(function(){
                 }else{
                     $empty.addClass('hidden');
                 }
+                if($myLaunch.attr('data-has-more') === 'false'){
+                    $loading.addClass('hidden');
+                }else{
+                    $loading.removeClass('hidden');
+                }
                 grouponRoleId = $('.j-my-launch').data().grouponRoleId
                 $myJoin.hide();
                 $myLaunch.show();
@@ -234,6 +242,11 @@ $(function(){
                     $empty.removeClass('hidden').find('.search-result').text('还未参与任何拼团');
                 }else{
                     $empty.addClass('hidden');
+                }
+                if($myJoin.attr('data-has-more') === 'false'){
+                    $loading.addClass('hidden');
+                }else{
+                    $loading.removeClass('hidden');
                 }
                 grouponRoleId = $('.j-my-join').data().grouponRoleId;
                 $myLaunch.hide();
@@ -288,6 +301,8 @@ $(function(){
         function createLoadMore(option){
             var lm = new loadMore(option.dom);
             lm.on('xmlm-load-triggered', function(event, elem) {
+                $loadtext.addClass('hidden');
+                $rotate.removeClass('hidden');
                 getList($.extend(option,{loadMore: lm}));
             })
         }
@@ -351,6 +366,7 @@ $(function(){
         function getList(option){
             var current = option.dom;
             if(current.attr('data-has-more') === 'false'){
+                $loading.addClass('hidden');
                 option.loadMore.clear();
                 return false;
             }
@@ -360,7 +376,14 @@ $(function(){
                     pageNum: option.pageNum
                 },
                 success: function(res){
-                    current.attr('data-has-more',res.hasMore);
+                    var hasMore = res.hasMore
+                    current.attr('data-has-more',hasMore);
+                    if(hasMore){
+                        $loadtext.removeClass('hidden');
+                        $rotate.addClass('hidden');        
+                    }else{
+                        $loading.addClass('hidden');
+                    }
                     var listData = res.data;
                     current.append(jointHtml(listData));
                 },
