@@ -323,3 +323,27 @@ del {
   white-space: nowrap;
   border: 1px solid transparent;
 }
+
+input::-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: #f00;
+  font-size: 12px;
+}
+input:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: #f00;
+  font-size: 12px;  
+}
+input::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #f00;
+  font-size: 12px;  
+}
+input::-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+  color: #f00;
+  font-size: 12px;  
+}
+
+textarea:-moz-placeholder { color: red; };
+textarea::-webkit-textarea-placeholder { color: red; };

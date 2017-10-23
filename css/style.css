@@ -181,7 +181,8 @@
   letter-spacing: 0.52px;
 }
 .launch .notice {
-  padding: 22px 22px 80px;
+  padding: 22px 22px 0px;
+  margin-bottom: 55px;
   font-size: 12px;
   text-align: left;
   color: #999999;
