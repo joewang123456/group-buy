@@ -68,17 +68,13 @@
             setTimeout(function(){
               location.reload();
             },1000)
-            return; 
-          }
-          if(res.ret == 1){
+          }else if(res.ret == 1){
             Pending.hide();            
             xm.util.toast('支付失败，拼团已结束');
             setTimeout(function(){
               location.reload();
             },1000)
-            return;
-          }
-          if(res.ret == 0){
+          }else if(res.ret == 0){
             _this._pay(res.data);
           }else{
             $.isFunction(_this.opts.failed) && _this.opts.failed(arguments)         
