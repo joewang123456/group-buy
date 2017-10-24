@@ -77,7 +77,11 @@
             },1000)
             return;
           }
-          _this._pay(res.data);
+          if(res.ret == 0){
+            _this._pay(res.data);
+          }else{
+            xm.util.toast('支付失败，请稍后再试');          
+          }
         },
         error: function() {
           $.isFunction(_this.opts.failed) && _this.opts.failed(arguments)
