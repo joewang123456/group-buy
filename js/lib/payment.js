@@ -63,7 +63,7 @@
         },
         success: function(res) {
           // 600 需要充值  1 拼团已结束  411重复下单
-          if(res.ret == 600 || res.ret == 1){
+          if(res.ret == 600 || res.ret == 1 || res.ret == 411){
             Pending.hide();
             xm.util.toast(res.msg);
             setTimeout(function(){
