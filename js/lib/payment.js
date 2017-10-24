@@ -77,7 +77,7 @@
             },1000)
             return;
           }
-          _this._pay(res);
+          _this._pay(res.data);
         },
         error: function() {
           $.isFunction(_this.opts.failed) && _this.opts.failed(arguments)
