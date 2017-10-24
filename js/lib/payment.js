@@ -63,6 +63,7 @@
         },
         success: function(res) {
           if(res.ret == 600){
+            Pending.hide();
             xm.util.toast(res.msg);
             setTimeout(function(){
               location.reload();
@@ -80,7 +81,7 @@
           if(res.ret == 0){
             _this._pay(res.data);
           }else{
-            xm.util.toast('支付失败，请稍后再试');          
+            $.isFunction(_this.opts.failed) && _this.opts.failed(arguments)         
           }
         },
         error: function() {
