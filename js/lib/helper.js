@@ -209,7 +209,7 @@
   // 安卓 6.3.0.3版本 webview从后台进入前台会调用requestFocus使webview的window触发focus事件
   var isNativeSetFocus =
     env.isInNative &&
-    env.isAndroid &&
+    env.isInAndroid &&
     !!~compVersion(ya.getVersion(), '6.3.0.3')
 
   var constant = {
