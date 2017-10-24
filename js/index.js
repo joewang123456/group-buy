@@ -106,6 +106,10 @@ $(function(){
             }
         },1000)
 
+        // 下载
+        $('.j-openapp').click(function(){
+            location.href = 'http://m.ximalaya.com/down';
+        })
         // 跳转
         var $jJoin = $('.j-join');
         $jJoin.click(function(){
