@@ -62,15 +62,9 @@
           grouponOrderId: _this.opts.grouponOrderId,
         },
         success: function(res) {
-          if(res.ret == 600){
+          if(res.ret == 600 || res.ret == 1){
             Pending.hide();
             xm.util.toast(res.msg);
-            setTimeout(function(){
-              location.reload();
-            },1000)
-          }else if(res.ret == 1){
-            Pending.hide();            
-            xm.util.toast('支付失败，拼团已结束');
             setTimeout(function(){
               location.reload();
             },1000)
