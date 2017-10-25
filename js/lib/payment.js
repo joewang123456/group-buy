@@ -62,21 +62,28 @@
           grouponOrderId: _this.opts.grouponOrderId,
         },
         success: function(res) {
-          // 600 需要充值  1 拼团已结束  411重复下单
-          if(res.ret == 600 || res.ret == 1 || res.ret == 411){
-            Pending.hide();
-            xm.util.toast(res.msg);
-            setTimeout(function(){
-              location.reload();
-            },1000)
-          }else if(res.ret == 0){
+          if(res.ret == 0){
             _this._pay(res.data);
           }else{
             $.isFunction(_this.opts.failed) && _this.opts.failed(arguments)         
           }
         },
-        error: function() {
-          $.isFunction(_this.opts.failed) && _this.opts.failed(arguments)
+        error: function(xhr) {
+          // 600 需要充值  611 拼团已结束  612重复下单
+          if( xhr.status == 600 || xhr.status == 611 || xhr.status == 612){
+            var msg = '';
+            try{
+              msg = JSON.parse(xhr.responseText).msg;
+            }
+            catch(e) {
+              msg = '支付失败，请稍后再试';
+            }
+            Pending.hide();
+            xm.util.toast(msg);
+            setTimeout(function(){
+              location.reload();
+            },1000)
+          }
         },
       })
     },

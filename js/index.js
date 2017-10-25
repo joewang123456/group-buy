@@ -177,6 +177,9 @@ $(function(){
                     return;
                 } 
                 jCount.text(textLen);
+            }else{
+                $textarea.val($textarea.val().substr(0,40));
+                jCount.text(40);
             }
         })
         var url = helper.tmpl(constant.paths.message, {
