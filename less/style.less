@@ -1404,3 +1404,72 @@
       margin-top: 20px;
   }
 }
+
+.pop-login{
+	background:#fff;
+	border-radius:6px;
+	width:280px;
+	position: absolute;
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);
+	-webkit-transform:translate(-50%,-50%);
+	overflow: hidden;
+	.ic-close{
+		position: absolute;
+		right:0;
+		top:0;
+		width:40px;
+		height:40px;
+		background:url(img/ic-cancel.png) no-repeat;
+		background-size:40px;
+	}
+	.title{
+		text-align:center;
+		font-size: 16px;
+		color: #000;
+		padding:30px 19px 10px;
+	}
+	.tit{
+		padding:0 19px;
+		font-size:15px;
+		color:#333;
+		margin-top:20px;
+	}
+	.btn-panel{
+		font-size: 0px;
+		color: #0076ff;
+		position: relative;
+		margin-top:20px;
+		a{
+			width:50%;
+			font-size: 16px;
+			display:inline-block;
+			text-align:center;
+			line-height:44px;
+			position: relative;
+			&:after{
+				content:'';
+				position: absolute;
+				right:-1px;
+				top:0;
+				bottom:0;
+				width:1px;
+				background:#e8e8e8;
+				transform:scale(0.5,1);
+				-webkit-transform:scale(0.5,1);
+			}
+		}
+		&:before{
+			content:'';
+			position: absolute;
+			left:0;
+			right:0;
+			top:0;
+			height:1px;
+			background:#e8e8e8;
+			transform:scale(1,0.5);
+			-webkit-transform:scale(1,0.5);
+		}
+	}
+}
