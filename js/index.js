@@ -71,10 +71,27 @@ $(function(){
     helper.route(regexp.detail,function(){
         console.log('this is detail');
         var statusId = $('.j-statusTime').attr('data-groupon-status-id');
-        var time = $('.j-statusTime').attr('data-remain-milliseconds');        
         var $hour = $('.j-hour');
         var $minute = $('.j-minute');
         var $second = $('.j-second');
+
+        var only_id = window.location.href;
+        var time,leaveStamp,d_value;
+        var htmlTime = $('.j-statusTime').attr('data-remain-milliseconds');
+        var sessionTime = window.sessionStorage.getItem(only_id);
+        leaveStamp = window.sessionStorage.getItem(only_id+'_leaveStamp');
+        d_value = new Date().getTime() - leaveStamp;
+        if(sessionTime){
+            time = Math.min(htmlTime,Number(sessionTime)-d_value);
+        }else{
+            time = htmlTime;
+        }
+        
+        window.onunload = function(){
+            window.sessionStorage.setItem(only_id,time);
+            window.sessionStorage.setItem(only_id+'_leaveStamp',new Date().getTime());
+        }
+        
         // 倒计时
         function countTime(time){
             var timeObj = helper.timeDown(time);
@@ -276,17 +293,13 @@ $(function(){
         }).on('click','.confirm',function(){
             $.ajax({
                 url: cancalUrl,
+                type: 'post',
                 data: {},
                 success: function(res){
-                    var ret = res.ret;
-                    if(ret === 0){
-                        xm.util.toast('你的拼团已撤销');
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1000);
-                    }else{
-                        xm.util.toast('撤销失败，请稍后再试');
-                    }
+                    xm.util.toast('你的拼团已撤销');
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
                     $masker.addClass('hidden');
                 },
                 error: function(){
