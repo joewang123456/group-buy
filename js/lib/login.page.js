@@ -12,7 +12,7 @@
   }
   //匹配页面pathname的正则表达式
   var regexp = {
-    login: /\/app\/login\/?$/,
+    login: /^\/groupon\/app\/login\/?$/,
   };
   
   route(regexp.login, function () {
