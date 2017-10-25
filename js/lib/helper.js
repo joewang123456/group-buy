@@ -191,6 +191,17 @@
     }
   }
 
+  function parseCookie() {
+    var result = {};
+    var cookies = document.cookie.split('; ');
+    cookies.forEach(function (item) {
+      var kvs = item.split('=');
+      if(kvs[1]) {
+        result[kvs[0]] = kvs[1];
+      }
+    });
+    return result;
+  }
 
 
   var ua = navigator.userAgent
@@ -248,6 +259,7 @@
     visibilityChangeHandler: visibilityChangeHandler,
     tmpl: tmpl,
     route: route,
-    timeDown: timeDown
+    timeDown: timeDown,
+    parseCookie: parseCookie
   }
 })()

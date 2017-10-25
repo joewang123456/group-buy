@@ -1,25 +1,18 @@
-;(function () {
-  /**
-   * 类似路由函数，根据页面的路径执行不同的回调函数
-   * @param  {Regexp}   regexp   匹配页面pathname的正则
-   * @param  {Function} callback 匹配当前pathname的页面js代码
-   */
-  function route (regexp, callback) {
-    var path = window.location.pathname;
-    if (regexp.test(path)) {
-      callback();
-    }
-  }
+$(function(){
+  var helper = xm && xm.helper;
+  var env = xm && xm.env;
+  
+
   //匹配页面pathname的正则表达式
   var regexp = {
     login: /^\/groupon\/app\/login\/?$/,
   };
   
-  route(regexp.login, function () {
+  helper.route(regexp.login, function () {
     var btnLogin = $('.j-login');
     var btnDLogin = $('.j-device-login');
     var target = (location.search.match(/fromUri=([^&]+)/) || [,'/'])[1];
-    var cookies = xm.plusMember.parseCookie();
+    var cookies = helper.parseCookie();
     var hasToken = cookies[config.TOKEN_LABEL] || cookies[config.DEVICE_TOKEN_LABEL];
     function login() {
       // 当客户端处于登录状态时回调才会执行
@@ -29,7 +22,7 @@
         // iOS下，进入页面时页面有token则认为当前用户被劫持了(根据iOS app更新率 忽略情况1)
         //   1. app version 小于 6.3.0 并且 token过期
         //   2. 运营商劫持 token没有发送到后端
-        if(xm.plusMember.isIOS && hasToken) {
+        if(env.isInIOS && hasToken) {
           sessionStorage.setItem('hyjack_flag', 1);
         }
         document.cookie = config.TOKEN_LABEL+"="+res.uid+"&"+res.token+";path=/;domain=.ximalaya.com";
@@ -91,4 +84,5 @@
     printLog(this.location.href);
     printLog(this.document.cookie);
   });
-})();
+
+})

@@ -32,10 +32,11 @@
       "xm-util/js/xm_util_toast.js",
       "load-more",
       "js/lib/pending.js",
-      "js/lib/login.page.js",
       "js/lib/weixin.js",
       "js/lib/helper.js",
-      "js/lib/payment.js"
+      "js/lib/payment.js",
+      "js/lib/popup.js",
+      "js/lib/login.page.js"
     ],
     "base.js": [
       "libs.js",
