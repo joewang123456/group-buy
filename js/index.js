@@ -334,16 +334,14 @@ $(function(){
             createLoadMore({
                 dom: $myLaunch,
                 url: loadMoreUrl,
-                type: 'launch',
-                pageNum: pageNum.launch++
+                type: 'launch'
             })
         }
         if($myJoin.length > 0){
             createLoadMore({
                 dom: $myJoin,
                 url: loadMoreUrl,
-                type: 'join',
-                pageNum: pageNum.join++
+                type: 'join'
             })
         }
         function jointHtml(arr){
@@ -388,16 +386,22 @@ $(function(){
         }
 
         function getList(option){
+            var curPage;
             var current = option.dom;
             if(current.attr('data-has-more') === 'false'){
                 $loading.addClass('hidden');
                 option.loadMore.clear();
                 return false;
             }
+            if(option.type === 'launch'){
+                curPage = pageNum.launch++;
+            }else{
+                curPage = pageNum.join++;
+            }
             $.ajax({
                 url: option.url,
                 data: {
-                    pageNum: option.pageNum
+                    pageNum: curPage
                 },
                 success: function(res){
                     var hasMore = res.hasMore
