@@ -28,10 +28,14 @@ $(function(){
         })
 
         $footer.click(function(){
-            if(paymentParam.hasJoined){
-                $hasJoin.fadeIn(200);
+            if(paymentParam.isAlbumRefunding){
+                xm.util.toast('你正在申请该专辑退款，不能加入拼团');
             }else{
-                $mask.fadeIn(200);
+                if(paymentParam.hasJoined){
+                    $hasJoin.fadeIn(200);
+                }else{
+                    $mask.fadeIn(200);
+                }
             }
         })
         $hasJoin.on('click','.j-know',function(){
