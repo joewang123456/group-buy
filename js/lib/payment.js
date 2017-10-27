@@ -70,20 +70,20 @@
         },
         error: function(xhr) {
           // 600 需要充值  611 拼团已结束  612重复下单
-          if( xhr.status == 600 || xhr.status == 611 || xhr.status == 612){
+          // if( xhr.status == 600 || xhr.status == 611 || xhr.status == 612){
             var msg = '';
             try{
               msg = JSON.parse(xhr.responseText).msg;
             }
             catch(e) {
-              msg = '支付失败，请稍后再试';
+              msg = '下单失败，请稍后再试';
             }
             Pending.hide();
             xm.util.toast(msg);
             setTimeout(function(){
               location.reload();
             },1000)
-          }
+          // }
         },
       })
     },
