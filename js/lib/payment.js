@@ -170,9 +170,7 @@
             }
           },
           complete: function(xhr, status) {
-            if(_this.orderSuccess) return
-
-            if(index++ > 3) {
+            if(_this.orderSuccess || index++ > 3) {
               clearInterval(timer)
               _this.orderSuccess === false && $.isFunction(_this.opts.failed) && _this.opts.failed()
             }
