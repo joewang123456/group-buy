@@ -146,6 +146,7 @@
     orderStatus: function() {
       var url = helper.tmpl(constant.paths.orderstatus, {
         productItemId: this.opts.productItemId,
+        timestamp: new Date().getTime()
       })
       var _this = this
       _this.orderSuccess = false

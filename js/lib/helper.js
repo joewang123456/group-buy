@@ -228,7 +228,7 @@
     mSiteOrigin: 'm' + (env.isInTest ? '.test' : '') + '.ximalaya.com',
     paths: {
       placeorder: '/groupon/placeorder',
-      orderstatus: '/groupon/orderstatus/${productItemId}/',
+      orderstatus: '/groupon/orderstatus/item/${productItemId}/${timestamp}',
       recommendation: '/groupon/${grouponOrderId}/recommendation',
       ordercontext: '/groupon/ordercontext/productItem/${productItemId}/${timestamp}',
       message: '/groupon/${grouponOrderId}/message',
