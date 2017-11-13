@@ -341,9 +341,9 @@ input::-moz-placeholder {
 }
 input::-ms-input-placeholder {
   /* Internet Explorer 10+ */
-  color: #f00;
+  color: #f00; 
   font-size: 12px;  
 }
 
-textarea:-moz-placeholder { color: red; };
-textarea::-webkit-textarea-placeholder { color: red; };
+textarea:-moz-placeholder { color: red; }
+textarea::-webkit-textarea-placeholder { color: red; }
