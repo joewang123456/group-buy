@@ -15,7 +15,7 @@
   "combineWith": {
     "jquery": "1.11.3",
     "xm-util": "1.0.0",
-    "ya": "1.2.0",
+    "ya": "1.3.0",
     "load-more": "1.0.0"
   },
   "devCombineWith": {
