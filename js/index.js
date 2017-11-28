@@ -194,7 +194,9 @@ $(function(){
         var $textarea = $('.j-textarea');
         var jCount = $('.j-count');            
         var grouponOrderId = $recruit.data().grouponOrderId;
+        var textareaFlag = false;
         $textarea.bind('input propertychange paste cut',function(){
+            textareaFlag = true;
             var textLen = $textarea.val().length;      
             if(textLen <= 40){
                 if(textLen == 0){
@@ -207,10 +209,12 @@ $(function(){
                 jCount.text(40);
             }
         })
-        var url = helper.tmpl(constant.paths.message, {
-            grouponOrderId: grouponOrderId
-        })
-        $recruit.on('click',function(){
+        var checkUrl = constant.paths.sensitive;
+
+        function recommend(){
+            var url = helper.tmpl(constant.paths.message, {
+                grouponOrderId: grouponOrderId
+            })
             $.ajax({
                 url: url,
                 type: 'post',
@@ -229,8 +233,31 @@ $(function(){
                 error: function(){
                     xm.util.toast('接口访问出错，请稍后再试');
                 }
-                    
-            })
+            })        
+        }
+        $recruit.on('click',function(){
+
+            if(textareaFlag){
+                $.ajax({
+                    url: checkUrl,
+                    type: 'post',
+                    data: {
+                        message: $textarea.val()
+                    },
+                    cache: false
+                }).done(function(res){
+                    if(res){
+                        recommend();
+                    }else{
+                        xm.util.toast('当前推荐语含有敏感词');
+                    }
+                }).fail(function(){
+                    xm.util.toast('接口访问出错，请稍后再试');
+                })    
+            }else{
+                recommend();
+            }
+
         })
     })
 

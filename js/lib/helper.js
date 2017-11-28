@@ -236,7 +236,8 @@
       mygroup: '/groupon/mygroupon/role/${grouponRoleId}/${timestamp}',
       mygrouprecord: '/groupon/mygroupon/role/${grouponRoleId}/records/${timestamp}',
       cancel: '/groupon/${grouponOrderId}/cancel',
-      joinfail: '/groupon/${grouponOrderId}/join/failure'
+      joinfail: '/groupon/${grouponOrderId}/join/failure',
+      sensitive: '/groupon/check/recommendation/message'
     },
   }
 
