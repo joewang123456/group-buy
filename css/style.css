@@ -463,14 +463,14 @@
   border-radius: 4px;
 }
 .detail .banner .title {
-  margin: 80px 8px 0 0;
+  margin: 70px 8px 0 0;
   font-size: 18px;
   line-height: 25px;
   color: #333333;
 }
 .detail .banner .title.elli-multi-2 {
-  -webkit-line-clamp: 1;
-  max-height: 1.5em;
+  -webkit-line-clamp: 2;
+  max-height: 3em;
 }
 .detail .banner .divider {
   width: 46px;
@@ -479,7 +479,7 @@
   background: #cccccc;
 }
 .detail .banner .desc {
-  margin: 0 10px 10px 0;
+  margin: 0 10px 5px 0;
   font-size: 14px;
   line-height: 20px;
   color: #333333;
