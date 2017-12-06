@@ -134,13 +134,26 @@ $(function(){
         // 跳转
         var $jJoin = $('.j-join');
         $jJoin.click(function(){
+            var linkUrl = $jJoin.attr('data-groupon-pay-url');
+            if(!($jJoin.attr('data-logined'))){
+                if(env.isInWeiXin){
+                    location.href = '/login?fromUri=' + encodeURIComponent(linkUrl);
+                }
+                else if(env.isInNative){
+                    ya.login(function(){
+                        location.href = linkUrl
+                    })
+                }
+
+                return;
+            }
             if($jJoin.attr('data-is-album-refunding') === 'true'){
                 xm.util.toast('你正在申请该专辑退款，不能加入拼团');
             }else{
                 if($jJoin.attr('data-has-joined') === 'true'){
                     xm.util.toast('你已参与该专辑的其他拼团');
                 }else{
-                    location.href = $jJoin.attr('data-groupon-pay-url');
+                    location.href = linkUrl;
                 }
             }
         })
