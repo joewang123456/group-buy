@@ -137,11 +137,11 @@ $(function(){
             var linkUrl = $jJoin.attr('data-groupon-pay-url');
             if(!($jJoin.attr('data-is-logined'))){
                 if(env.isInWeiXin){
-                    location.href = '/login?fromUri=' + encodeURIComponent(linkUrl);
+                    location.href = '/login?fromUri=' + encodeURIComponent(location.href);
                 }
                 else if(env.isInNative){
                     ya.login(function(){
-                        location.href = linkUrl
+                        location.href = location.href
                     })
                 }
 
