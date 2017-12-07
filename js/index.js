@@ -135,18 +135,18 @@ $(function(){
         var $jJoin = $('.j-join');
         $jJoin.click(function(){
             var linkUrl = $jJoin.attr('data-groupon-pay-url');
-            if(!($jJoin.attr('data-is-logined'))){
-                if(env.isInWeiXin){
-                    location.href = '/login?fromUri=' + encodeURIComponent(location.href);
-                }
-                else if(env.isInNative){
-                    ya.login(function(){
-                        location.href = location.href
-                    })
-                }
+            // if(!($jJoin.attr('data-is-logined'))){
+            //     if(env.isInWeiXin){
+            //         location.href = '/login?fromUri=' + encodeURIComponent(location.href);
+            //     }
+            //     else if(env.isInNative){
+            //         ya.login(function(){
+            //             location.href = location.href
+            //         })
+            //     }
 
-                return;
-            }
+            //     return;
+            // }
             if($jJoin.attr('data-is-album-refunding') === 'true'){
                 xm.util.toast('你正在申请该专辑退款，不能加入拼团');
             }else{
