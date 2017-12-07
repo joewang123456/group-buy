@@ -165,6 +165,7 @@
               _this.orderSuccess = true
               $.isFunction(_this.opts.success) && _this.opts.success(data.grouponOrderId)
             }else if(data.status === 300){
+              clearInterval(timer)
               location.href = helper.tmpl(constant.paths.joinfail, {
                 grouponOrderId: _this.opts.grouponOrderId
               })
