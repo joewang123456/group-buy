@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   grunt.initConfig({
     less: {
       dev: {
@@ -15,6 +15,14 @@ module.exports = function(grunt) {
         watchTask: true,
         server: {
           baseDir: './',
+          routes: {
+            '/detail': 'page/detail.html',
+            '/fail': 'page/fail.html',
+            '/launch': 'page/launch.html',
+            '/my-group': 'page/my-group.html',
+            '/pay': 'page/pay.html',
+            '/prelaunch': 'page/prelaunch.html'
+          },
           index: 'page/detail.html',
         },
       },
