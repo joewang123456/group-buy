@@ -3,22 +3,23 @@ $(function () {
     var constant = xm && xm.const;
     var helper = xm && xm.helper;
     var env = xm && xm.env;
-    var regexp = {
-        launch: /^\/groupon\/guidance\/item\/\d+/,
-        detail: /^\/groupon\/\d+\/(detail|join)\/\d+/,
-        prelaunch: /^\/groupon\/\d+\/recommendation/,
-        myGroup: /^\/groupon\/mygroupon\/role\/\d+/,
-        confirm: /^\/trade\/pay\/groupon/,
-        payFail: /^\/groupon\/\d+\/join\/failure/
-    }
     // var regexp = {
-    //     launch: /^\/launch/,
-    //     detail: /^\/detail/,
+    //     launch: /^\/groupon\/guidance\/item\/\d+/,
+    //     detail: /^\/groupon\/\d+\/(detail|join)\/\d+/,
     //     prelaunch: /^\/groupon\/\d+\/recommendation/,
     //     myGroup: /^\/groupon\/mygroupon\/role\/\d+/,
     //     confirm: /^\/trade\/pay\/groupon/,
     //     payFail: /^\/groupon\/\d+\/join\/failure/
     // }
+    var regexp = {
+        launch: /^\/launch/,
+        detail: /^\/detail/,
+        pay: /^\/pay/,
+        prelaunch: /^\/groupon\/\d+\/recommendation/,
+        myGroup: /^\/groupon\/mygroupon\/role\/\d+/,
+        confirm: /^\/trade\/pay\/groupon/,
+        payFail: /^\/groupon\/\d+\/join\/failure/
+    }
     // launch page
     helper.route(regexp.launch, function () {
         console.log('this is launch');
@@ -164,7 +165,16 @@ $(function () {
             }
         })
 
-        // 分享
+        // 招募弹出分享面板
+        $('.j-zhaomu').on('click', function () {
+            $('.share-panel').animate({ top: '0px' }).find('.share').animate({ bottom: '50px' });
+        });
+        $(".share-panel").on('click', function (e) {
+            if ($(e.target).hasClass('share-panel')) {
+                $('.share-panel').animate({ top: '100%' }).find('.share').animate({ bottom: '-90px' });
+            }
+        });
+        // 分享操作
         var shareData = $('.share').data();
         if (shareData) {
             var publicData = {
@@ -177,12 +187,26 @@ $(function () {
             var wxfriend = $.extend({ channel: 'weixin' }, publicData);
             $('.j-wxgroup').click(function () {
                 ya.share(wxgroup, function (res) {
-
+                    if (res.ret === 0) {
+                        //分享成功
+                        xm.util.toast('分享成功!');
+                        $('.share-panel').fadeOut(500);
+                    } else {
+                        //分享失败
+                        xm.util.toast('分享失败!');
+                        $('.share-panel').fadeOut(500);
+                    }
                 });
             })
             $('.j-wxfriend').click(function () {
                 ya.share(wxfriend, function (res) {
-
+                    if (res.ret === 0) {
+                        //分享成功
+                        xm.util.toast('分享成功!');
+                    } else {
+                        //分享失败
+                        xm.util.toast('分享失败!');
+                    }
                 });
             })
         }
@@ -214,7 +238,6 @@ $(function () {
         var maxNum = $textArea.data('max-num') - 0;
         //单击按钮编辑
         $editorGreetings.on('click', '.editor', function () {
-            // $editorGreetings.css({ opacity: 1 });
             $textAreaWrap.show();
             $textArea.focus().val($recommend.text());
             $recommend.hide();
@@ -223,12 +246,8 @@ $(function () {
         });
         //失去焦点保存
         $editorGreetings.on('blur', '.j-textarea', function () {
-            // $editorGreetings.css({ opacity: 0.5 });
-            $textAreaWrap.hide();
-            $recommend.show();
-            $editorButton.show();
             //请求编辑
-            editorMsg();
+            beforeEditorMsg();
         })
 
         //中文处理,chLock控制输入中文
@@ -244,42 +263,67 @@ $(function () {
         });
 
         //非中文处理
+        var isChange = false;
         $textArea.bind('input propertychange paste cut', function () {
+            isChange = true;
             if (!chLock) { //非中文直接截取,中文在此处不截取
                 $textArea.val($textArea.val().substr(0, maxNum));
                 $jCount.text($textArea.val().length);
             }
         });
 
-        //便捷请求
+        //编辑请求
         var checkUrl = constant.paths.sensitive;
-        function editorMsg() {
+        //修改之前，敏感词检查
+        function beforeEditorMsg() {
+            if (isChange) {
+                $.ajax({
+                    url: checkUrl,
+                    type: 'post',
+                    data: {
+                        message: $textArea.val()
+                    },
+                    cache: false
+                }).done(function (res) {
+                    if (res) {
+                        recommend();
+                    } else {
+                        xm.util.toast('当前推荐语含有敏感词');
+                    }
+                }).fail(function () {
+                    xm.util.toast('接口访问出错，请稍后再试');
+                });
+            } else {
+                recommend();
+            }
+        }
+        //修改推荐语
+        var grouponOrderId = $editorGreetings.data().grouponOrderId;
+        function recommend() {
+            var url = helper.tmpl(constant.paths.message, {
+                grouponOrderId: grouponOrderId
+            });
             $.ajax({
-                url: checkUrl,
+                url: url,
                 type: 'post',
                 data: {
-                    message: $textArea.val()
+                    recommendationWord: $textArea.val()
                 },
-                cache: false
-            }).done(function (res) {
-                if (res) {
-                    xm.util.toast('更新成功');
-                    $recommend.text($textArea.val());
-                } else {
-                    xm.util.toast('当前推荐语含有敏感词');
+                success: function (res) {
+                    var ret = res.ret;
+                    if (ret === 0) {
+                        //修改成功，更新推荐语
+                        $textAreaWrap.hide();
+                        $recommend.text($textArea.val()).show();
+                        $editorButton.show();
+                        xm.util.toast('更新成功');
+                    }
+                },
+                error: function () {
+                    xm.util.toast('接口访问出错，请稍后再试');
                 }
-            }).fail(function () {
-                xm.util.toast('接口访问出错，请稍后再试');
-            });
+            })
         }
-
-        $(".share-panel").on('touchmove', function (e) {
-            e.preventDefault();  //阻止默认行为
-        })
-        //招募
-        $('.j-zhaomu').on('click', function () {
-            $('.share-panel').fadeIn(500);
-        });
     });
 
     // prelaunch page
