@@ -61,5 +61,8 @@
     "grunt-contrib-less": "*",
     "grunt-contrib-uglify": "*",
     "grunt-contrib-watch": "*"
+  },
+  "dependencies": {
+    "grunt-connect-proxy": "^0.2.0"
   }
 }

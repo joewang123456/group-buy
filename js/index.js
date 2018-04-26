@@ -1,20 +1,26 @@
-$(function(){
-    
+var vConsole = new VConsole();
+$(function () {
     var constant = xm && xm.const;
     var helper = xm && xm.helper;
     var env = xm && xm.env;
-
     var regexp = {
-        launch: /^\/groupon\/guidance\/item\/\d+/,        
+        launch: /^\/groupon\/guidance\/item\/\d+/,
         detail: /^\/groupon\/\d+\/(detail|join)\/\d+/,
         prelaunch: /^\/groupon\/\d+\/recommendation/,
         myGroup: /^\/groupon\/mygroupon\/role\/\d+/,
         confirm: /^\/trade\/pay\/groupon/,
         payFail: /^\/groupon\/\d+\/join\/failure/
     }
-
+    // var regexp = {
+    //     launch: /^\/launch/,
+    //     detail: /^\/detail/,
+    //     prelaunch: /^\/groupon\/\d+\/recommendation/,
+    //     myGroup: /^\/groupon\/mygroupon\/role\/\d+/,
+    //     confirm: /^\/trade\/pay\/groupon/,
+    //     payFail: /^\/groupon\/\d+\/join\/failure/
+    // }
     // launch page
-    helper.route(regexp.launch,function(){
+    helper.route(regexp.launch, function () {
         console.log('this is launch');
         var $footer = $('.j-footer');
         var $mask = $('.j-mask');
@@ -27,41 +33,41 @@ $(function(){
             timestamp: new Date().getTime()
         })
 
-        $footer.click(function(){
-            if(paymentParam.isAlbumRefunding){
+        $footer.on('click', function () {
+            if (paymentParam.isAlbumRefunding) {
                 xm.util.toast('你正在申请该专辑退款，不能加入拼团');
-            }else{
-                if(paymentParam.hasJoined){
+            } else {
+                if (paymentParam.hasJoined) {
                     $hasJoin.fadeIn(200);
-                }else{
+                } else {
                     $mask.fadeIn(200);
                 }
             }
-        })
-        $hasJoin.on('click','.j-know',function(){
+        });
+        $hasJoin.on('click', '.j-know', function () {
             $hasJoin.fadeOut(100);
         })
-        $mask.on('click', '.close', function() {
+        $mask.on('click', '.close', function () {
             $mask.fadeOut(100);
-        }).on('click', '.j-pay', function(){
-            Pending.show();            
+        }).on('click', '.j-pay', function () {
+            Pending.show();
             var payData = $button.data();
             var needRecharge = payData.needRecharge;
             var rechargeAmount = payData.rechargeAmount;
-            if(needRecharge){// 充值
+            if (needRecharge) { // 充值
                 xm.payment.recharge(rechargeAmount);
-            }else{// 正常支付
+            } else { // 正常支付
                 var opts = $.extend({}, paymentParam)
-                opts.success = function(grouponOrderId) {
+                opts.success = function (grouponOrderId) {
                     Pending.hide();
                     xm.util.toast('支付成功');
-                    setTimeout(function(){
+                    setTimeout(function () {
                         location.href = xm.helper.tmpl(xm.const.paths.recommendation, {
                             grouponOrderId: grouponOrderId,
                         })
-                    },1000)
+                    }, 1000)
                 }
-                opts.failed = function() {
+                opts.failed = function () {
                     Pending.hide();
                     xm.util.toast('支付失败，请稍后再试');
                 }
@@ -72,7 +78,7 @@ $(function(){
     })
 
     // detail page
-    helper.route(regexp.detail,function(){
+    helper.route(regexp.detail, function () {
         console.log('this is detail');
         var statusId = $('.j-statusTime').attr('data-groupon-status-id');
         var $hour = $('.j-hour');
@@ -80,60 +86,60 @@ $(function(){
         var $second = $('.j-second');
 
         var only_id = window.location.href;
-        var time,leaveStamp,d_value;
+        var time, leaveStamp, d_value;
         var htmlTime = $('.j-statusTime').attr('data-remain-milliseconds');
         var sessionTime = window.sessionStorage.getItem(only_id);
-        leaveStamp = window.sessionStorage.getItem(only_id+'_leaveStamp');
+        leaveStamp = window.sessionStorage.getItem(only_id + '_leaveStamp');
         d_value = new Date().getTime() - leaveStamp;
-        if(sessionTime){
-            time = Math.min(htmlTime,Number(sessionTime)-d_value);
-        }else{
+        if (sessionTime) {
+            time = Math.min(htmlTime, Number(sessionTime) - d_value);
+        } else {
             time = htmlTime;
         }
-        
-        window.onunload = function(){
-            window.sessionStorage.setItem(only_id,time);
-            window.sessionStorage.setItem(only_id+'_leaveStamp',new Date().getTime());
+
+        window.onunload = function () {
+            window.sessionStorage.setItem(only_id, time);
+            window.sessionStorage.setItem(only_id + '_leaveStamp', new Date().getTime());
         }
-        
+
         // 倒计时
-        function countTime(time){
+        function countTime(time) {
             var timeObj = helper.timeDown(time);
             // 尽量减少DOM操作
-            if(timeObj.hour != $hour.text()){
+            if (timeObj.hour != $hour.text()) {
                 $hour.text(timeObj.hour);
-            }                            
-            if(timeObj.minute != $minute.text()){
+            }
+            if (timeObj.minute != $minute.text()) {
                 $minute.text(timeObj.minute);
-            }                            
-            if(timeObj.second != $second.text()){
+            }
+            if (timeObj.second != $second.text()) {
                 $second.text(timeObj.second);
-            }                            
+            }
         }
-        if(statusId == 2 || statusId == 3){
+        if (statusId == 2 || statusId == 3) {
             $('.j-time').addClass('grey');
             time = 0;
         }
         countTime(time);
-        var timer = setInterval(function(){
-            if(time > 0){
+        var timer = setInterval(function () {
+            if (time > 0) {
                 time -= 1000;
-                countTime(time);                    
-            }else{
+                countTime(time);
+            } else {
                 clearInterval(timer);
-                if(statusId == 1){// 拼团中 倒计时进行为0的时候刷新 更新状态
+                if (statusId == 1) { // 拼团中 倒计时进行为0的时候刷新 更新状态
                     location.reload();
                 }
             }
-        },1000)
+        }, 1000)
 
         // 下载
-        $('.j-openapp').click(function(){
+        $('.j-openapp').click(function () {
             location.href = 'http://m.ximalaya.com/down';
         })
         // 跳转
         var $jJoin = $('.j-join');
-        $jJoin.click(function(){
+        $jJoin.click(function () {
             var linkUrl = $jJoin.attr('data-groupon-pay-url');
             // if(!($jJoin.attr('data-is-logined'))){
             //     if(env.isInWeiXin){
@@ -147,12 +153,12 @@ $(function(){
 
             //     return;
             // }
-            if($jJoin.attr('data-is-album-refunding') === 'true'){
+            if ($jJoin.attr('data-is-album-refunding') === 'true') {
                 xm.util.toast('你正在申请该专辑退款，不能加入拼团');
-            }else{
-                if($jJoin.attr('data-has-joined') === 'true'){
+            } else {
+                if ($jJoin.attr('data-has-joined') === 'true') {
                     xm.util.toast('你已参与该专辑的其他拼团');
-                }else{
+                } else {
                     location.href = linkUrl;
                 }
             }
@@ -160,36 +166,36 @@ $(function(){
 
         // 分享
         var shareData = $('.share').data();
-        if(shareData){
+        if (shareData) {
             var publicData = {
                 title: shareData.shareTitle, // 分享标题
                 link: shareData.shareUrl, // 分享链接
                 imgUrl: shareData.shareCoverPath, // 分享图标
                 desc: shareData.shareContext
             }
-            var wxgroup = $.extend({channel: 'weixinGroup'},publicData);
-            var wxfriend = $.extend({channel: 'weixin'},publicData);
-            $('.j-wxgroup').click(function(){
-                ya.share(wxgroup,function(res){
-    
+            var wxgroup = $.extend({ channel: 'weixinGroup' }, publicData);
+            var wxfriend = $.extend({ channel: 'weixin' }, publicData);
+            $('.j-wxgroup').click(function () {
+                ya.share(wxgroup, function (res) {
+
                 });
             })
-            $('.j-wxfriend').click(function(){
-                ya.share(wxfriend,function(res){
-    
+            $('.j-wxfriend').click(function () {
+                ya.share(wxfriend, function (res) {
+
                 });
-            })    
+            })
         }
         // 二次分享
-        var wx_shareData = $('.wx-share').data();        
+        var wx_shareData = $('.wx-share').data();
         if (env.isInWeiXin && wx_shareData) {
             var shareParam = {
                 title: wx_shareData.shareTitle,
-                link: wx_shareData.shareUrl, 
-                imgUrl: wx_shareData.shareCoverPath, 
+                link: wx_shareData.shareUrl,
+                imgUrl: wx_shareData.shareCoverPath,
                 desc: wx_shareData.shareContext
             }
-            wx.ready(function() {
+            wx.ready(function () {
                 wx.onMenuShareAppMessage(shareParam)
                 wx.onMenuShareTimeline(shareParam)
                 wx.onMenuShareQQ(shareParam)
@@ -197,60 +203,136 @@ $(function(){
                 wx.onMenuShareWeibo(shareParam)
             })
         }
-        
-    })
+
+        //编辑招募语
+        var $editorGreetings = $('.editor-greetings');
+        var $recommend = $('.recommend');
+        var $textAreaWrap = $('.text-area-wrap');
+        var $textArea = $('.j-textarea');
+        var $editorButton = $('.editor');
+        var $jCount = $('.j-count');
+        var maxNum = $textArea.data('max-num') - 0;
+        //单击按钮编辑
+        $editorGreetings.on('click', '.editor', function () {
+            // $editorGreetings.css({ opacity: 1 });
+            $textAreaWrap.show();
+            $textArea.focus().val($recommend.text());
+            $recommend.hide();
+            $editorButton.hide();
+            $jCount.text($textArea.val().length);
+        });
+        //失去焦点保存
+        $editorGreetings.on('blur', '.j-textarea', function () {
+            // $editorGreetings.css({ opacity: 0.5 });
+            $textAreaWrap.hide();
+            $recommend.show();
+            $editorButton.show();
+            //请求编辑
+            editorMsg();
+        })
+
+        //中文处理,chLock控制输入中文
+        var chLock = false;
+        $textArea.on('compositionstart', function (e) {
+            console.log('中文输入：开始');
+            chLock = true;
+        }).on('compositionend', function (e) {
+            console.log('中文输入：结束');
+            chLock = false;
+            $textArea.val($textArea.val().substr(0, maxNum));
+            $jCount.text($textArea.val().length);
+        });
+
+        //非中文处理
+        $textArea.bind('input propertychange paste cut', function () {
+            if (!chLock) { //非中文直接截取,中文在此处不截取
+                $textArea.val($textArea.val().substr(0, maxNum));
+                $jCount.text($textArea.val().length);
+            }
+        });
+
+        //便捷请求
+        var checkUrl = constant.paths.sensitive;
+        function editorMsg() {
+            $.ajax({
+                url: checkUrl,
+                type: 'post',
+                data: {
+                    message: $textArea.val()
+                },
+                cache: false
+            }).done(function (res) {
+                if (res) {
+                    xm.util.toast('更新成功');
+                    $recommend.text($textArea.val());
+                } else {
+                    xm.util.toast('当前推荐语含有敏感词');
+                }
+            }).fail(function () {
+                xm.util.toast('接口访问出错，请稍后再试');
+            });
+        }
+
+        $(".share-panel").on('touchmove', function (e) {
+            e.preventDefault();  //阻止默认行为
+        })
+        //招募
+        $('.j-zhaomu').on('click', function () {
+            $('.share-panel').fadeIn(500);
+        });
+    });
 
     // prelaunch page
-    helper.route(regexp.prelaunch,function(){
+    helper.route(regexp.prelaunch, function () {
         console.log('this is prelaunch');
         var $recruit = $('.j-recruit');
         var $textarea = $('.j-textarea');
-        var jCount = $('.j-count');            
+        var jCount = $('.j-count');
         var grouponOrderId = $recruit.data().grouponOrderId;
         var textareaFlag = false;
-        $textarea.bind('input propertychange paste cut',function(){
+        $textarea.bind('input propertychange paste cut', function () {
             textareaFlag = true;
-            var textLen = $textarea.val().length;      
-            if(textLen <= 40){
-                if(textLen == 0){
+            var textLen = $textarea.val().length;
+            if (textLen <= 40) {
+                if (textLen == 0) {
                     jCount.text(15);
                     return;
-                } 
+                }
                 jCount.text(textLen);
-            }else{
-                $textarea.val($textarea.val().substr(0,40));
+            } else {
+                $textarea.val($textarea.val().substr(0, 40));
                 jCount.text(40);
             }
         })
         var checkUrl = constant.paths.sensitive;
 
-        function recommend(){
+        function recommend() {
             var url = helper.tmpl(constant.paths.message, {
                 grouponOrderId: grouponOrderId
-            })
+            });
             $.ajax({
                 url: url,
                 type: 'post',
                 data: {
                     recommendationWord: $textarea.val()
                 },
-                success: function(res){
+                success: function (res) {
                     var ret = res.ret;
-                    if(ret === 0){
+                    if (ret === 0) {
                         location.href = helper.tmpl(constant.paths.detail, {
                             grouponOrderId: grouponOrderId,
                             timestamp: new Date().getTime()
                         })
                     }
                 },
-                error: function(){
+                error: function () {
                     xm.util.toast('接口访问出错，请稍后再试');
                 }
-            })        
+            })
         }
-        $recruit.on('click',function(){
+        $recruit.on('click', function () {
 
-            if(textareaFlag){
+            if (textareaFlag) {
                 $.ajax({
                     url: checkUrl,
                     type: 'post',
@@ -258,24 +340,23 @@ $(function(){
                         message: $textarea.val()
                     },
                     cache: false
-                }).done(function(res){
-                    if(res){
+                }).done(function (res) {
+                    if (res) {
                         recommend();
-                    }else{
+                    } else {
                         xm.util.toast('当前推荐语含有敏感词');
                     }
-                }).fail(function(){
+                }).fail(function () {
                     xm.util.toast('接口访问出错，请稍后再试');
-                })    
-            }else{
+                })
+            } else {
                 recommend();
             }
 
         })
-    })
-
+    });
     // my-group page
-    helper.route(regexp.myGroup,function(){
+    helper.route(regexp.myGroup, function () {
         console.log('this is mygroup');
         var loadMore = xm && xm.util.loadMore;
         var $myLaunch = $('.j-launch-list');
@@ -287,37 +368,37 @@ $(function(){
         var grouponRoleId = $('.j-my-launch').data().grouponRoleId; // 默认是我发起的拼团        
 
         // 点击跳转
-        $('.group-list').on('click','.item',function(){
+        $('.group-list').on('click', '.item', function () {
             location.href = $(this).data().showGrouponUrl;
         })
 
         // 切换tab
-        $('.tab').on('click','.item',function(){
+        $('.tab').on('click', '.item', function () {
             var target = $(this);
             target.addClass('on').siblings().removeClass('on');
-            if(target.hasClass('j-my-launch')){
-                if($myLaunch.find('li').length == 0){
+            if (target.hasClass('j-my-launch')) {
+                if ($myLaunch.find('li').length == 0) {
                     $empty.removeClass('hidden').find('.search-result').text('无发起的拼团');
-                }else{
+                } else {
                     $empty.addClass('hidden');
                 }
-                if($myLaunch.attr('data-has-more') === 'false'){
+                if ($myLaunch.attr('data-has-more') === 'false') {
                     $loading.addClass('hidden');
-                }else{
+                } else {
                     $loading.removeClass('hidden');
                 }
                 grouponRoleId = $('.j-my-launch').data().grouponRoleId
                 $myJoin.hide();
                 $myLaunch.show();
-            }else{
-                if($myJoin.find('li').length == 0){
+            } else {
+                if ($myJoin.find('li').length == 0) {
                     $empty.removeClass('hidden').find('.search-result').text('还未参与任何拼团');
-                }else{
+                } else {
                     $empty.addClass('hidden');
                 }
-                if($myJoin.attr('data-has-more') === 'false'){
+                if ($myJoin.attr('data-has-more') === 'false') {
                     $loading.addClass('hidden');
-                }else{
+                } else {
                     $loading.removeClass('hidden');
                 }
                 grouponRoleId = $('.j-my-join').data().grouponRoleId;
@@ -329,28 +410,28 @@ $(function(){
         // 撤销拼团 只有我发起的拼团才可以撤销
         var $masker = $('.j-masker');
         var cancalUrl;
-        $myLaunch.on('click','.btn-revoke',function(event){
+        $myLaunch.on('click', '.btn-revoke', function (event) {
             event.stopPropagation();
             cancalUrl = helper.tmpl(constant.paths.cancel, {
                 grouponOrderId: $(this).data().grouponOrderId
-            })    
+            })
             $masker.removeClass('hidden');
         })
-        $masker.on('click','.cancel',function(){
+        $masker.on('click', '.cancel', function () {
             $masker.addClass('hidden');
-        }).on('click','.confirm',function(){
+        }).on('click', '.confirm', function () {
             $.ajax({
                 url: cancalUrl,
                 type: 'post',
                 data: {},
-                success: function(res){
+                success: function (res) {
                     xm.util.toast('你的拼团已撤销');
-                    setTimeout(function() {
+                    setTimeout(function () {
                         location.reload();
                     }, 1000);
                     $masker.addClass('hidden');
                 },
-                error: function(){
+                error: function () {
                     xm.util.toast('撤销失败，请稍后再试');
                     $masker.addClass('hidden');
                 }
@@ -366,59 +447,61 @@ $(function(){
             grouponRoleId: grouponRoleId,
             timestamp: new Date().getTime()
         })
-        function createLoadMore(option){
+
+        function createLoadMore(option) {
             var lm = new loadMore(option.dom);
-            lm.on('xmlm-load-triggered', function(event, elem) {
+            lm.on('xmlm-load-triggered', function (event, elem) {
                 $loadtext.addClass('hidden');
                 $rotate.removeClass('hidden');
-                getList($.extend(option,{loadMore: lm}));
+                getList($.extend(option, { loadMore: lm }));
             })
         }
-        if($myLaunch.length > 0){
+        if ($myLaunch.length > 0) {
             createLoadMore({
                 dom: $myLaunch,
                 url: loadMoreUrl,
                 type: 'launch'
             })
         }
-        if($myJoin.length > 0){
+        if ($myJoin.length > 0) {
             createLoadMore({
                 dom: $myJoin,
                 url: loadMoreUrl,
                 type: 'join'
             })
         }
-        function jointHtml(arr){
+
+        function jointHtml(arr) {
             var template = {
                 joining: '<p class="status">还差&nbsp;<span class="theme">${grouponRemainQuantity}</span>&nbsp;位小伙伴<a class="btn-revoke" data-groupon-order-id="${grouponOrderId}"><i class="ic ic-revoke"></i>撤销拼团</a></p>',
                 success: '<p class="status theme">${grouponOrderStatus}</p>',
                 fail: '<p class="status">${grouponOrderStatus}</p>',
                 list: '<li class="item" data-show-groupon-url="${showGrouponUrl}"><a><div class="pic">' +
-                      '<img src="${coverUrl}"></div><div class="info">' +
-                      '<h2 class="title elli-multi-2">${albumTitle}</h2>${statusHtml}</div></a></li>' 
+                    '<img src="${coverUrl}"></div><div class="info">' +
+                    '<h2 class="title elli-multi-2">${albumTitle}</h2>${statusHtml}</div></a></li>'
             }
             var listHtml = '';
-            arr.forEach(function(item){
+            arr.forEach(function (item) {
                 var grouponOrderStatus = '';
                 var statusHtml = '';
-                if(item.grouponOrderStatusId == 1){
+                if (item.grouponOrderStatusId == 1) {
                     grouponOrderStatus = '拼团中';
-                    statusHtml = helper.tmpl(template.joining,{
+                    statusHtml = helper.tmpl(template.joining, {
                         grouponRemainQuantity: item.grouponRemainQuantity,
                         grouponOrderId: item.grouponOrderId
                     });
-                }else if(item.grouponOrderStatusId == 2){
+                } else if (item.grouponOrderStatusId == 2) {
                     grouponOrderStatus = '拼团成功';
-                    statusHtml = helper.tmpl(template.success,{
+                    statusHtml = helper.tmpl(template.success, {
                         grouponOrderStatus: grouponOrderStatus
                     });
-                }else{
+                } else {
                     grouponOrderStatus = '拼团失败';
-                    statusHtml = helper.tmpl(template.fail,{
+                    statusHtml = helper.tmpl(template.fail, {
                         grouponOrderStatus: grouponOrderStatus
                     });
                 }
-                listHtml += helper.tmpl(template.list,{
+                listHtml += helper.tmpl(template.list, {
                     showGrouponUrl: item.showGrouponUrl,
                     coverUrl: item.coverUrl,
                     albumTitle: item.albumTitle,
@@ -429,17 +512,17 @@ $(function(){
             return listHtml;
         }
 
-        function getList(option){
+        function getList(option) {
             var curPage;
             var current = option.dom;
-            if(current.attr('data-has-more') === 'false'){
+            if (current.attr('data-has-more') === 'false') {
                 $loading.addClass('hidden');
                 option.loadMore.clear();
                 return false;
             }
-            if(option.type === 'launch'){
+            if (option.type === 'launch') {
                 curPage = pageNum.launch++;
-            }else{
+            } else {
                 curPage = pageNum.join++;
             }
             $.ajax({
@@ -447,45 +530,45 @@ $(function(){
                 data: {
                     pageNum: curPage
                 },
-                success: function(res){
+                success: function (res) {
                     var hasMore = res.hasMore
-                    current.attr('data-has-more',hasMore);
-                    if(hasMore){
+                    current.attr('data-has-more', hasMore);
+                    if (hasMore) {
                         $loadtext.removeClass('hidden');
-                        $rotate.addClass('hidden');        
-                    }else{
+                        $rotate.addClass('hidden');
+                    } else {
                         $loading.addClass('hidden');
                     }
                     var listData = res.data;
                     current.append(jointHtml(listData));
                 },
-                error: function(){
+                error: function () {
                     xm.util.toast('加载更多失败，请稍后再试');
                 }
             })
         }
-            
-    })
+
+    });
 
     // confirm pay page
-    helper.route(regexp.confirm,function(){
+    helper.route(regexp.confirm, function () {
         console.log('this is confirm');
         // 微信支付
-        $('.btn-pay').click(function(){
+        $('.btn-pay').click(function () {
             Pending.show();
             var paymentParam = $(this).data();
             var option = $.extend({}, paymentParam);
-            option.success = function(grouponOrderId) {
+            option.success = function (grouponOrderId) {
                 Pending.hide();
                 xm.util.toast('支付成功');
-                setTimeout(function(){
+                setTimeout(function () {
                     location.href = xm.helper.tmpl(xm.const.paths.detail, {
                         grouponOrderId: paymentParam.grouponOrderId,
                         timestamp: new Date().getTime()
                     })
-                },1000)
+                }, 1000)
             }
-            option.failed = function() {
+            option.failed = function () {
                 Pending.hide();
                 xm.util.toast('支付失败，请稍后再试');
             }
@@ -493,14 +576,11 @@ $(function(){
 
         })
 
-    })
-
+    });
     //pay fail page
     // helper.route(regexp.payFail,function(){
     //     console.log('this is payfail');
-        
+
     // })
 
-})
-
-
+});

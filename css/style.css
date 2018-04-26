@@ -1,14 +1,27 @@
 .album {
-  height: 158px;
-  background: url(../image/groupbuy_initiate_Albumbg_img@2x.png) no-repeat;
-  background-position: 64.8% 2px;
-  background-size: contain;
+  width: 128px;
+  height: 100px;
   position: relative;
-  width: 217px;
   margin: auto;
-  left: 21px;
 }
-.album .cover {
+.album > img {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+}
+.album > .album-cover {
+  z-index: 10;
+  top: 0;
+  left: 0px;
+  right: 0px;
+}
+.album > .album-image {
+  width: 98px;
+  height: 100%;
+  left: 4px;
+  z-index: 9;
+}
+.album > .cover {
   position: absolute;
   width: 100px;
   height: 100px;
@@ -18,57 +31,33 @@
   bottom: 0;
   margin: auto;
 }
-.prelaunch .bg {
-  background: white url(../image/recommendedalbum_bg@2x.png) 0 0 no-repeat;
-  background-size: 100% 100%;
-  z-index: -1;
+.album-header {
+  padding: 0px;
 }
-.prelaunch .content {
-  padding-top: 28px;
-}
-.prelaunch .main {
-  margin-top: 26px;
-}
-.prelaunch .main .title {
+.album-header > .title {
   font-size: 20px;
-  color: #ff7c5d;
+  color: #333333;
+}
+.album-header > .sub-title {
+  font-size: 14px;
+  color: #999999;
+}
+.notice {
+  padding: 22px 22px 15px;
+  margin-bottom: 30px;
+  font-size: 12px;
+  text-align: left;
+  color: #999999;
   letter-spacing: 0;
+  line-height: 17px;
 }
-.prelaunch .main .text-area {
-  position: relative;
-  height: 150px;
-  margin: 36px 28px 28px;
-}
-.prelaunch .main textarea {
-  width: 100%;
-  height: 100%;
-  padding: 10px 15px;
-  background: #fff;
-  border: 1px solid #cccccc;
-  resize: none;
-  font-size: 16px;
-}
-.prelaunch .main textarea::-webkit-input-placeholder {
-  font-size: 16px;
+.notice .title {
+  font-size: 14px;
   color: #666666;
 }
-.prelaunch .main .input-count {
-  position: absolute;
-  right: 10px;
-  bottom: 6px;
-  font-size: 14px;
-  color: #cccccc;
-}
-.prelaunch .footer {
-  margin: 0 24px;
-}
-.prelaunch .footer .btn {
-  width: 100%;
-  padding: 7px 20px;
-  font-size: 14px;
-  color: #ffffff;
-  letter-spacing: 0.52px;
-  background: #f86442;
+.notice .desc {
+  text-indent: -1.05em;
+  margin-left: 1.05em;
 }
 .launch {
   height: 100%;
@@ -76,56 +65,143 @@
   overflow: auto;
 }
 .launch .album {
-  width: 217px;
-  margin: auto;
-  left: 20px;
+  margin: 45px auto 10px;
 }
-.launch .album img {
-  position: absolute;
-  width: 100px;
-  border-radius: 50%;
-  left: -48px;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
+.launch .album-header {
+  padding: 0px;
 }
-.launch .content {
-  background: white url(../image/groupbuy_initiate_bg@2x.png) 0 0 no-repeat;
-  background-size: contain;
+.launch .album-header .title {
+  font-size: 20px;
+  color: #333333;
 }
-.launch .header {
-  padding: 28px 0 10px;
-}
-.launch .header .title {
-  font-size: 22px;
-  color: #f86442;
-}
-.launch .header .sub-title {
+.launch .album-header .sub-title {
   font-size: 14px;
   color: #999999;
 }
-.launch .price {
-  padding: 8px 0 36px;
+.launch .group-tip {
+  display: inline-block;
+  margin: 10px auto;
 }
-.launch .price .discount {
+.launch .group-tip .item {
+  display: inline-block;
+  background: transparent url(../image/quanyi-icon.png) no-repeat;
+  background-position: 0 50%;
+  background-size: 14px;
+  overflow: hidden;
+  padding-left: 20px;
+}
+.launch .group-tip .item + .item {
+  margin-left: 15px;
+}
+.launch .sale-off {
+  position: relative;
+  background: transparent url(../image/sale-off-price.png) no-repeat;
+  background-position: 0% 50%;
+  background-size: cover;
+  overflow: hidden;
+  margin: 0px 16px 0px 14px;
+  padding: 0px;
+  height: 19.130434782608696%;
+  text-align: left;
+  border-radius: 7px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+}
+.launch .sale-off .price {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 28%;
+}
+.launch .sale-off .price > div {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+.launch .sale-off .price > div .discount {
   font-size: 20px;
   color: #f86442;
   letter-spacing: 0.74px;
 }
-.launch .price .unit {
+.launch .sale-off .price > div .unit {
   font-size: 12px;
   letter-spacing: normal;
 }
-.launch .price .original {
+.launch .sale-off .price > div .original {
   font-size: 12px;
   text-decoration: line-through;
   color: #666666;
   letter-spacing: 0.45px;
 }
+.launch .sale-off .sale-off-arrow {
+  position: relative;
+  background: transparent url(../image/sale-off-arrow.png) no-repeat;
+  background-position: 0% 50%;
+  background-size: contain;
+  width: 100px;
+  overflow: hidden;
+  display: inline-block;
+  float: right;
+  right: 10px;
+  height: 0px;
+  padding-bottom: 19.130434782608696%;
+}
+.launch .sale-off .sale-off-arrow .sale-wrap {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+}
+.launch .sale-off .sale-off-arrow .sale-wrap > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.launch .sale-off .sale-off-arrow .sale-wrap > div .sale-text {
+  margin-top: -10px;
+}
+.launch .sale-off .sale-off-arrow .sale-wrap > span {
+  display: flex;
+  align-items: center;
+  margin-top: -10px;
+  font-size: 12px;
+  color: #A13D11;
+  letter-spacing: 0;
+}
+.launch .sale-off .sale-off-arrow .sale-wrap .sale-num {
+  font-size: 14px;
+  color: #FFFFFF;
+  margin-top: 10px;
+}
+.launch .sale-off .sale-off-arrow .sale-wrap .sale-num .xidian {
+  font-size: 12px;
+}
+.launch .group-buy-desc {
+  margin: 0px 22px 0px 18px;
+  background: #F6F6F6;
+  border-radius: 4px;
+}
+.launch .group-buy-desc .high-text {
+  color: #FC5832;
+}
+.launch .group-buy-desc > div {
+  padding: 15px 5px;
+}
+.launch .group-buy-desc .left {
+  display: inline-block;
+  font-size: 16px;
+  color: #151515;
+  letter-spacing: 0.6px;
+  text-align: center;
+}
+.launch .group-buy-desc .right {
+  display: inline-block;
+}
 .launch .procedure {
   position: relative;
-  margin: 0 40px;
+  margin: 40px 40px 20px 40px;
 }
 .launch .procedure:before {
   content: '';
@@ -172,6 +248,7 @@
   left: 50%;
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
+  border: 1px solid #FC5832;
 }
 .launch .procedure .icon.success {
   background-image: url(../image/groupbuy_initiate_ic_3@2x.png);
@@ -181,28 +258,23 @@
   color: #f86442;
   letter-spacing: 0.52px;
 }
-.launch .notice {
-  padding: 22px 22px 15px;
-  margin-bottom: 60px;
-  font-size: 12px;
-  text-align: left;
-  color: #999999;
-  letter-spacing: 0;
-  line-height: 17px;
-}
-.launch .notice .title {
-  font-size: 14px;
-  color: #666666;
-}
 .launch .footer {
   position: fixed;
   right: 0;
   bottom: 0;
   left: 0;
-  padding: 8px;
+  background-color: white;
+  border-top: 1px solid #F3F4F5;
+  text-align: center;
+}
+.launch .footer .button {
+  display: block;
+  padding: 4px 0px;
   font-size: 14px;
   letter-spacing: 0.52px;
-  background: #f86442;
+  background-image: linear-gradient(137deg, #FA8261 0%, #FD590C 100%);
+  border-radius: 100px;
+  margin: 8px 16px 7px 14px;
 }
 .launch .footer span {
   color: #fff;
@@ -249,7 +321,6 @@
 .launch .mask .title {
   text-align: center;
   margin-top: 41px;
-  font-family: PingFangSC-Regular;
   font-size: 18px;
   color: #000;
   letter-spacing: 0;
@@ -297,7 +368,6 @@
 .launch .mask .warn {
   text-align: left;
   margin-top: 23px;
-  font-family: PingFangSC-Light;
   font-size: 12px;
   color: #999999;
   letter-spacing: 0;
@@ -342,200 +412,114 @@
   margin-top: 15px;
   border-radius: 2px;
 }
+.launch .notice {
+  margin-bottom: 60px;
+}
 .detail {
   padding-bottom: 50px;
-}
-.detail .banner {
-  position: relative;
-  background: white url(../image/h5_bgimg@2x.png) 0 no-repeat;
-  background-size: 100% 100%;
-  overflow: hidden;
-}
-.detail .banner .cover {
-  position: absolute;
-  width: 135px;
-  height: 135px;
-  top: 126px;
-  left: -23px;
-}
-.detail .banner.status-app-entry .bg {
-  background-position: 0 118px;
-}
-.detail .banner.status-app-entry .bg .cover {
-  top: 158px;
-}
-.detail .banner.status-app-entry .status {
-  overflow: hidden;
-  text-align: left;
-  height: 90px;
-}
-.detail .banner.status-app-entry .status .left {
-  float: left;
-  padding-left: 16px;
-  width: 50%;
-}
-.detail .banner.status-app-entry .status .left .btn-open-app {
-  border-radius: 4px;
-  border: 1px solid #f86442;
-  padding: 4px 8px;
-  font-size: 12px;
-  color: #f86442;
-  margin-top: 10px;
-}
-.detail .banner.status-app-entry .status .right {
-  float: left;
-  display: inline-block;
-  width: 50%;
   padding-left: 20px;
-  font-size: 12px;
-  color: #666;
-  position: relative;
-}
-.detail .banner.status-app-entry .status .right:after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 10px;
-  width: 1px;
-  background: #e8e8e8;
-}
-.detail .banner.status-app-entry .status .right .item:before {
-  content: '';
-  display: inline-block;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #D8D8D8;
-  vertical-align: middle;
-  margin-right: 5px;
-}
-.detail .banner .status {
-  height: 58px;
-  padding: 15px 0;
+  padding-right: 20px;
   background: #ffffff;
-  opacity: 0.7;
-  font-size: 0;
 }
-.detail .banner .status img {
-  height: 22px;
-  position: relative;
-  top: -1px;
+.detail .top-banner {
+  padding: 20px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.detail .banner .status .tip {
-  position: relative;
-  display: inline-block;
-  margin-left: 8px;
-  font-size: 13px;
-  line-height: 28px;
-  text-indent: 12px;
-  color: #999999;
-  letter-spacing: 0.17px;
-  vertical-align: middle;
+.detail .top-banner .left {
+  display: flex;
 }
-.detail .banner .status .tip:before {
-  content: '';
-  position: absolute;
-  top: 5px;
-  bottom: 6px;
-  margin: auto;
-  left: 0;
-  width: 2px;
-  background: #ccc;
+.detail .top-banner .left .logo {
+  margin-right: 5px;
+  width: 20px;
+  height: 20px;
+  background: url(../image/logo.png) no-repeat center;
+  background-size: cover;
 }
-.detail .banner .bg {
-  background: transparent url(../image/attended_albumbg_img@2x.png) no-repeat;
-  background-position: 0 86px;
-  background-size: 220px;
-  overflow: hidden;
-}
-.detail .banner .intro {
-  padding: 12px 12px 0 165px;
-  overflow: hidden;
-  height: 235px;
-}
-.detail .banner .mine {
-  float: right;
-  padding: 4px 8px;
-  font-size: 14px;
-  color: #f86442;
-  border: 1px solid #f86442;
-  border-radius: 4px;
-}
-.detail .banner .title {
-  margin: 70px 8px 0 0;
-  font-size: 18px;
-  line-height: 25px;
-  color: #333333;
-}
-.detail .banner .title.elli-multi-2 {
-  -webkit-line-clamp: 2;
-  max-height: 3em;
-}
-.detail .banner .divider {
-  width: 46px;
-  height: 2px;
-  margin: 8px 0;
-  background: #cccccc;
-}
-.detail .banner .desc {
-  margin: 0 10px 5px 0;
-  font-size: 14px;
-  line-height: 20px;
-  color: #333333;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  max-height: 3em;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  min-height: 20px;
-}
-.detail .banner .column {
-  float: right;
-  padding: 4px 8px;
+.detail .top-banner .left .text {
   font-size: 12px;
-  line-height: 14px;
-  color: #fff;
-  background: #f86442;
+  color: #CCCCCC;
+  letter-spacing: 0;
+  text-align: center;
+}
+.detail .top-banner .button {
+  display: flex;
+  width: 80px;
+  height: 24px;
+  border: 1px solid #F86442;
+  border-radius: 12px;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #F86442;
+}
+.detail .album {
+  margin: 25px auto 10px;
+}
+.detail .album > .album-cover {
+  left: 15px;
+}
+.detail .album > .album-image {
+  left: 19px;
+}
+.detail .editor-greetings {
+  position: relative;
+  background: rgba(255, 249, 248, 0.5);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.09);
   border-radius: 4px;
-  vertical-align: middle;
 }
-.detail .banner .angle-right {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin-top: -1px;
-  margin-left: 4px;
-  border-top: 1px solid;
-  border-right: 1px solid;
-  transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
-  vertical-align: middle;
+.detail .editor-greetings .greetings {
+  position: relative;
+  padding: 20px 10px 10px;
 }
-.detail .banner .greetings {
-  margin: -15px 15px 18px;
-  padding: 20px 16px 18px;
-  background: transparent url(../image/Rectangle@2x.png) no-repeat;
-  background-size: 100% 100%;
-}
-.detail .banner .greetings h5 {
+.detail .editor-greetings .greetings h5 {
   font-size: 0;
 }
-.detail .banner .greetings .avatar {
+.detail .editor-greetings .greetings .avatar {
   display: inline-block;
   width: 30px;
   height: 30px;
   vertical-align: middle;
 }
-.detail .banner .greetings .label {
-  font-size: 16px;
+.detail .editor-greetings .greetings .label {
+  font-size: 14px;
   line-height: 30px;
   color: #999;
   letter-spacing: 0.19px;
   vertical-align: middle;
 }
-.detail .banner .greetings .nickname {
+.detail .editor-greetings .greetings .text-area-wrap {
+  display: none;
+  position: relative;
+  margin-left: 25px;
+  border-radius: 4px;
+}
+.detail .editor-greetings .greetings .text-area-wrap .j-textarea {
+  width: 100%;
+  height: 100%;
+  padding: 5px 5px 20px 5px;
+  resize: none;
+  color: #333333;
+  letter-spacing: 0.17px;
+  background: #FFF9F8;
+  border: 1px solid #FFEAE1;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 20px;
+}
+.detail .editor-greetings .greetings .text-area-wrap .j-textarea::-webkit-input-placeholder {
+  font-size: 16px;
+  color: #666666;
+}
+.detail .editor-greetings .greetings .text-area-wrap .input-count {
+  position: absolute;
+  right: 10px;
+  bottom: 6px;
+  font-size: 14px;
+  color: #cccccc;
+}
+.detail .editor-greetings .greetings .nickname {
   display: inline-block;
   margin: 0 8px 0 10px;
   color: #f86442;
@@ -543,13 +527,44 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
-.detail .banner .greetings .recommend {
-  padding-left: 40px;
+.detail .editor-greetings .greetings .recommend {
   font-size: 14px;
   line-height: 20px;
   color: #333333;
   letter-spacing: 0.17px;
+  padding: 5px 5px 20px 30px;
+  border: 1px solid transparent;
+}
+.detail .editor-greetings .greetings .editor {
+  position: absolute;
+  bottom: 5px;
+  right: 0px;
+  width: 55px;
+  height: 18px;
+  background: url('../image/editor.png') no-repeat 0% 50%;
+  background-size: 12px;
+}
+.detail .editor-greetings .greetings .editor .text {
+  font-size: 12px;
+  color: #FDC8BB;
+  letter-spacing: 0;
+  text-decoration: underline;
+}
+.detail .look-album-detail {
+  text-align: center;
+  margin: 20px 0px 25px 0px;
+}
+.detail .look-album-detail > a {
+  background-image: linear-gradient(137deg, #FA8261 0%, #FD590C 100%);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  font-size: 12px;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 6px 15px;
+  border-radius: 15px;
 }
 .detail .information {
   padding-top: 25px;
@@ -568,7 +583,7 @@
 .detail .information .block.center {
   width: 31.2%;
 }
-.detail .information .block:after {
+.detail .information .j-statusTime:after {
   content: '';
   position: absolute;
   top: 10px;
@@ -619,8 +634,96 @@
   text-decoration: line-through;
 }
 .detail .process {
-  padding: 40px 0 0;
   background: #fff;
+  background-image: linear-gradient(-180deg, #FFF3F0 0%, #FFE6DA 97%);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding-top: 4px;
+  margin-top: 45px;
+}
+.detail .process .wrap {
+  position: relative;
+  background: #F6F6F6;
+  border-radius: 4px;
+  text-align: left;
+}
+.detail .process .wrap .top {
+  display: inline-block;
+  margin-left: 85px;
+  padding-top: 10px;
+}
+.detail .process .wrap .top .percent {
+  font-size: 12px;
+  color: #FC5832;
+  letter-spacing: 0.45px;
+}
+.detail .process .wrap .top .remain {
+  font-size: 12px;
+  color: #999999;
+  letter-spacing: 0;
+}
+.detail .process .wrap .top .remain span {
+  font-size: 16px;
+  color: #F86442;
+  letter-spacing: 0.19px;
+}
+.detail .process .wrap .bottom {
+  padding: 15px 15px;
+  background: #F6F6F6;
+  text-align: center;
+}
+.detail .process .wrap .bottom .item {
+  position: relative;
+  display: inline-block;
+  width: 18%;
+  margin: 5px 0px;
+  font-size: 0;
+}
+.detail .process .wrap .bottom .item:last-child {
+  margin-right: 0;
+}
+.detail .process .wrap .bottom .item .group-launcher {
+  position: absolute;
+  bottom: 0px;
+  left: 1px;
+  right: 1px;
+  background-image: linear-gradient(137deg, #FA8261 0%, #FD590C 100%);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  display: inline-block;
+  text-align: center;
+  padding: 0px 0px;
+  font-size: 10px;
+  color: #FFFFFF;
+}
+.detail .process .wrap .bottom .icon {
+  display: inline-block;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 6px;
+}
+.detail .process .wrap .group-brand {
+  position: absolute;
+  top: 11.4px;
+  left: -7px;
+  width: 79px;
+  padding: 5px 0px;
+  background: url('../image/group-brand.png') no-repeat 0 0;
+  background-size: cover;
+  font-size: 17.28px;
+  color: #FFFFFF;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 19.2px;
+}
+.detail .process .wrap .group-status {
+  position: absolute;
+  background: url('../image/group-success.png') no-repeat 0 0;
+  background-size: cover;
+  right: -20px;
+  top: -46px;
+  width: 98px;
+  height: 112px;
 }
 .detail .process .status {
   margin-bottom: 10px;
@@ -673,24 +776,6 @@
 .detail .process .label.nickname {
   color: #666666;
 }
-.detail .notice {
-  padding: 30px 22px 30px;
-  font-size: 12px;
-  line-height: 17px;
-  text-align: left;
-  letter-spacing: 0;
-  color: #999999;
-  background: #fff;
-}
-.detail .notice .title {
-  font-size: 14px;
-  color: #666666;
-}
-.detail .bottom {
-  height: 0;
-  padding-bottom: 37.3%;
-  background: transparent url(../image/bottom_img@2x.png) 0 / 100% no-repeat;
-}
 .detail .footer {
   position: fixed;
   right: 0;
@@ -701,6 +786,7 @@
   text-align: left;
   background: #FFFFFF;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.11);
+  z-index: 3;
 }
 .detail .footer .label {
   font-size: 14px;
@@ -712,6 +798,26 @@
   font-size: 18px;
   letter-spacing: 0.22px;
 }
+.detail .footer .label.success {
+  color: #F86442;
+}
+.detail .footer .label.fail {
+  color: #666666;
+}
+.detail .footer .label.right-text {
+  float: right;
+  margin-right: 20px;
+  font-size: 12px;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: center;
+}
+.detail .footer .label.right-text > span {
+  font-size: 16px;
+  color: #F86442;
+  letter-spacing: 0.19px;
+  padding: 0px 3px;
+}
 .detail .footer .line-through {
   font-size: 11px;
   line-height: 50px;
@@ -721,26 +827,44 @@
 }
 .detail .footer .footer-button {
   float: right;
-  padding: 17px 30px;
+  padding: 10px 30px;
+  margin: 6px 20px;
   font-size: 16px;
   color: #FFFFFF;
   letter-spacing: 0;
   line-height: 16px;
-  background: #F86442;
+  border-radius: 100px;
+}
+.detail .footer .j-join {
+  background-image: linear-gradient(137deg, #FA8261 0%, #FD590C 100%);
+}
+.detail .footer .j-no-join {
+  background-image: linear-gradient(137deg, #EDEDED 0%, #DFDFDF 45%, #CDCDCD 100%);
+}
+.detail .footer .j-zhaomu {
+  background-image: linear-gradient(51deg, #FD9191 0%, #FE5656 100%);
 }
 .detail .share-panel {
-  height: 110px;
+  display: none;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  top: 0px;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 1;
 }
 .detail .share {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 50px;
   min-width: 320px;
   max-width: 640px;
   margin: auto;
-  box-shadow: 0px -1px 4px #e8e8e8;
   background-color: #fcfcfc;
+  padding: 10px 0px;
+  z-index: 2;
 }
 .detail .share p {
   height: 40px;
@@ -1422,4 +1546,56 @@
   background: #e8e8e8;
   transform: scale(1, 0.5);
   -webkit-transform: scale(1, 0.5);
+}
+.prelaunch .bg {
+  background: white url(../image/recommendedalbum_bg@2x.png) 0 0 no-repeat;
+  background-size: 100% 100%;
+  z-index: -1;
+}
+.prelaunch .content {
+  padding-top: 28px;
+}
+.prelaunch .main {
+  margin-top: 26px;
+}
+.prelaunch .main .title {
+  font-size: 20px;
+  color: #ff7c5d;
+  letter-spacing: 0;
+}
+.prelaunch .main .text-area {
+  position: relative;
+  height: 150px;
+  margin: 36px 28px 28px;
+}
+.prelaunch .main textarea {
+  width: 100%;
+  height: 100%;
+  padding: 10px 15px;
+  background: #fff;
+  border: 1px solid #cccccc;
+  resize: none;
+  font-size: 16px;
+}
+.prelaunch .main textarea::-webkit-input-placeholder {
+  font-size: 16px;
+  color: #666666;
+}
+.prelaunch .main .input-count {
+  position: absolute;
+  right: 10px;
+  bottom: 6px;
+  font-size: 14px;
+  color: #cccccc;
+}
+.prelaunch .footer {
+  margin: 0 24px;
+}
+.prelaunch .footer .btn {
+  width: 100%;
+  padding: 7px 20px;
+  font-size: 14px;
+  color: #ffffff;
+  letter-spacing: 0.52px;
+  background: #f86442;
 }
