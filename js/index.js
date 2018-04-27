@@ -1,25 +1,27 @@
-var vConsole = new VConsole();
+//隐藏
+// var vConsole = new VConsole();
 $(function () {
     var constant = xm && xm.const;
     var helper = xm && xm.helper;
     var env = xm && xm.env;
-    // var regexp = {
-    //     launch: /^\/groupon\/guidance\/item\/\d+/,
-    //     detail: /^\/groupon\/\d+\/(detail|join)\/\d+/,
-    //     prelaunch: /^\/groupon\/\d+\/recommendation/,
-    //     myGroup: /^\/groupon\/mygroupon\/role\/\d+/,
-    //     confirm: /^\/trade\/pay\/groupon/,
-    //     payFail: /^\/groupon\/\d+\/join\/failure/
-    // }
     var regexp = {
-        launch: /^\/launch/,
-        detail: /^\/detail/,
-        pay: /^\/pay/,
+        launch: /^\/groupon\/guidance\/item\/\d+/,
+        detail: /^\/groupon\/\d+\/(detail|join)\/\d+/,
         prelaunch: /^\/groupon\/\d+\/recommendation/,
         myGroup: /^\/groupon\/mygroupon\/role\/\d+/,
         confirm: /^\/trade\/pay\/groupon/,
         payFail: /^\/groupon\/\d+\/join\/failure/
     }
+    //隐藏
+    // var regexp = {
+    //     launch: /^\/launch/,
+    //     detail: /^\/detail/,
+    //     pay: /^\/pay/,
+    //     prelaunch: /^\/groupon\/\d+\/recommendation/,
+    //     myGroup: /^\/groupon\/mygroupon\/role\/\d+/,
+    //     confirm: /^\/trade\/pay\/groupon/,
+    //     payFail: /^\/groupon\/\d+\/join\/failure/
+    // }
     // launch page
     helper.route(regexp.launch, function () {
         console.log('this is launch');
@@ -63,8 +65,9 @@ $(function () {
                     Pending.hide();
                     xm.util.toast('支付成功');
                     setTimeout(function () {
-                        location.href = xm.helper.tmpl(xm.const.paths.recommendation, {
+                        location.href = xm.helper.tmpl(xm.const.paths.detail, {
                             grouponOrderId: grouponOrderId,
+                            timestamp: new Date().getTime()
                         })
                     }, 1000)
                 }
@@ -190,11 +193,11 @@ $(function () {
                     if (res.ret === 0) {
                         //分享成功
                         xm.util.toast('分享成功!');
-                        $('.share-panel').fadeOut(500);
+                        $('.share-panel').animate({ top: '100%' }).find('.share').animate({ bottom: '-90px' });
                     } else {
                         //分享失败
                         xm.util.toast('分享失败!');
-                        $('.share-panel').fadeOut(500);
+                        $('.share-panel').animate({ top: '100%' }).find('.share').animate({ bottom: '-90px' });
                     }
                 });
             })
@@ -239,7 +242,7 @@ $(function () {
         //单击按钮编辑
         $editorGreetings.on('click', '.editor', function () {
             $textAreaWrap.show();
-            $textArea.focus().val($recommend.text());
+            $textArea.focus().val($.trim($recommend.text())).slice(0, 40);
             $recommend.hide();
             $editorButton.hide();
             $jCount.text($textArea.val().length);
@@ -298,7 +301,7 @@ $(function () {
             }
         }
         //修改推荐语
-        var grouponOrderId = $editorGreetings.data().grouponOrderId;
+        var grouponOrderId = $editorGreetings.data('grouponorderid');
         function recommend() {
             var url = helper.tmpl(constant.paths.message, {
                 grouponOrderId: grouponOrderId

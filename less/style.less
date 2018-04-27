@@ -63,8 +63,12 @@
     }
 }
 
+//将toast层级提高
+#mToast {
+    z-index: 10;
+}
+
 .launch {
-    height: 100%;
     background: #fff;
     overflow: auto;
     .album {
@@ -140,19 +144,14 @@
             background: ~'transparent url(../image/sale-off-arrow.png) no-repeat';
             background-position: 0% 50%;
             background-size: contain;
-            width: 100px;
-            overflow: hidden;
             display: inline-block;
             float: right;
             right: 10px;
             height: 0px;
             padding-bottom: 19.130434782608696%;
             .sale-wrap {
-                position: absolute;
-                top: 0px;
-                bottom: 0px;
-                right: 0px;
-                left: 0px;
+                padding: 29px 0px;
+                margin: 0px 15px;
                 &>div {
                     display: flex;
                     justify-content: center;
@@ -160,6 +159,7 @@
                     height: 100%;
                     .sale-text {
                         margin-top: -10px;
+                        color: #A13D11;
                     }
                 }
                 &>span {
@@ -573,7 +573,7 @@
         }
     }
     .information {
-        padding-top: 25px;
+        padding-top: 0px;
         font-size: 0;
         background: #fff;
         overflow: hidden;
@@ -647,7 +647,7 @@
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
         border-radius: 4px;
         padding-top: 4px;
-        margin-top: 45px;
+        margin-top: 30px;
         .wrap {
             position: relative;
             background: #F6F6F6;
@@ -724,12 +724,19 @@
             }
             .group-status {
                 position: absolute;
-                background: url('../image/group-success.png') no-repeat 0 0;
                 background-size: cover;
+                background-origin: 0 0;
+                background-repeat: no-repeat;
                 right: -20px;
                 top: -46px;
                 width: 98px;
                 height: 112px;
+                &.success {
+                    background-image: url('../image/group-success.png');
+                }
+                &.fail {
+                    background-image: url('../image/group-fail.png');
+                }
             }
         }
         .status {
