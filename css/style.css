@@ -493,7 +493,12 @@
   margin-left: 25px;
   border-radius: 4px;
 }
-.detail .editor-greetings .greetings .text-area-wrap .j-textarea {
+.detail .editor-greetings .greetings .text-area-wrap .wrap {
+  width: 75%;
+  position: relative;
+  display: inline-block;
+}
+.detail .editor-greetings .greetings .text-area-wrap .wrap .j-textarea {
   width: 100%;
   height: 100%;
   padding: 5px 5px 20px 5px;
@@ -506,16 +511,32 @@
   font-size: 14px;
   line-height: 20px;
 }
-.detail .editor-greetings .greetings .text-area-wrap .j-textarea::-webkit-input-placeholder {
+.detail .editor-greetings .greetings .text-area-wrap .wrap .j-textarea::-webkit-input-placeholder {
   font-size: 16px;
   color: #666666;
 }
-.detail .editor-greetings .greetings .text-area-wrap .input-count {
+.detail .editor-greetings .greetings .text-area-wrap .wrap .input-count {
   position: absolute;
   right: 10px;
-  bottom: 6px;
+  bottom: 3px;
   font-size: 14px;
   color: #cccccc;
+}
+.detail .editor-greetings .greetings .text-area-wrap .wrap .input-count .reEnter-recommend {
+  font-size: 11px;
+  color: #FC5832;
+  margin-right: 10px;
+}
+.detail .editor-greetings .greetings .text-area-wrap .save-recommend {
+  margin-left: 10px;
+}
+.detail .editor-greetings .greetings .text-area-wrap .save-recommend > button {
+  padding: 5px 10px;
+  font-size: 12px;
+  background: #FC5832;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #FFFFFF;
 }
 .detail .editor-greetings .greetings .nickname {
   display: inline-block;
@@ -532,12 +553,13 @@
   line-height: 20px;
   color: #333333;
   letter-spacing: 0.17px;
-  padding: 5px 5px 20px 30px;
+  padding: 5px 5px 20px 5px;
   border: 1px solid transparent;
+  margin-left: 25px;
 }
 .detail .editor-greetings .greetings .editor {
   position: absolute;
-  bottom: 5px;
+  bottom: 6px;
   right: 0px;
   width: 55px;
   height: 18px;
@@ -682,9 +704,10 @@
 }
 .detail .process .wrap .bottom .item .group-launcher {
   position: absolute;
+  width: 48px;
   bottom: 0px;
-  left: 1px;
-  right: 1px;
+  left: 50%;
+  margin-left: -24px;
   background-image: linear-gradient(137deg, #FA8261 0%, #FD590C 100%);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -1300,7 +1323,8 @@
 }
 /*e我的拼团页*/
 /*begin ajax pending*/
-.container {
+.container,
+.ajax_pending_container {
   position: fixed;
   top: 0;
   bottom: 0;

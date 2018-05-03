@@ -498,29 +498,50 @@
                 position: relative;
                 margin-left: 25px;
                 border-radius: 4px;
-                .j-textarea {
-                    width: 100%;
-                    height: 100%;
-                    padding: 5px 5px 20px 5px;
-                    resize: none;
-                    color: #333333;
-                    letter-spacing: 0.17px;
-                    background: #FFF9F8;
-                    border: 1px solid #FFEAE1;
-                    border-radius: 4px;
-                    font-size: 14px;
-                    line-height: 20px;
-                    &::-webkit-input-placeholder {
-                        font-size: 16px;
-                        color: #666666;
+                .wrap {
+                    width: 75%;
+                    position: relative;
+                    display: inline-block;
+                    .j-textarea {
+                        width: 100%;
+                        height: 100%;
+                        padding: 5px 5px 20px 5px;
+                        resize: none;
+                        color: #333333;
+                        letter-spacing: 0.17px;
+                        background: #FFF9F8;
+                        border: 1px solid #FFEAE1;
+                        border-radius: 4px;
+                        font-size: 14px;
+                        line-height: 20px;
+                        &::-webkit-input-placeholder {
+                            font-size: 16px;
+                            color: #666666;
+                        }
+                    }
+                    .input-count {
+                        position: absolute;
+                        right: 10px;
+                        bottom: 3px;
+                        font-size: 14px;
+                        color: #cccccc;
+                        .reEnter-recommend {
+                            font-size: 11px;
+                            color: #FC5832;
+                            margin-right: 10px;
+                        }
                     }
                 }
-                .input-count {
-                    position: absolute;
-                    right: 10px;
-                    bottom: 6px;
-                    font-size: 14px;
-                    color: #cccccc;
+                .save-recommend {
+                    margin-left: 10px;
+                    &>button {
+                        padding: 5px 10px;
+                        font-size: 12px;
+                        background: #FC5832;
+                        border-radius: 4px;
+                        font-size: 14px;
+                        color: #FFFFFF;
+                    }
                 }
             }
             .nickname {
@@ -538,12 +559,13 @@
                 line-height: 20px;
                 color: #333333;
                 letter-spacing: 0.17px;
-                padding: 5px 5px 20px 30px;
+                padding: 5px 5px 20px 5px;
                 border: 1px solid transparent;
+                margin-left: 25px;
             }
             .editor {
                 position: absolute;
-                bottom: 5px;
+                bottom: 6px;
                 right: 0px;
                 width: 55px;
                 height: 18px;
@@ -688,9 +710,10 @@
                     }
                     .group-launcher {
                         position: absolute;
+                        width: 48px;
                         bottom: 0px;
-                        left: 1px;
-                        right: 1px;
+                        left: 50%;
+                        margin-left: -24px;
                         background-image: linear-gradient(137deg, #FA8261 0%, #FD590C 100%);
                         box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
                         border-radius: 10px;
@@ -1381,7 +1404,8 @@
 
 /*begin ajax pending*/
 
-.container {
+.container,
+.ajax_pending_container {
     position: fixed;
     top: 0;
     bottom: 0;

@@ -4,24 +4,24 @@ $(function () {
     var constant = xm && xm.const;
     var helper = xm && xm.helper;
     var env = xm && xm.env;
-    var regexp = {
-        launch: /^\/groupon\/guidance\/item\/\d+/,
-        detail: /^\/groupon\/\d+\/(detail|join)\/\d+/,
-        prelaunch: /^\/groupon\/\d+\/recommendation/,
-        myGroup: /^\/groupon\/mygroupon\/role\/\d+/,
-        confirm: /^\/trade\/pay\/groupon/,
-        payFail: /^\/groupon\/\d+\/join\/failure/
-    }
-    //隐藏
     // var regexp = {
-    //     launch: /^\/launch/,
-    //     detail: /^\/detail/,
-    //     pay: /^\/pay/,
+    //     launch: /^\/groupon\/guidance\/item\/\d+/,
+    //     detail: /^\/groupon\/\d+\/(detail|join)\/\d+/,
     //     prelaunch: /^\/groupon\/\d+\/recommendation/,
     //     myGroup: /^\/groupon\/mygroupon\/role\/\d+/,
     //     confirm: /^\/trade\/pay\/groupon/,
     //     payFail: /^\/groupon\/\d+\/join\/failure/
     // }
+    // 隐藏
+    var regexp = {
+        launch: /^\/launch/,
+        detail: /^\/detail/,
+        pay: /^\/pay/,
+        prelaunch: /^\/groupon\/\d+\/recommendation/,
+        myGroup: /^\/groupon\/mygroupon\/role\/\d+/,
+        confirm: /^\/trade\/pay\/groupon/,
+        payFail: /^\/groupon\/\d+\/join\/failure/
+    }
     // launch page
     helper.route(regexp.launch, function () {
         console.log('this is launch');
@@ -246,12 +246,14 @@ $(function () {
             $recommend.hide();
             $editorButton.hide();
             $jCount.text($textArea.val().length);
+            //textarea滚动到底部
+            $textArea.scrollTop($textArea[0].scrollHeight);
         });
-        //失去焦点保存
-        $editorGreetings.on('blur', '.j-textarea', function () {
+        //保存
+        $('.save-recommend-button').on('click', function () {
             //请求编辑
             beforeEditorMsg();
-        })
+        });
 
         //中文处理,chLock控制输入中文
         var chLock = false;
@@ -268,6 +270,7 @@ $(function () {
         //非中文处理
         var isChange = false;
         $textArea.bind('input propertychange paste cut', function () {
+            $textArea.scrollTop($textArea[0].scrollHeight);
             isChange = true;
             if (!chLock) { //非中文直接截取,中文在此处不截取
                 $textArea.val($textArea.val().substr(0, maxNum));
@@ -279,6 +282,7 @@ $(function () {
         var checkUrl = constant.paths.sensitive;
         //修改之前，敏感词检查
         function beforeEditorMsg() {
+            Pending.show();
             if (isChange) {
                 $.ajax({
                     url: checkUrl,
@@ -292,9 +296,11 @@ $(function () {
                         recommend();
                     } else {
                         xm.util.toast('当前推荐语含有敏感词');
+                        Pending.hide();
                     }
                 }).fail(function () {
                     xm.util.toast('接口访问出错，请稍后再试');
+                    Pending.hide();
                 });
             } else {
                 recommend();
@@ -321,9 +327,11 @@ $(function () {
                         $editorButton.show();
                         xm.util.toast('更新成功');
                     }
+                    Pending.hide();
                 },
                 error: function () {
                     xm.util.toast('接口访问出错，请稍后再试');
+                    Pending.hide();
                 }
             })
         }
