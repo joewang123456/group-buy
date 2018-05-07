@@ -60,6 +60,14 @@
     "grunt-contrib-jshint": "*",
     "grunt-contrib-less": "*",
     "grunt-contrib-uglify": "*",
-    "grunt-contrib-watch": "*"
+    "grunt-contrib-watch": "*",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.4.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-connect": "^5.5.0",
+    "gulp-inject": "^4.3.2",
+    "gulp-less": "^3.5.0",
+    "gulp-uglify": "^3.0.0",
+    "http-proxy-middleware": "^0.18.0"
   }
 }

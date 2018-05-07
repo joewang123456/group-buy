@@ -1,0 +1,295 @@
+@charset "UTF-8";
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+html,
+body {
+  height: 100%;
+}
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+ol,
+dl,
+dd,
+p,
+hr {
+  margin: 0;
+  padding: 0;
+}
+ul,
+ol {
+  list-style: none;
+}
+i,
+em {
+  font-style: normal;
+}
+html {
+  font-size: 37.5px;
+}
+body {
+  font: 12px/1.5 Tahoma, '微软雅黑', Verdana, sans-serif;
+  color: #333;
+  background-color: #f3f4f5;
+  word-break: break-all;
+  overflow-y: scroll;
+}
+a {
+  text-decoration: none;
+  outline: 0;
+  cursor: pointer;
+  color: inherit;
+}
+button,
+input,
+textarea {
+  font: inherit;
+  line-height: inherit;
+  vertical-align: middle;
+  outline: 0;
+}
+input,
+textarea {
+  padding: 3px 10px;
+  line-height: 26px;
+  border: 1px solid #dfdfdf;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  color: #666;
+  -webkit-appearance: none;
+}
+input:focus,
+input:hover,
+textarea:focus,
+textarea:hover {
+  border-color: #ff6d4b;
+}
+button {
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+img {
+  max-width: 100%;
+  font-size: 10px;
+  border: none;
+  vertical-align: middle;
+}
+table {
+  max-width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+hr {
+  height: 1px;
+  border: none;
+  background-color: #e8e8e8;
+  -webkit-transform: scale(1 0.5);
+  -ms-transform: scale(1 0.5);
+  transform: scale(1 0.5);
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
+}
+h1 {
+  font-size: 1.6em;
+}
+h2 {
+  font-size: 1.5em;
+}
+h3 {
+  font-size: 1.4em;
+}
+h4 {
+  font-size: 1.3em;
+}
+h5 {
+  font-size: 1.2em;
+}
+h6 {
+  font-size: 1.1em;
+}
+em {
+  font-style: normal;
+  color: #ff6d4b;
+}
+ins {
+  text-decoration: none;
+  color: #ff6d4b;
+}
+del {
+  color: #999;
+}
+.bg-body {
+  background: #ececec;
+}
+.bg-f {
+  background: #fff;
+}
+.bg-grey {
+  background: #eee;
+}
+.bg-grey1 {
+  background: #f6f6f6;
+}
+.c-theme {
+  color: #ff6d4b;
+}
+.c-theme2 {
+  color: #ff9070;
+}
+.c-weaken {
+  color: #999;
+}
+.c-weaken2 {
+  color: #666;
+}
+.c-tips,
+.tips {
+  color: #999;
+}
+.c-err {
+  color: #fc5832;
+}
+.txt-md {
+  font-size: 14px;
+}
+.cl:after,
+.cl:before {
+  content: '';
+  display: table;
+  height: 0;
+  clear: both;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.rel {
+  position: relative;
+}
+.abs {
+  position: absolute;
+}
+.fixed {
+  position: fixed;
+}
+.ovf {
+  overflow: hidden;
+}
+.tc {
+  text-align: center;
+}
+.ta-l {
+  text-align: left;
+}
+.ta-r {
+  text-align: right;
+}
+.page {
+  min-width: 320px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.full-page {
+  position: fixed;
+}
+.masker {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.7);
+  overflow-y: auto;
+  z-index: 4;
+}
+.full-page,
+.masker {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.inl-b {
+  display: inline-block;
+  vertical-align: middle;
+}
+.circle {
+  border-radius: 50%;
+  overflow: hidden;
+}
+.elli {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.elli-s,
+.elli-multi-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  max-height: 1.5em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.elli-multi-2 {
+  -webkit-line-clamp: 2;
+  max-height: 3em;
+}
+::-webkit-scrollbar {
+  width: 0px;
+}
+.btn {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.btn {
+  padding: 6px 20px;
+  font-size: 12px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+input::-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: #f00;
+  font-size: 12px;
+}
+input:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: #f00;
+  font-size: 12px;
+}
+input::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #f00;
+  font-size: 12px;
+}
+input::-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+  color: #f00;
+  font-size: 12px;
+}
+textarea:-moz-placeholder {
+  color: red;
+}
+textarea::-webkit-textarea-placeholder {
+  color: red;
+}
