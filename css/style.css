@@ -246,7 +246,6 @@
   left: 50%;
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
-  border: 1px solid #FC5832;
 }
 .launch .procedure .icon.success {
   background-image: url(../image/groupbuy_initiate_ic_3@2x.png);
