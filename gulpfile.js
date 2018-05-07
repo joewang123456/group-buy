@@ -6,6 +6,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var clean = require('gulp-clean');
 var inject = require('gulp-inject');
+var babel = require("gulp-babel");    // 用于ES6转化ES5
 
 var srcPath = './src';
 var buildPath = './build';
@@ -36,6 +37,7 @@ gulp.task('image', ['clean:image'], function () {
  */
 gulp.task('js', ['clean:js'], function () {
     return gulp.src([
+        './polyfills.js',//天加es6-promise polyfill
         srcPath + '/js/lib/jquery.js',
         srcPath + '/js/lib/weixin.js',
         srcPath + '/js/lib/ya.js',
@@ -48,6 +50,7 @@ gulp.task('js', ['clean:js'], function () {
         srcPath + '/js/index.js'
     ])
         .pipe(concat('libs.js'))
+        .pipe(babel())
         .pipe(uglify())
         .pipe(gulp.dest(buildPath + '/js'))
         .pipe(connect.reload());
