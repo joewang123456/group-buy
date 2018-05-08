@@ -7,6 +7,7 @@ var uglify = require('gulp-uglify');
 var clean = require('gulp-clean');
 var inject = require('gulp-inject');
 var babel = require("gulp-babel");    // 用于ES6转化ES5
+var spritesmith = require('gulp.spritesmith');
 
 var srcPath = './src';
 var buildPath = './build';
@@ -37,7 +38,7 @@ gulp.task('image', ['clean:image'], function () {
  */
 gulp.task('js', ['clean:js'], function () {
     return gulp.src([
-        './polyfills.js',//天加es6-promise polyfill
+        // './polyfills.js',//天加es6-promise polyfill
         srcPath + '/js/lib/jquery.js',
         srcPath + '/js/lib/weixin.js',
         srcPath + '/js/lib/ya.js',
@@ -50,8 +51,8 @@ gulp.task('js', ['clean:js'], function () {
         srcPath + '/js/index.js'
     ])
         .pipe(concat('libs.js'))
-        .pipe(babel())
-        .pipe(uglify())
+        // .pipe(babel())
+        // .pipe(uglify())
         .pipe(gulp.dest(buildPath + '/js'))
         .pipe(connect.reload());
 });
@@ -76,7 +77,7 @@ gulp.task('clean:temp', function () {
         .pipe(clean({ force: true }));
 });
 
-gulp.task('serve', ['less', 'js', 'image', 'inject'], function () {
+gulp.task('serve', ['image', 'less', 'js', 'inject'], function () {
     connect.server({
         root: [buildPath],
         port: port,
@@ -120,6 +121,27 @@ gulp.task('htmlIntoTemp', ['clean:temp', 'clean:html'], function () {
     return gulp.src(srcPath + '/page/*.html')
         .pipe(gulp.dest(tempPath + '/page'))
         .pipe(connect.reload());
+});
+
+gulp.task('clean:sprit:css', function () {
+    return gulp.src(buildPath + '/css/sprite.css')
+        .pipe(clean({ force: true }));
+});
+gulp.task('clean:sprit:image', function () {
+    return gulp.src(buildPath + '/image/sprit/')
+        .pipe(clean({ force: true }));
+});
+gulp.task('imageSprit', ['clean:sprit:image', 'clean:sprit:css'], function () {
+    return gulp.src(srcPath + '/image/icons/*.png')//需要合并的图片地址
+        .pipe(spritesmith({
+            imgName: 'sprite.png',
+            cssName: 'sprite.css',
+
+            padding: 15,//合并时两个图片的间距
+            algorithm: 'binary-tree',
+            cssTemplate: srcPath + "/less/spriteTemplate.css"
+        }))
+        .pipe(gulp.dest(buildPath + "/image/sprit"));
 });
 
 gulp.task('default', ['serve']);
