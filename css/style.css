@@ -863,13 +863,13 @@
   border-radius: 100px;
 }
 .detail .footer .j-join {
-  background-image: linear-gradient(137deg, #FA8261 0%, #FD590C 100%);
+  background-image: linear-gradient(-269deg, #FF8B70 2%, #F86442 99%);
 }
 .detail .footer .j-no-join {
   background-image: linear-gradient(137deg, #EDEDED 0%, #DFDFDF 45%, #CDCDCD 100%);
 }
 .detail .footer .j-zhaomu {
-  background-image: linear-gradient(51deg, #FD9191 0%, #FE5656 100%);
+  background-image: linear-gradient(-51deg, #FD9191 0%, #FE5656 100%);
 }
 .detail .share-panel {
   position: fixed;
