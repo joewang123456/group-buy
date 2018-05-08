@@ -1,4 +1,4 @@
-;(function() {
+; (function () {
   var channelTypeMap = {
     android: {
       xipoint: 8,
@@ -43,7 +43,7 @@
      *    @opts.success
      *    @opts.failed
      */
-    pay: function(opts) {
+    pay: function (opts) {
       if (opts.productItemId == null || opts.grouponOrderId == null) {
         throw new Error(
           '`productItemId` and `grouponOrderId` are both required'
@@ -61,35 +61,35 @@
           productItemId: _this.opts.productItemId,
           grouponOrderId: _this.opts.grouponOrderId,
         },
-        success: function(res) {
-          if(res.ret == 0){
+        success: function (res) {
+          if (res.ret == 0) {
             _this._pay(res.data);
-          }else{
-            $.isFunction(_this.opts.failed) && _this.opts.failed(arguments)         
+          } else {
+            $.isFunction(_this.opts.failed) && _this.opts.failed(arguments)
           }
         },
-        error: function(xhr) {
+        error: function (xhr) {
           // 600 需要充值  611 拼团已结束  612重复下单
           // if( xhr.status == 600 || xhr.status == 611 || xhr.status == 612){
-            var msg = '';
-            try{
-              msg = JSON.parse(xhr.responseText).msg;
-            }
-            catch(e) {
-              msg = '下单失败，请稍后再试';
-            }
-            Pending.hide();
-            xm.util.toast(msg);
-            setTimeout(function(){
-              location.reload();
-            },1000)
+          var msg = '';
+          try {
+            msg = JSON.parse(xhr.responseText).msg;
+          }
+          catch (e) {
+            msg = '下单失败，请稍后再试';
+          }
+          Pending.hide();
+          xm.util.toast(msg);
+          setTimeout(function () {
+            location.reload();
+          }, 1000)
           // }
         },
       })
     },
-    recharge: function(amount) {
+    recharge: function (amount) {
       if (env.isInNative) {
-        var clear = helper.visibilityChangeHandler(function(state) {
+        var clear = helper.visibilityChangeHandler(function (state) {
           if (state === 'visible') {
             $.isFunction(clear) && clear()
             location.reload()
@@ -105,7 +105,7 @@
         xm.util.toast('当前环境暂不支持充值，请在App内完成充值')
       }
     },
-    _pay: function(paymentInfo) {
+    _pay: function (paymentInfo) {
       switch (this.paymentType) {
         case 'weixin':
           this._wxPay(paymentInfo)
@@ -117,7 +117,7 @@
           throw new Error('Error `paymentType: ' + this.paymentType + '`')
       }
     },
-    _wxPay: function(paymentInfo) {
+    _wxPay: function (paymentInfo) {
       var _this = this,
         orderInfo
       orderInfo = paymentInfo.params
@@ -127,7 +127,7 @@
         package: orderInfo.package,
         signType: orderInfo.signType,
         paySign: orderInfo.paySign,
-        success: function(res) {
+        success: function (res) {
           if (res.errMsg == 'chooseWXPay:ok') {
             _this.orderStatus()
           } else {
@@ -135,15 +135,15 @@
           }
           return false
         },
-        cancel: function(){
+        cancel: function () {
           $.isFunction(_this.opts.failed) && _this.opts.failed(paymentInfo)
         }
       })
     },
-    _xiPay: function(paymentInfo) {
+    _xiPay: function (paymentInfo) {
       this.orderStatus()
     },
-    orderStatus: function() {
+    orderStatus: function () {
       var url = helper.tmpl(constant.paths.orderstatus, {
         productItemId: this.opts.productItemId,
         timestamp: new Date().getTime()
@@ -151,28 +151,28 @@
       var _this = this
       _this.orderSuccess = false
       var index = 1
-      var timer = setInterval(function() {
+      var timer = setInterval(function () {
         $.ajax({
           url: url + +new Date(),
           data: {
             grouponOrderId: _this.opts.grouponOrderId,
           },
-          success: function(res) {
+          success: function (res) {
             var ret = res.ret
             var data = res.data
             if (ret === 0 && data.status === 200) {
               clearInterval(timer)
               _this.orderSuccess = true
               $.isFunction(_this.opts.success) && _this.opts.success(data.grouponOrderId)
-            }else if(data.status === 300){
+            } else if (data.status === 300) {
               clearInterval(timer)
               location.href = helper.tmpl(constant.paths.joinfail, {
                 grouponOrderId: _this.opts.grouponOrderId
               })
             }
           },
-          complete: function(xhr, status) {
-            if(_this.orderSuccess || index++ > 3) {
+          complete: function (xhr, status) {
+            if (_this.orderSuccess || index++ > 5) {
               clearInterval(timer)
               _this.orderSuccess === false && $.isFunction(_this.opts.failed) && _this.opts.failed()
             }
