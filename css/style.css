@@ -670,6 +670,8 @@
   display: inline-block;
   margin-left: 85px;
   padding-top: 10px;
+  height: 52px;
+  margin-right: 86px;
 }
 .detail .process .wrap .top .percent {
   font-size: 12px;
