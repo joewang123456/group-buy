@@ -1,3 +1,6 @@
+/**
+ * 先执行 gulp imageSprit制作图片精灵，在修改代码，最后执行gulp
+ */
 var gulp = require('gulp');
 var less = require('gulp-less');
 var connect = require('gulp-connect');
@@ -8,7 +11,10 @@ var clean = require('gulp-clean');
 var inject = require('gulp-inject');
 var babel = require("gulp-babel");    // 用于ES6转化ES5
 var spritesmith = require('gulp.spritesmith');
-
+var buffer = require('vinyl-buffer');
+var csso = require('gulp-csso');
+var imagemin = require('gulp-imagemin');
+var merge = require('merge-stream');
 var srcPath = './src';
 var buildPath = './build';
 var tempPath = './temp';
@@ -77,6 +83,20 @@ gulp.task('clean:temp', function () {
         .pipe(clean({ force: true }));
 });
 
+/**
+ * 拷贝html
+ */
+gulp.task('htmlIntoTemp', ['clean:temp', 'clean:html'], function () {
+    return gulp.src(srcPath + '/page/*.html')
+        .pipe(gulp.dest(tempPath + '/page'))
+        .pipe(connect.reload());
+});
+
+gulp.task('clean:sprit', function () {
+    return gulp.src(buildPath + '/sprite/')
+        .pipe(clean({ force: true }));
+});
+
 gulp.task('serve', ['image', 'less', 'js', 'inject'], function () {
     connect.server({
         root: [buildPath],
@@ -92,12 +112,13 @@ gulp.task('serve', ['image', 'less', 'js', 'inject'], function () {
                     target: 'http://joe.test.ximalaya.com:3000',
                     changeOrigin: true,
                     pathRewrite: {
-                        '^/test/detail': '/page/detail.html',
-                        '^/test/fail': '/page/fail.html',
-                        '^/test/launch': '/page/launch.html',
-                        '^/test/my-group': '/page/my-group.html',
-                        '^/test/pay': '/page/pay.html',
-                        '^/test/prelaunch': '/page/prelaunch.html',
+                        // '^/': '/page/detail.html',
+                        '^/detail': '/page/detail.html',
+                        '^/fail': '/page/fail.html',
+                        '^/launch': '/page/launch.html',
+                        '^/my-group': '/page/my-group.html',
+                        '^/pay': '/page/pay.html',
+                        '^/prelaunch': '/page/prelaunch.html',
                     }
                 })
             ]
@@ -114,37 +135,42 @@ gulp.task('inject', ['htmlIntoTemp'], function () {
         .pipe(gulp.dest(buildPath + "/page"));
 });
 
-/**
- * 拷贝html
- */
-gulp.task('htmlIntoTemp', ['clean:temp', 'clean:html'], function () {
-    return gulp.src(srcPath + '/page/*.html')
-        .pipe(gulp.dest(tempPath + '/page'))
-        .pipe(connect.reload());
+gulp.task('default', ['serve'], function () {
+    gulp.start('clean:temp');
 });
 
-gulp.task('clean:sprit:css', function () {
-    return gulp.src(buildPath + '/css/sprite.css')
-        .pipe(clean({ force: true }));
-});
-gulp.task('clean:sprit:image', function () {
-    return gulp.src(buildPath + '/image/sprit/')
-        .pipe(clean({ force: true }));
-});
-gulp.task('imageSprit', ['clean:sprit:image', 'clean:sprit:css'], function () {
-    return gulp.src(srcPath + '/image/icons/*.png')//需要合并的图片地址
+/**
+ * 图片精灵合成css样式生成
+ */
+gulp.task('imageSprit', ['clean:sprit'], function () {
+    var spriteData = gulp.src(srcPath + '/sprite/images/2x/*.png')//需要合并的图片地址
         .pipe(spritesmith({
             imgName: 'sprite.png',
             cssName: 'sprite.css',
-
-            padding: 15,//合并时两个图片的间距
-            algorithm: 'binary-tree',
-            cssTemplate: srcPath + "/less/spriteTemplate.css"
+            padding: 10,//合并时两个图片的间距
+            imgPath: '../../images/sprite/sprite.png',
+            algorithm: 'top-down',
+            cssFormat: 'css',
+            //2倍图片路径
+            retinaSrcFilter: [srcPath + '/sprite/images/2x/*@2x.png'],
+            //2倍图片名称
+            retinaImgName: 'sprite@2x.png',
+            cssTemplate: srcPath + '/sprite/handlebarsStr.css.hbs'
         }))
-        .pipe(gulp.dest(buildPath + "/image/sprit"));
-});
 
-gulp.task('default', ['serve']);
+    var imgStream = spriteData.img
+        .pipe(buffer())
+        .pipe(imagemin())
+        .pipe(gulp.dest(buildPath + '/sprite'));
+
+    // Pipe CSS stream through CSS optimizer and onto disk
+    var cssStream = spriteData.css
+        .pipe(csso())
+        .pipe(gulp.dest(buildPath + '/sprite'));
+
+    // Return a merged stream to handle both `end` events
+    return merge(imgStream, cssStream);
+});
 
 /**
  * 文件监听
