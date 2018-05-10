@@ -262,7 +262,6 @@
     var source = url.match(/from=([A-Za-z0-9_\-]+)/);
     var downloadUrl = extra.downloadUrl;
     var album_id = url.match(/\/album\/(\d+)/)[1];
-    //在微信里
     var itingUrl = 'iting://open?msg_type=13&album_id=' + album_id;
     //添加open_xm和android_schema
     if (downloadUrl) {
@@ -271,7 +270,15 @@
         downloadUrl += "&android_schema=" + encodeURIComponent(itingUrl)
       }
     }
-    // ios9+ universal link
+    //增加 ios weixin环境跳 /applink
+    if (env.isInWeiXin && env.isInIOS) {
+      var _downloadUrl = downloadUrl.replace(/^(.*?ximalaya.com)\/down/, '$1/applink')
+      downloadUrl = _downloadUrl.replace(/www/, 'm')
+      cb && cb(downloadUrl)
+      return;
+    }
+
+    // safari 使用schema方式打开
     var inSafari = !(env.inWeixin || env.inSinaWeibo || env.inQQWeibo || env.inQQ);
     var osVersion = (navigator.userAgent.match(/iphone os (\d+\_\d+(\_\d+)*)/) || [, ''])[1];
     var surportUniversalLink = osVersion && osVersion.split('_')[0] >= 9;
@@ -292,6 +299,7 @@
       }
     }
 
+    // fix ios 9 + iframe 无法打开app ulink(9+)
     if (surportUniversalLink || !env.isInWeiXin) {
       location.href = itingUrl;
       setTimeout(function () {
