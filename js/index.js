@@ -335,6 +335,19 @@ $(function () {
                 }
             });
         }
+        //打开内置app或者跳转到下载
+        $('.j-to-app').on('click', function (e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            //在app中直接打开
+            if (env.isInNative) {
+                location.href = url;
+            } else {//在非app中
+                helper.wakeApp(url, function (downLoadUrl) {
+                    location.href = downLoadUrl;
+                }, { downloadUrl: 'http://www.ximalaya.com/down?from=weixin' });
+            }
+        })
     });
 
     // prelaunch page

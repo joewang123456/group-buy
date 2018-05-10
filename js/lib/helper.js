@@ -1,4 +1,4 @@
-;(function() {
+; (function () {
   xm || (xm = {})
 
   /*
@@ -38,7 +38,7 @@
   function parseCookie() {
     var result = {}
     var cookies = document.cookie.split('; ')
-    cookies.forEach(function(item) {
+    cookies.forEach(function (item) {
       var kvs = item.split('=')
       if (kvs[1]) {
         result[kvs[0]] = kvs[1]
@@ -60,7 +60,7 @@
     $.ajax({
       url: url,
       dataType: 'JSON',
-      success: function(result) {
+      success: function (result) {
         var script = document.createElement('script')
 
         result.jsApiList = apiList
@@ -93,7 +93,7 @@
      * 而 App 版本6.3.0.3之前的 webview 从后台进入前台 window.onfocus 不会触发
      */
     if ((supportNativeWebview && isNativeSetFocus) || notSupport) {
-      listener = function(event) {
+      listener = function (event) {
         $.isFunction(handler) &&
           handler(event.type === 'blur' ? 'hidden' : 'visible')
       }
@@ -102,17 +102,17 @@
     } else if (supportNativeWebview && xm.env.isInIOS) {
       //for iOS webview doesn't trigger `visibilitychange` event
       var last = document[visibilityState]
-      listener = function(visibility) {
+      listener = function (visibility) {
         $.isFunction(handler) && handler(visibility)
       }
-      timer = setInterval(function() {
+      timer = setInterval(function () {
         if (document[visibilityState] !== last) {
           last = document[visibilityState]
           listener(last)
         }
       }, 300)
     } else {
-      listener = function() {
+      listener = function () {
         $.isFunction(handler) && handler(document[visibilityState])
       }
       window.addEventListener(visibilityChange, listener, false)
@@ -157,9 +157,9 @@
   * @param {Number} val  传入的数字
   * @return 拼接后的值
   */
-  function timeFormate(val){
-    if(val > 9) return val;
-    return '0'+val;
+  function timeFormate(val) {
+    if (val > 9) return val;
+    return '0' + val;
   }
 
   /**
@@ -168,25 +168,25 @@
    * @return {Object} 包含时分秒属性的对象值
    */
   function timeDown(milliSecond) {
-    var s,m,h;
-    h = parseInt(milliSecond / 1000 / 60 / 60 );
-    m = parseInt(milliSecond / 1000 / 60 % 60 );
-    s = parseInt(milliSecond / 1000 % 60 );
+    var s, m, h;
+    h = parseInt(milliSecond / 1000 / 60 / 60);
+    m = parseInt(milliSecond / 1000 / 60 % 60);
+    s = parseInt(milliSecond / 1000 % 60);
     return {
-        hour: timeFormate(h),
-        minute: timeFormate(m),
-        second: timeFormate(s)
+      hour: timeFormate(h),
+      minute: timeFormate(m),
+      second: timeFormate(s)
     }
   }
-  
+
   /**
    * 类似路由函数，根据页面的路径执行不同的回调函数
    * @param  {Regexp}   regexp   匹配页面pathname的正则
    * @param  {Function} callback 匹配当前pathname的页面js代码
    */
-  function route (regexp, callback) {
+  function route(regexp, callback) {
     var path = window.location.pathname;
-    if(regexp.test(path)) {
+    if (regexp.test(path)) {
       callback();
     }
   }
@@ -196,7 +196,7 @@
     var cookies = document.cookie.split('; ');
     cookies.forEach(function (item) {
       var kvs = item.split('=');
-      if(kvs[1]) {
+      if (kvs[1]) {
         result[kvs[0]] = kvs[1];
       }
     });
@@ -211,11 +211,14 @@
     isInIOS: /(?:iPad)|(?:iPhone)/i.test(ua),
     isInNative: /iting/i.test(ua),
     isInWeiXin: /MicroMessenger/i.test(ua),
+    inSinaWeibo: /weibo/.test(ua),
+    inQQWeibo: /tencentmicroblog/.test(ua),
+    inQQ: /tencentmicroblog/.test(ua),
     isSupportWxPay: !!~compVersion(
       (ua.match(/MicroMessenger\/([\d\.]+)/i) || [, '0'])[1],
       '5.0'
     ),
-    isInTest: location.origin.indexOf('.test.ximalaya.com') !== -1,
+    isInTest: location.origin.indexOf('.test.ximalaya.com') !== -1
   }
   // 安卓 6.3.0.3版本 webview从后台进入前台会调用requestFocus使webview的window触发focus事件
   var isNativeSetFocus =
@@ -254,6 +257,58 @@
     getWxConfig(location.href, apiList)
   }
 
+  function wakeApp(url, cb, extra) {
+    url = url || location.href;
+    var source = url.match(/from=([A-Za-z0-9_\-]+)/);
+    var downloadUrl = extra.downloadUrl;
+    var album_id = url.match(/\/album\/(\d+)/)[1];
+    //在微信里
+    var itingUrl = 'iting://open?msg_type=13&album_id=' + album_id;
+    //添加open_xm和android_schema
+    if (downloadUrl) {
+      downloadUrl += "&open_xm=" + encodeURIComponent(itingUrl);
+      if (env.isInWeiXin) {
+        downloadUrl += "&android_schema=" + encodeURIComponent(itingUrl)
+      }
+    }
+    // ios9+ universal link
+    var inSafari = !(env.inWeixin || env.inSinaWeibo || env.inQQWeibo || env.inQQ);
+    var osVersion = (navigator.userAgent.match(/iphone os (\d+\_\d+(\_\d+)*)/) || [, ''])[1];
+    var surportUniversalLink = osVersion && osVersion.split('_')[0] >= 9;
+    var useUniversalLink = inSafari && surportUniversalLink;
+    if (useUniversalLink) {
+      downloadUrl = downloadUrl.replace('/down', '/link2down')
+    }
+    if (useUniversalLink) {
+      cb && cb(downloadUrl);
+      return;
+    }
+
+    if (source) {
+      if (/\?/.test(url)) {
+        itingUrl += ('&source=' + source);
+      } else {
+        itingUrl += ('?source=' + source);
+      }
+    }
+
+    if (surportUniversalLink || !env.isInWeiXin) {
+      location.href = itingUrl;
+      setTimeout(function () {
+        cb && cb(downloadUrl);
+      }, 3000);
+    } else {
+      var ifr = document.createElement('iframe');
+      ifr.src = itingUrl;
+      ifr.style.display = 'none';
+      document.body.appendChild(ifr);
+      window.setTimeout(function () {
+        document.body.removeChild(ifr);
+        cb && cb(downloadUrl);
+      }, 3000);
+    }
+  };
+
   xm.env = env
   xm.const = constant
   xm.helper = {
@@ -261,6 +316,7 @@
     tmpl: tmpl,
     route: route,
     timeDown: timeDown,
-    parseCookie: parseCookie
+    parseCookie: parseCookie,
+    wakeApp: wakeApp
   }
 })()
