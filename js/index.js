@@ -206,9 +206,11 @@ $(function () {
                     if (res.ret === 0) {
                         //分享成功
                         xm.util.toast('分享成功!');
+                        $('.share-panel').animate({ top: '100%' }).find('.share').animate({ bottom: '-90px' });
                     } else {
                         //分享失败
                         xm.util.toast('分享失败!');
+                        $('.share-panel').animate({ top: '100%' }).find('.share').animate({ bottom: '-90px' });
                     }
                 });
             });
