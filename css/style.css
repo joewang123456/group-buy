@@ -602,11 +602,14 @@
 .detail .information .block.center {
   width: 31.2%;
 }
+.detail .information .block.gruop-price-block {
+  margin-left: 5px;
+}
 .detail .information .j-statusTime:after {
   content: '';
   position: absolute;
   top: 10px;
-  right: -3px;
+  right: -8px;
   width: 2px;
   height: 26px;
   background: #e8e8e8;
@@ -628,7 +631,7 @@
 }
 .detail .information .count-down-item {
   display: inline-block;
-  width: 26px;
+  width: 30px;
   height: 28px;
   margin: 0 -4px;
   font-size: 16px;
